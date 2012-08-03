@@ -161,6 +161,11 @@ a.button span {
 #view-on-github span {
   background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
 }
+
+#visit-puremvc-dot-org span {
+  background: transparent url(../images/puremvc.png) 12px 50% no-repeat;
+}
+
 #view-on-github {
   margin-right: 0;
 }
