@@ -98,9 +98,11 @@ header h2 {
   max-width: 100%;
 }
 
-#downloads {
-  align: center;
-  margin-bottom: 40px;
+#main_content {
+  
+  margin:auto;
+  width:70%;
+  background-color:#b0e0e6;
 }
 
 a.button {
