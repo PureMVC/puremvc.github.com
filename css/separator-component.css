@@ -159,8 +159,7 @@ section::after {
 }
 
 /* Half Circle */
-.ss-style-halfcircle::before,
-.ss-style-halfcircle::after {
+.ss-style-halfcircle::before{
 	left: 50%;
 	z-index: 10;
 	width: 100px;

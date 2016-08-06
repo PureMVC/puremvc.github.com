@@ -38,7 +38,10 @@
   content: "\e900";
 }
 .icon-game-controller:before {
-  content: "\e901";
+  content: "\e902";
+}
+.icon-clippy:before {
+  content: "\f035";
 }
 .icon-display:before {
   content: "\e956";
@@ -54,4 +57,19 @@
 }
 .icon-make-group:before {
   content: "\ea58";
+}
+.icon-google-plus3:before {
+  content: "\ea8d";
+}
+.icon-twitter:before {
+  content: "\ea96";
+}
+.icon-github:before {
+  content: "\eab0";
+}
+.icon-linkedin:before {
+  content: "\eac9";
+}
+.icon-stackoverflow:before {
+  content: "\ead0";
 }

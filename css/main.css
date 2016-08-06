@@ -10,6 +10,10 @@
 	font-style: normal;
 }
 
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
 a {
 	text-decoration: none;
 	color: #fff;
@@ -85,14 +89,6 @@ nav {
 	text-transform: none;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
-}
-
-.puremvc-icon-drop:before {
-	content: "\e001";
-}
-
-.puremvc-icon-prev:before {
-	content: "\e004";
 }
 
 .related {
