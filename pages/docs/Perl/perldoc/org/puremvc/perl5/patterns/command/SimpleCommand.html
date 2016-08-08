@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - SimpleCommand</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::patterns::command::SimpleCommand</code></p>
+<p><strong>inherits:</strong></p>
+<ul>
+<li>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+</li>
+</ul>
+<p>Base pureMVC <code>Command</code> concept implementation.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">package</span> <span class="variable">com::me::myapp::commands::ACommand</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span> <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">org::puremvc::perl5::patterns::command::SimpleCommand</span><span class="operator">;</span>
+  <span class="keyword">our</span> <span class="variable">@ISA</span> <span class="operator">=</span> <span class="string">qw( org::puremvc::perl5::patterns::command::SimpleCommand )</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::Facade</span><span class="operator">;</span>
+  
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> execute </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$self</span><span class="operator">,</span> <span class="variable">$notification</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$data_key</span> <span class="operator">=</span> <span class="variable">$notification</span><span class="operator">-&gt;</span><span class="variable">getBody</span><span class="operator">();</span>
+    
+    <span class="keyword">my</span> <span class="variable">$facade</span> <span class="operator">=</span> <span class="variable">com::me::myapp::Facade</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">();</span>
+    
+    <span class="keyword">my</span> <span class="variable">$proxy</span> <span class="operator">=</span> <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">retrieveProxy</span><span class="operator">(</span> <span class="string">"AProxy"</span> <span class="operator">);</span>
+    <span class="keyword">my</span> <span class="variable">$data</span> <span class="operator">=</span> <span class="variable">$proxy</span><span class="operator">-&gt;</span><span class="variable">some_method</span><span class="operator">(</span> <span class="variable">$data_key</span> <span class="operator">);</span>
+    
+    <span class="keyword">my</span> <span class="variable">$mediator</span> <span class="operator">=</span> <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">retrieveMediator</span><span class="operator">(</span> <span class="string">"AMediator"</span> <span class="operator">);</span>
+    <span class="variable">$mediator</span><span class="operator">-&gt;</span><span class="variable">do_something</span><span class="operator">(</span> <span class="variable">$data</span> <span class="operator">);</span>
+</pre>
+<pre>
+  }</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, <code>Command</code> implementors assume the business logic of your application.</p>
+<p>Your <code>Command</code> subclasses should override the <a href="#execute"><code>execute</code></a> method to implement this business logic.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="execute" class="item">execute</a></strong></dt>
+
+<dd>
+<p><a href="#execute"><code>sub execute( $notification );</code></a></p>
+<p>Fulfill the use-case initiated by the given <a href="../observer/Notification.html">notification</a>.</p>
+<p>In the <code>Command</code> pattern, an application use-case typically begins with some user action, which results in a <a href="../observer/Notification.html">notification</a> being broadcast, which is handled by business logic in the <a href="#execute"><code>execute</code></a> method of a <code>Command</code>.</p>
+<p>Inside this method, <a href="../proxy/Proxy.html">Proxy</a>, <a href="../mediator/Mediator.html">Mediator</a> registration, retrieval, removal is achieved to insure business logic linked to the <a href="../observer/Notification.html">notification</a>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification - org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>The <a href="../observer/Notification.html">notification</a> to handle.</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../core/Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="../../core/View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../../core/Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

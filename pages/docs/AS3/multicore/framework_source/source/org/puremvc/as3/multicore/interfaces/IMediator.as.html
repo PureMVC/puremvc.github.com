@@ -1,0 +1,160 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptASDoc">/**
+     * The interface definition for a PureMVC Mediator.
+     *
+     * &lt;P&gt;
+     * In PureMVC, &lt;code&gt;IMediator&lt;/code&gt; implementors assume these responsibilities:&lt;/P&gt;
+     * &lt;UL&gt;
+     * &lt;LI&gt;Implement a common method which returns a list of all &lt;code&gt;INotification&lt;/code&gt;s 
+     * the &lt;code&gt;IMediator&lt;/code&gt; has interest in.&lt;/LI&gt;
+     * &lt;LI&gt;Implement a notification callback method.&lt;/LI&gt;
+     * &lt;LI&gt;Implement methods that are called when the IMediator is registered or removed from the View.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     * &lt;P&gt;
+     * Additionally, &lt;code&gt;IMediator&lt;/code&gt;s typically:
+     * &lt;UL&gt;
+     * &lt;LI&gt;Act as an intermediary between one or more view components such as text boxes or 
+     * list controls, maintaining references and coordinating their behavior.&lt;/LI&gt;
+     * &lt;LI&gt;In Flash-based apps, this is often the place where event listeners are
+     * added to view components, and their handlers implemented.&lt;/LI&gt;
+     * &lt;LI&gt;Respond to and generate &lt;code&gt;INotifications&lt;/code&gt;, interacting with of 
+     * the rest of the PureMVC app.
+     * &lt;/UL&gt;&lt;/P&gt;
+     * &lt;P&gt;
+     * When an &lt;code&gt;IMediator&lt;/code&gt; is registered with the &lt;code&gt;IView&lt;/code&gt;, 
+     * the &lt;code&gt;IView&lt;/code&gt; will call the &lt;code&gt;IMediator&lt;/code&gt;&apos;s 
+     * &lt;code&gt;listNotificationInterests&lt;/code&gt; method. The &lt;code&gt;IMediator&lt;/code&gt; will 
+     * return an &lt;code&gt;Array&lt;/code&gt; of &lt;code&gt;INotification&lt;/code&gt; names which 
+     * it wishes to be notified about.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * The &lt;code&gt;IView&lt;/code&gt; will then create an &lt;code&gt;Observer&lt;/code&gt; object 
+     * encapsulating that &lt;code&gt;IMediator&lt;/code&gt;&apos;s (&lt;code&gt;handleNotification&lt;/code&gt;) method
+     * and register it as an Observer for each &lt;code&gt;INotification&lt;/code&gt; name returned by 
+     * &lt;code&gt;listNotificationInterests&lt;/code&gt;.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * A concrete IMediator implementor usually looks something like this:&lt;/P&gt;
+     * 
+     * &lt;listing&gt;
+     *    import org.puremvc.as3.multicore.patterns.mediator.~~;
+     *    import org.puremvc.as3.multicore.patterns.observer.~~;
+     *    import org.puremvc.as3.multicore.core.view.~~;
+     * 
+     *    import com.me.myapp.model.~~;
+     *    import com.me.myapp.view.~~;
+     *    import com.me.myapp.controller.~~;
+     *         
+     *    import mx.controls.ComboBox;
+     *    import mx.events.ListEvent;
+     * 
+     * public class MyMediator extends Mediator implements IMediator {
+     * 
+     *         public function MyComboMediator( viewComponent:Object ) {
+     *             super( viewComponent );
+     *             combo.addEventListener( Event.CHANGE, onChange );
+     *         }
+     *         
+     *         override public function listNotificationInterests():Array {
+     *                 return [ MyFacade.SET_SELECTION, 
+     *                          MyFacade.SET_DATAPROVIDER ];
+     *         }
+     * 
+     *         override public function handleNotification( notification:INotification ):void {
+     *                 switch ( notification.getName() ) {
+     *                     case MyFacade.SET_SELECTION:
+     *                         setSelection(notification);
+     *                         break;
+     *                     case MyFacade.SET_DATAPROVIDER:
+     *                         setDataProvider(notification);
+     *                         break;
+     *                 }
+     *         }
+     * 
+     *         // Set the data provider of the combo box
+     *         protected function setDataProvider( notification:INotification ):void {
+     *             combo.dataProvider = notification.getBody() as Array;
+     *         }
+     * 
+     *         // Invoked when the combo box dispatches a change event, we send a
+     *      // notification with the
+     *         protected function onChange(event:ListEvent):void {
+     *             sendNotification( MyFacade.MYCOMBO_CHANGED, this );
+     *         }
+     * 
+     *         // A private getter for accessing the view object by class
+     *      protected function get combo():ComboBox  {
+     *         return view as ComboBox;
+     *      }
+     * 
+     * }
+     * &lt;/listing&gt;
+     * 
+     * @see org.puremvc.as3.multicore.interfaces.INotification INotification
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">INotifier</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the &lt;code&gt;IMediator&lt;/code&gt; instance name
+         * 
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; instance name
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getMediatorName</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the &lt;code&gt;IMediator&lt;/code&gt;&apos;s view component.
+         * 
+         * @return Object the view component
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getViewComponent</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Set the &lt;code&gt;IMediator&lt;/code&gt;&apos;s view component.
+         * 
+         * @param Object the view component
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setViewComponent</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * List &lt;code&gt;INotification&lt;/code&gt; interests.
+         * 
+         * @return an &lt;code&gt;Array&lt;/code&gt; of the &lt;code&gt;INotification&lt;/code&gt; names this &lt;code&gt;IMediator&lt;/code&gt; has an interest in.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Handle an &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to be handled
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Called by the View when the Mediator is registered
+         */</span> 
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Called by the View when the Mediator is removed
+         */</span> 
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRemove</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

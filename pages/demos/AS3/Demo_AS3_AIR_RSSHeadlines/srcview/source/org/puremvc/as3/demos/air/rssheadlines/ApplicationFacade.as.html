@@ -1,0 +1,74 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationFacade.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo – AIR RSS Headlines 
+ Copyright (c) 2007-08 Simon Bailey &lt;simon.bailey@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">rssheadlines</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IFacade</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">Facade</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">desktopcitizen</span>.<span class="ActionScriptDefault_Text">DesktopCitizenConstants</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">desktopcitizen</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">WindowOpenCommand</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">xmldb</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">PersistDataCommand</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">rssheadlines</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Facade</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IFacade</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Notification name constants
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">STARTUP</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>     <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;startUp&quot;</span>;
+         
+         <span class="ActionScriptComment">// Got xml
+</span>         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">XML_DATA</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;xmlData&quot;</span>;
+         <span class="ActionScriptComment">// Got the feed
+</span>         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">DATA</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;data&quot;</span>;
+         <span class="ActionScriptComment">// Error retrieving feed
+</span>         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">ERROR</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>       <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;error&quot;</span>;
+         <span class="ActionScriptComment">// Change in interval
+</span>         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">INTERVAL</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;interval&quot;</span>;
+         <span class="ActionScriptComment">// Change feed
+</span>         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CHANGE_FEED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;changeFeed&quot;</span>;
+         
+         
+        <span class="ActionScriptASDoc">/**
+         * Singleton ApplicationFacade Factory Method
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ApplicationFacade</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">startup</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">RSSHeadlines</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">STARTUP</span>, <span class="ActionScriptDefault_Text">app</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span>.<span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">STARTUP</span>, <span class="ActionScriptDefault_Text">StartupCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">INTERVAL</span>, <span class="ActionScriptDefault_Text">IntervalCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ERROR</span>, <span class="ActionScriptDefault_Text">ErrorCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">CHANGE_FEED</span>, <span class="ActionScriptDefault_Text">ChangeFeedCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">DesktopCitizenConstants</span>.<span class="ActionScriptDefault_Text">WINDOW_OPEN</span>, <span class="ActionScriptDefault_Text">WindowOpenCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

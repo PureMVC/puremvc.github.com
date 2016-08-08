@@ -1,0 +1,211 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ControllerTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurecale, Inc., Some rights reserved.
+ Your reuse is governed by Creative Commons Attribution 2.5 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptOperator">*</span>;
+     
+    <span class="ActionScriptASDoc">/**
+     * Test the PureMVC Controller class.
+     *
+       * @see org.puremvc.as3.multicore.core.controller.ControllerTestVO ControllerTestVO
+       * @see org.puremvc.as3.multicore.core.controller.ControllerTestCommand ControllerTestCommand
+     */</span>
+     <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ControllerTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> <span class="ActionScriptBracket/Brace">{</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ControllerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testGetInstance&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndExecuteCommand&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRemoveCommand&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testHasCommand&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testReregisterAndExecuteCommand&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the Controller Multiton Factory Method 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testGetInstance</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Test Factory Method
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">controller</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IController</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTestKey1&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance not null&quot;</span>, <span class="ActionScriptDefault_Text">controller</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance implements IController&quot;</span>, <span class="ActionScriptDefault_Text">controller</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IController</span><span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests Command registration and execution.
+           * 
+           * &lt;P&gt;
+           * This test gets a Multiton Controller instance 
+           * and registers the ControllerTestCommand class 
+           * to handle &apos;ControllerTest&apos; Notifications.&lt;P&gt;
+           * 
+           * &lt;P&gt;
+           * It then constructs such a Notification and tells the 
+           * Controller to execute the associated Command.
+           * Success is determined by evaluating a property
+           * on an object passed to the Command, which will
+           * be modified when the Command executes.&lt;/P&gt;
+           * 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndExecuteCommand</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create the controller, register the ControllerTestCommand to handle &apos;ControllerTest&apos; notes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">controller</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IController</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTestKey2&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTest&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">ControllerTestCommand</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Create a &apos;ControllerTest&apos; note
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTestVO</span><span class="ActionScriptBracket/Brace">(</span> 12 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Notification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;ControllerTest&apos;</span>, <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Tell the controller to execute the Command associated with the note
+</span>            <span class="ActionScriptComment">// the ControllerTestCommand invoked will multiply the vo.input value
+</span>            <span class="ActionScriptComment">// by 2 and set the result on vo.result
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">executeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 24&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 24 <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+          <span class="ActionScriptASDoc">/**
+           * Tests Command registration and removal.
+           * 
+           * &lt;P&gt;
+           * Tests that once a Command is registered and verified
+           * working, it can be removed from the Controller.&lt;/P&gt;
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRemoveCommand</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create the controller, register the ControllerTestCommand to handle &apos;ControllerTest&apos; notes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">controller</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IController</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTestKey3&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerRemoveTest&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">ControllerTestCommand</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Create a &apos;ControllerTest&apos; note
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTestVO</span><span class="ActionScriptBracket/Brace">(</span> 12 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Notification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;ControllerRemoveTest&apos;</span>, <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Tell the controller to execute the Command associated with the note
+</span>            <span class="ActionScriptComment">// the ControllerTestCommand invoked will multiply the vo.input value
+</span>            <span class="ActionScriptComment">// by 2 and set the result on vo.result
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">executeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 24&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 24 <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Reset result
+</span>               <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">=</span> 0;
+               
+               <span class="ActionScriptComment">// Remove the Command from the Controller
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerRemoveTest&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Tell the controller to execute the Command associated with the
+</span>            <span class="ActionScriptComment">// note. This time, it should not be registered, and our vo result
+</span>            <span class="ActionScriptComment">// will not change               
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">executeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 0&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 0 <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Test hasCommand method.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testHasCommand</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register the ControllerTestCommand to handle &apos;hasCommandTest&apos; notes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">controller</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IController</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTestKey4&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasCommandTest&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">ControllerTestCommand</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test that hasCommand returns true for hasCommandTest notifications 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting controller.hasCommand(&apos;hasCommandTest&apos;) == true&quot;</span>, <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasCommandTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Remove the Command from the Controller
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasCommandTest&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// test that hasCommand returns false for hasCommandTest notifications 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting controller.hasCommand(&apos;hasCommandTest&apos;) == false&quot;</span>, <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasCommandTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+         <span class="ActionScriptASDoc">/**
+           * Tests Removing and Reregistering a Command
+           * 
+           * &lt;P&gt;
+           * Tests that when a Command is re-registered that it isn&apos;t fired twice.
+           * This involves, minimally, registration with the controller but
+           * notification via the View, rather than direct execution of
+           * the Controller&apos;s executeCommand method as is done above in 
+           * testRegisterAndRemove. The bug under test was fixed in AS3 Standard 
+           * Version 2.0.2. If you run the unit tests with 2.0.1 this
+           * test will fail.&lt;/P&gt;
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testReregisterAndExecuteCommand</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+               
+               <span class="ActionScriptComment">// Fetch the controller, register the ControllerTestCommand2 to handle &apos;ControllerTest2&apos; notes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">controller</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IController</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTestKey5&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTest2&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">ControllerTestCommand2</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Remove the Command from the Controller
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTest2&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// Re-register the Command with the Controller
+</span>               <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTest2&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">ControllerTestCommand2</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptComment">// Create a &apos;ControllerTest2&apos; note
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ControllerTestVO</span><span class="ActionScriptBracket/Brace">(</span> 12 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Notification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;ControllerTest2&apos;</span>, <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// retrieve a reference to the View from the same core.
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ControllerTestKey5&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+            <span class="ActionScriptComment">// send the Notification
+</span>               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions 
+</span>            <span class="ActionScriptComment">// if the command is executed once the value will be 24
+</span>            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 24&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 24 <span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptComment">// Prove that accumulation works in the VO by sending the notification again
+</span>               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+            <span class="ActionScriptComment">// if the command is executed twice the value will be 48
+</span>            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 48&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 48 <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+      <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

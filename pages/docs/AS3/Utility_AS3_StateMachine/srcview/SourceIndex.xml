@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>PureMVC / AS3 StateMachine Utility</title>
+	<nodes>
+		<node label="lib-multicore">
+			<node label="PureMVC_AS3_MultiCore_1_0_5.swc" url="source/lib-multicore/PureMVC_AS3_MultiCore_1_0_5.swc"/>
+		</node>
+		<node label="lib-standard">
+			<node label="PureMVC_AS3_2_0_4.swc" url="source/lib-standard/PureMVC_AS3_2_0_4.swc"/>
+		</node>
+		<node label="src-multicore" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.multicore.utilities.statemachine" icon="packageIcon" expanded="true">
+				<node label="FSMInjector.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/utilities/statemachine/FSMInjector.as.html"/>
+				<node label="State.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/utilities/statemachine/State.as.html"/>
+				<node label="StateMachine.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/utilities/statemachine/StateMachine.as.html"/>
+			</node>
+		</node>
+		<node label="src-standard" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.utilities.statemachine" icon="packageIcon" expanded="true">
+				<node label="FSMInjector.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/utilities/statemachine/FSMInjector.as.html"/>
+				<node label="State.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/utilities/statemachine/State.as.html"/>
+				<node label="StateMachine.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/utilities/statemachine/StateMachine.as.html"/>
+			</node>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../../../../print.css" type="text/css" media="print">
+<meta content="FilterTest,org.puremvc.as3.multicore.utilities.pipes.plumbing.FilterTest,suite,testBypassAndFilterModeToggle,testConnectingAndDisconnectingIOPipes,testFilteringNormalMessage,testSetFilterByControlMessage,testSetParamsByControlMessage,testUseFilterToStopAMessage" name="keywords">
+<title>org.puremvc.as3.multicore.utilities.pipes.plumbing.FilterTest</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'FilterTest - API Documentation';
+				var baseRef = '../../../../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">PureMVC AS3 MultiCore Pipes Unit Tests</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../../../../all-classes.html')" href="../../../../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../../../all-classes.html')" href="../../../../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../../../index-list.html')" href="../../../../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../../../../index.html?org/puremvc/as3/multicore/utilities/pipes/plumbing/FilterTest.html&amp;org/puremvc/as3/multicore/utilities/pipes/plumbing/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;FilterTest</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class FilterTest"); titleBar_setSubNav(false,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.puremvc.as3.multicore.utilities.pipes.plumbing</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class FilterTest</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">FilterTest <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../../../../images/inherit-arrow.gif"> flexunit.framework.TestCase</td>
+</tr>
+</table>
+<p></p>
+  Test the Filter class.
+  <p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#FilterTest()">FilterTest</a>(methodName:String)</div>
+<div class="summaryTableDescription">
+     Constructor.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#suite()">suite</a>():TestSuite</div>
+<div class="summaryTableDescription">[static]
+   Create the TestSuite.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#testBypassAndFilterModeToggle()">testBypassAndFilterModeToggle</a>():void</div>
+<div class="summaryTableDescription">
+     Test setting filter to bypass mode, writing, then setting back to filter mode and writing.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#testConnectingAndDisconnectingIOPipes()">testConnectingAndDisconnectingIOPipes</a>():void</div>
+<div class="summaryTableDescription">
+     Test connecting input and output pipes to a filter as well as disconnecting the output.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#testFilteringNormalMessage()">testFilteringNormalMessage</a>():void</div>
+<div class="summaryTableDescription">
+     Test applying filter to a normal message.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#testSetFilterByControlMessage()">testSetFilterByControlMessage</a>():void</div>
+<div class="summaryTableDescription">
+     Test setting filter function by sending control message.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#testSetParamsByControlMessage()">testSetParamsByControlMessage</a>():void</div>
+<div class="summaryTableDescription">
+     Test setting filter parameters by sending control message.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#testUseFilterToStopAMessage()">testUseFilterToStopAMessage</a>():void</div>
+<div class="summaryTableDescription">
+     Test using a filter function to stop propagation of a message.</div>
+</td><td class="summaryTableOwnerCol">FilterTest</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="FilterTest()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">FilterTest</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function FilterTest(methodName:String)</code><p>
+     Constructor.
+     
+     </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">methodName</span>:String</code> &mdash; the name of the test method an instance to run
+     </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="suite()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">suite</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function suite():TestSuite</code><p>
+   Create the TestSuite.
+   </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>TestSuite</code></td>
+</tr>
+</table>
+</div>
+<a name="testBypassAndFilterModeToggle()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">testBypassAndFilterModeToggle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function testBypassAndFilterModeToggle():void</code><p>
+     Test setting filter to bypass mode, writing, then setting back to filter mode and writing. 
+     </p></div>
+<a name="testConnectingAndDisconnectingIOPipes()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">testConnectingAndDisconnectingIOPipes</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function testConnectingAndDisconnectingIOPipes():void</code><p>
+     Test connecting input and output pipes to a filter as well as disconnecting the output.
+     </p></div>
+<a name="testFilteringNormalMessage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">testFilteringNormalMessage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function testFilteringNormalMessage():void</code><p>
+     Test applying filter to a normal message.
+     </p></div>
+<a name="testSetFilterByControlMessage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">testSetFilterByControlMessage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function testSetFilterByControlMessage():void</code><p>
+     Test setting filter function by sending control message. 
+     </p></div>
+<a name="testSetParamsByControlMessage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">testSetParamsByControlMessage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function testSetParamsByControlMessage():void</code><p>
+     Test setting filter parameters by sending control message. 
+     </p></div>
+<a name="testUseFilterToStopAMessage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">testUseFilterToStopAMessage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function testUseFilterToStopAMessage():void</code><p>
+     Test using a filter function to stop propagation of a message. 
+     <P>
+     The way to stop propagation of a message from within a filter
+     is to throw an error from the filter function. This test creates
+     two NORMAL messages, each with header objects that contain 
+     a <code>bozoLevel</code> property. One has this property set to 
+     10, the other to 3.</P>
+     <P>
+     Creates a Filter, named 'bozoFilter' with an anonymous pipe listener
+     feeding the output back into this test. The filter funciton is an 
+     anonymous function that throws an error if the message's bozoLevel 
+     property is greater than the filter parameter <code>bozoThreshold</code>.
+     the anonymous filter parameters object has a <code>bozoThreshold</code>
+     value of 5.</P>
+     <P>
+     The messages are written to the filter and it is shown that the 
+     message with the <code>bozoLevel</code> of 10 is not written, while
+     the message with the <code>bozoLevel</code> of 3 is.</P> 
+     </p></div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

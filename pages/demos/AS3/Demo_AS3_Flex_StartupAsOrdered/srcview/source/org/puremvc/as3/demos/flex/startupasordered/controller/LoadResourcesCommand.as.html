@@ -1,0 +1,111 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>LoadResourcesCommand.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+    PureMVC Flex Demo - Use StartupManager Utility - Manage loading of data resources at application startup
+    Copyright (c) 2008 Philip Sexton &lt;philip.sexton@puremvc.org&gt;
+    Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">controller</span> <span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">ICommand</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span>.<span class="ActionScriptDefault_Text">SimpleCommand</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">StartupResourceProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">StartupMonitorProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">RetryPolicy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">RetryParameters</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IStartupProxy</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">CustomerProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">ProductProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">SalesOrderProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">DebtorAccountProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">InvoiceProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupasordered</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">ApplicationMediator</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">LoadResourcesCommand</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">SimpleCommand</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">ICommand</span> <span class="ActionScriptBracket/Brace">{</span>
+
+        <span class="ActionScriptASDoc">/**
+         * 
+         * As regards an open-ended resource list, see BY THE WAY below.
+         */</span>
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">monitor</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupMonitorProxy</span>;
+
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">execute</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+
+            
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">StartupMonitorProxy</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">monitor</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">StartupMonitorProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">StartupMonitorProxy</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">monitor</span>.<span class="ActionScriptDefault_Text">defaultRetryPolicy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">RetryPolicy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">RetryParameters</span><span class="ActionScriptBracket/Brace">)</span> ;
+
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cusPx</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IStartupProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">CustomerProxy</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proPx</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IStartupProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ProductProxy</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">soPx</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IStartupProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SalesOrderProxy</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">daccPx</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IStartupProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">DebtorAccountProxy</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">invPx</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IStartupProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">InvoiceProxy</span><span class="ActionScriptBracket/Brace">()</span>;
+
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">cusPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">soPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">daccPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">invPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rCus</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">makeAndRegisterStartupResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">CustomerProxy</span>.<span class="ActionScriptDefault_Text">SRNAME</span>, <span class="ActionScriptDefault_Text">cusPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rPro</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">makeAndRegisterStartupResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ProductProxy</span>.<span class="ActionScriptDefault_Text">SRNAME</span>, <span class="ActionScriptDefault_Text">proPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rSO</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">makeAndRegisterStartupResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">SalesOrderProxy</span>.<span class="ActionScriptDefault_Text">SRNAME</span>, <span class="ActionScriptDefault_Text">soPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rDAcc</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">makeAndRegisterStartupResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">DebtorAccountProxy</span>.<span class="ActionScriptDefault_Text">SRNAME</span>, <span class="ActionScriptDefault_Text">daccPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rInv</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">makeAndRegisterStartupResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">InvoiceProxy</span>.<span class="ActionScriptDefault_Text">SRNAME</span>, <span class="ActionScriptDefault_Text">invPx</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">rSO</span>.<span class="ActionScriptDefault_Text">requires</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">rCus</span>, <span class="ActionScriptDefault_Text">rPro</span> <span class="ActionScriptBracket/Brace">]</span>;
+            <span class="ActionScriptDefault_Text">rDAcc</span>.<span class="ActionScriptDefault_Text">requires</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">rCus</span> <span class="ActionScriptBracket/Brace">]</span>;
+            <span class="ActionScriptDefault_Text">rInv</span>.<span class="ActionScriptDefault_Text">requires</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">rDAcc</span>, <span class="ActionScriptDefault_Text">rSO</span> <span class="ActionScriptBracket/Brace">]</span>;
+
+            <span class="ActionScriptDefault_Text">monitor</span>.<span class="ActionScriptDefault_Text">loadResources</span><span class="ActionScriptBracket/Brace">()</span>;
+
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">makeAndRegisterStartupResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">appResourceProxy</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IStartupProxy</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">r</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupResourceProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">StartupResourceProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span>, <span class="ActionScriptDefault_Text">appResourceProxy</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">r</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">monitor</span>.<span class="ActionScriptDefault_Text">addResource</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">r</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">r</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">/* BY THE WAY...
+        *   If you wanted to consider an open-ended resource list, the following lines of code
+        *   illustrate how the above code would be changed so that the Invoice resource is added 
+        *   after loading of the others has commenced.
+        *   
+        var rCus :StartupResourceProxy = makeAndRegisterStartupResource( CustomerProxy.SRNAME, cusPx );
+        var rPro :StartupResourceProxy = makeAndRegisterStartupResource( ProductProxy.SRNAME, proPx );
+        var rSO :StartupResourceProxy = makeAndRegisterStartupResource( SalesOrderProxy.SRNAME, soPx );
+        var rDAcc :StartupResourceProxy = makeAndRegisterStartupResource( DebtorAccountProxy.SRNAME, daccPx );
+
+        rSO.requires = [ rCus, rPro ];
+        rDAcc.requires = [ rCus ];
+
+        monitor.keepResourceListOpen();
+        monitor.expectedNumberOfResources = 20; // extreme example, line is optional
+        monitor.loadResources();
+
+        var rInv :StartupResourceProxy = new StartupResourceProxy( InvoiceProxy.SRNAME, invPx );
+        facade.registerProxy( rInv );
+        rInv.requires = [ rDAcc, rSO ];
+        monitor.addResource( rInv );
+        monitor.closeResourceList(); // comment this line to observe behaviour
+        */</span>
+
+    <span class="ActionScriptBracket/Brace">}</span>
+    
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

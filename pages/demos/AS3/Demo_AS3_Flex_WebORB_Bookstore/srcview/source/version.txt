@@ -1,0 +1,27 @@
+PureMVC AS3 Demo - Flex/WebORB Bookstore
+By David Deraedt <david.deraedt@puremvc.org>
+Copyright(c) 2007 David Deraedt, Some rights reserved.
+--------------------------------------------------------------------------
+Release Date: 3/18/08
+    Platform: ActionScript 3  
+     Version: 1
+    Revision: 2
+      Author: David Deraedt <david.deraedt@puremvc.org>
+     License: Creative Commons Attribution 3.0 United States License
+--------------------------------------------------------------------------
+
+1.2 - Removed most of the commands, and moved the RPC communication code to the Proxy.
+	- Changed the Mediators to have them directly call the remote Proxy.
+
+1.1 - Updated to PureMVC 2.0.1 and made several best practice related
+      changes including refactoring business under model where it is 
+      recommended; renaming control to controller, renaming INIT_APP and
+      InitAppCommand to STARTUP and StartupCommand, etc, in order to 
+      normalize to the way other demos are done. - CLH
+      
+1.0 - Replaced package names in various source files 
+	- Removed the façade reference in the Application facade startup method
+	- Added copyright informations on MXML files
+	- Added the actual PHP Service and VO
+
+

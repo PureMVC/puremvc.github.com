@@ -1,0 +1,170 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Model</title>
+<link rel="stylesheet" href="../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::core::Model</code></p>
+<p>Singleton responsible for implementing the MVC <code>Model</code> pattern.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, the <code>Model</code> class assumes these responsibilities:</p>
+<ul>
+<li>
+<p>Maintain a cache of <a href="../patterns/proxy/Proxy.html">Proxy</a> instances.</p>
+</li>
+<li>
+<p>Provide methods for registering, retrieving, and removing <a href="../patterns/proxy/Proxy.html">proxies</a>.</p>
+</li>
+<li>
+<p>Notifiying <a href="../patterns/proxy/Proxy.html">proxies</a> when they are registered or removed.</p>
+</li>
+</ul>
+<p>Your application must register <a href="../patterns/proxy/Proxy.html">Proxy</a> instances with the <code>Model</code>.</p>
+<p>Typically, you use a <a href="../patterns/command/SimpleCommand.html">command</a> to create and register <a href="../patterns/proxy/Proxy.html">Proxy</a> instances once the <code>Facade</code> has initialized the Core actors.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="getinstance" class="item">getInstance</a></strong></dt>
+
+<dd>
+<p><a href="#getinstance"><code>sub getInstance();</code></a></p>
+<p>Returns the singleton instance of the <code>Model</code>.</p>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::core::Model</code> - The singleton instance of the <code>Model</code>.</p>
+</dd>
+<dt><strong><a name="initializemodel" class="item">initializeModel</a></strong></dt>
+
+<dd>
+<p><a href="#initializemodel"><code>sub initializeModel();</code></a></p>
+<p>Initialize the singleton instance of the <code>Model</code>.
+This method is automatically called during singleton instantiation.
+This is where you will achieve your <code>Model</code> subclass specific initializations if your application actually overrides pureMVC <code>Model</code> class.</p>
+</dd>
+<dt><strong><a name="registerproxy" class="item">registerProxy</a></strong></dt>
+
+<dd>
+<p><a href="#registerproxy"><code>sub registerProxy( $proxy );</code></a></p>
+<p>Register a <a href="../patterns/proxy/Proxy.html">Proxy</a> instance with the <code>Model</code>. During registration <a href="../patterns/proxy/Proxy.html">proxy's</a> <code>getProxyName</code> method is called by <code>Model</code> singleton to map <code>$proxy</code> instance with its name.</p>
+<p>Any registered <a href="../patterns/proxy/Proxy.html">proxy</a> is afterwards retrieved, removed or checked by its name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy - org::puremvc::perl5::patterns::proxy::Proxy</code></p>
+<p>A <a href="../patterns/proxy/Proxy.html">Proxy</a> instance to register with the <code>Model</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="retrieveproxy" class="item">retrieveProxy</a></strong></dt>
+
+<dd>
+<p><a href="#retrieveproxy"><code>sub retrieveProxy( $proxy_name );</code></a></p>
+<p>Retrieve from the <code>Model</code> a <a href="../patterns/proxy/Proxy.html">proxy</a> registered with name <code>$proxy_name</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name of the <a href="../patterns/proxy/Proxy.html">proxy</a> to retrieve from the <code>Model</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::proxy::Proxy</code> - The <a href="../patterns/proxy/Proxy.html">Proxy</a> instance retrieved from the <code>Model</code>.</p>
+</dd>
+<dt><strong><a name="removeproxy" class="item">removeProxy</a></strong></dt>
+
+<dd>
+<p><a href="#removeproxy"><code>sub removeProxy( $proxy_name );</code></a></p>
+<p>Remove from the <code>Model</code> a <a href="../patterns/proxy/Proxy.html">proxy</a> registered with name <code>$proxy_name</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name of the <a href="../patterns/proxy/Proxy.html">proxy</a> to remove from the <code>Model</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::proxy::Proxy</code> - The <a href="../patterns/proxy/Proxy.html">Proxy</a> instance removed from the <code>Model</code>.</p>
+</dd>
+<dt><strong><a name="hasproxy" class="item">hasProxy</a></strong></dt>
+
+<dd>
+<p><a href="#hasproxy"><code>sub hasProxy( $proxy_name );</code></a></p>
+<p>Check whether a <a href="../patterns/proxy/Proxy.html">proxy</a> is registered with name <code>$proxy_name</code> or not.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name of the <a href="../patterns/proxy/Proxy.html">proxy</a> to check.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if a <a href="../patterns/proxy/Proxy.html">Proxy</a> instance is registered with the <code>Model</code> with name <code>$proxy_name</code>, &quot;&quot; otherwise.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="_proxies" class="item">_proxies</a></strong></dt>
+
+<dd>
+<p>Array reference on registered <a href="../patterns/proxy/Proxy.html">Proxies</a> with the <code>Model</code>. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../patterns/facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../patterns/observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../patterns/proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../patterns/mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../patterns/command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../patterns/command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../patterns/observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../patterns/observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,213 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>CodeSearchProxy.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+  CodePeek - Google Code Search for Adobe RIA Developers
+  Copyright(c) 2007-08 Cliff Hall &lt;clifford.hall@puremvc.org&gt;
+  Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">codepeek</span>.<span class="ActionScriptDefault_Text">model</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">http</span>.<span class="ActionScriptDefault_Text">HTTPService</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">ResultEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">FaultEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">collections</span>.<span class="ActionScriptDefault_Text">XMLListCollection</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">Proxy</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">codepeek</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Proxy for Google Code Search.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">CodeSearchProxy</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Proxy</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IProxy</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// Canonical Proxy Name
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;CodeSearchProxy&apos;</span>;
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">searchOptions</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">query</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">option</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+            
+        <span class="ActionScriptASDoc">/**
+         * Constructor.
+         * 
+         * &lt;P&gt;
+         * Create a new HTTPService, prepared to make a request to Google Code.
+         * Also define the search options.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">CodeSearchProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">codeService</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">HTTPService</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">method</span><span class="ActionScriptOperator">=</span><span class="ActionScriptString">&quot;POST&quot;</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">resultFormat</span><span class="ActionScriptOperator">=</span><span class="ActionScriptString">&quot;e4x&quot;</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">contentType</span><span class="ActionScriptOperator">=</span><span class="ActionScriptString">&quot;application/atom+xml&quot;</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ResultEvent</span>.<span class="ActionScriptDefault_Text">RESULT</span>, <span class="ActionScriptDefault_Text">onServiceResult</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">FaultEvent</span>.<span class="ActionScriptDefault_Text">FAULT</span>, <span class="ActionScriptDefault_Text">onServiceFault</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">searchOptions</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ANY_OPTION</span>,         <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;&apos;</span><span class="ActionScriptBracket/Brace">}</span>,
+                              <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AS_MXML_OPTION</span>,     <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;file:\\.(as|mxml)$&apos;</span><span class="ActionScriptBracket/Brace">}</span>,
+                              <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">JAVA_OPTION</span>,         <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;file:\\.(java|jsp)$&apos;</span><span class="ActionScriptBracket/Brace">}</span>,
+                              <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">CF_OPTION</span>,         <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;file:\\.(cfm|cfml|cfc|jsp)$&apos;</span><span class="ActionScriptBracket/Brace">}</span>,
+                              <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">JS_OPTION</span>,         <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;file:\\.(js)$&apos;</span><span class="ActionScriptBracket/Brace">}</span>,
+                                    <span class="ActionScriptBracket/Brace">{</span><span class="ActionScriptDefault_Text">label</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">CSS_OPTION</span>,         <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;file:\\.(css)$&apos;</span><span class="ActionScriptBracket/Brace">}</span>
+                            <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Initiate the Code Search.
+         * 
+         * @param query the query string
+         * @param option the search option
+         */</span>        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">search</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">query</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">option</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">query</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">query</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">option</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">option</span>.<span class="ActionScriptDefault_Text">label</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">url</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">CODE_SEARCH_URL</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">option</span>.<span class="ActionScriptDefault_Text">value</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&quot; &quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">query</span>;
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">send</span><span class="ActionScriptBracket/Brace">()</span>;            
+        <span class="ActionScriptBracket/Brace">}</span>        
+        
+        <span class="ActionScriptASDoc">/**
+         * Cancel the Code Search.
+         */</span>        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cancel</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">codeService</span>.<span class="ActionScriptDefault_Text">cancel</span><span class="ActionScriptBracket/Brace">()</span>;            
+        <span class="ActionScriptBracket/Brace">}</span>        
+        
+        <span class="ActionScriptASDoc">/**
+         * Handle Code Search result.
+         * 
+         * @param event the ResultEvent dispatched by the service
+         */</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onServiceResult</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ResultEvent</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">result</span>;
+            <span class="ActionScriptReserved">default</span> <span class="ActionScriptDefault_Text">xml</span> <span class="ActionScriptReserved">namespace</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">atom</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">success</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">searchType</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">search</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">searchesProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">SearchesProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">SearchesProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">SearchesProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">try</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">searchType</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">searchesProxy</span>.<span class="ActionScriptDefault_Text">getSearchType</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">option</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">search</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">searchesProxy</span>.<span class="ActionScriptDefault_Text">getSearch</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">searchType</span>, <span class="ActionScriptDefault_Text">query</span>, <span class="ActionScriptDefault_Text">feedLink</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">success</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">totalResults</span> <span class="ActionScriptOperator">&gt;</span> 0 <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">catch</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">e</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+                <span class="ActionScriptDefault_Text">query</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+                <span class="ActionScriptDefault_Text">option</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+                <span class="ActionScriptDefault_Text">success</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;                
+            <span class="ActionScriptBracket/Brace">}</span>        
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">success</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CODE_SEARCH_SUCCESS</span>, <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">searchType</span>, <span class="ActionScriptDefault_Text">search</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CODE_SEARCH_FAILED</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Decode the given URL.
+         * 
+         * &lt;P&gt;
+         * URLs are returned from the service in escaped format. 
+         * we must unescape them to use them.&lt;/P&gt;
+         * 
+         * @param url the URL to decode
+         * @return string the decoded URL
+         */</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">decodeURL</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">url</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">tmp</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">unescape</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">url</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pattern</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">RegExp</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">RegExp</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">/\&amp;amp\;/</span><span class="ActionScriptDefault_Text">g</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">tmp</span>.<span class="ActionScriptDefault_Text">replace</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pattern</span>,<span class="ActionScriptString">&apos;&amp;&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Handle Code Search fault.
+         * 
+         * @param event the FaultEvent
+         */</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onServiceFault</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaultEvent</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CODE_SEARCH_FAILED</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * The entries from the current result set.
+         * 
+         * @return XMLList the entries
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">entries</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">XMLList</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">entry</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">XMLList</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/** 
+         * The titles from the entries in the current result set.
+         * 
+         * @return XMLList the entry titles
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">titles</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">default</span> <span class="ActionScriptDefault_Text">xml</span> <span class="ActionScriptReserved">namespace</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">atom</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">entries</span>.<span class="ActionScriptDefault_Text">title</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/** 
+         * The feedlink for this search.
+         * 
+         * @return String the feed link for this search
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">feedLink</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">default</span> <span class="ActionScriptDefault_Text">xml</span> <span class="ActionScriptReserved">namespace</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">atom</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">link</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">XMLList</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">link</span>.<span class="ActionScriptBracket/Brace">(</span>@<span class="ActionScriptDefault_Text">rel</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;alternate&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">XMLList</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">decodeURL</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">link</span>.@<span class="ActionScriptDefault_Text">href</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * The total number of entries in the current result set.
+         * 
+         * @return Number the total number of results 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">totalResults</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">entries</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">?</span><span class="ActionScriptDefault_Text">entries</span>.<span class="ActionScriptDefault_Text">length</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span>0;
+        <span class="ActionScriptBracket/Brace">}</span>        
+        
+        <span class="ActionScriptComment">// The HTTP Service
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">codeService</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">HTTPService</span>;
+
+        <span class="ActionScriptComment">// Namespaces        
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">atom</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Namespace</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Namespace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;http://www.w3.org/2005/Atom&quot;</span><span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">opensearch</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Namespace</span>     <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Namespace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;http://a9.com/-/spec/opensearchrss/1.0/&quot;</span><span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">gcs</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Namespace</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Namespace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;http://schemas.google.com/codesearch/2006&quot;</span> <span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">aaa</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Namespace</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Namespace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;http://www.w3.org/XML/1998/namespace&quot;</span><span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">base</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Namespace</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Namespace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;http://www.google.com&quot;</span><span class="ActionScriptBracket/Brace">)</span>;    
+                
+        <span class="ActionScriptComment">// The Service Endpoint
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CODE_SEARCH_URL</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>     <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;http://www.google.com/codesearch/feeds/search?q=&quot;</span>;
+
+        <span class="ActionScriptComment">// The Search Options
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">ANY_OPTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Any Language&quot;</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">AS_MXML_OPTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;AS/MXML&quot;</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">JAVA_OPTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Java&quot;</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CF_OPTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;ColdFusion&quot;</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">JS_OPTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;JavaScript&quot;</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CSS_OPTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;CSS&quot;</span>;
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

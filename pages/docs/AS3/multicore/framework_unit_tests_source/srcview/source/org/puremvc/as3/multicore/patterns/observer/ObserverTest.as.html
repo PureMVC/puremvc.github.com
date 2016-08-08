@@ -1,0 +1,144 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ObserverTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by Creative Commons Attribution 2.5 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+     
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptOperator">*</span>;
+     
+       <span class="ActionScriptASDoc">/**
+       * Tests PureMVC Observer class.
+       * 
+       * &lt;P&gt;
+       * Since the Observer encapsulates the interested object&apos;s
+       * callback information, there are no getters, only setters. 
+       * It is, in effect write-only memory.&lt;/P&gt;
+       * 
+       * &lt;P&gt;
+       * Therefore, the only way to test it is to set the 
+       * notification method and context and call the notifyObserver
+       * method.&lt;/P&gt;
+       * 
+       */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ObserverTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> <span class="ActionScriptBracket/Brace">{</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ObserverTest</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ObserverTest</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testObserverAccessors&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ObserverTest</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testObserverConstructor&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ObserverTest</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testCompareNotifyContext&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests observer class when initialized by accessor methods.
+           * 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testObserverAccessors</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create observer with null args, then
+</span>               <span class="ActionScriptComment">// use accessors to set notification method and context
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">null</span>,<span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">setNotifyContext</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">setNotifyMethod</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">observerTestMethod</span><span class="ActionScriptBracket/Brace">)</span>;
+              
+               <span class="ActionScriptComment">// create a test event, setting a payload value and notify 
+</span>               <span class="ActionScriptComment">// the observer with it. since the observer is this class 
+</span>               <span class="ActionScriptComment">// and the notification method is observerTestMethod,
+</span>               <span class="ActionScriptComment">// successful notification will result in our local 
+</span>               <span class="ActionScriptComment">// observerTestVar being set to the value we pass in 
+</span>               <span class="ActionScriptComment">// on the note body.
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Notification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ObserverTestNote&apos;</span>,10<span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">notifyObserver</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test assertions              
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting observerTestVar = 10&quot;</span>, <span class="ActionScriptDefault_Text">observerTestVar</span> <span class="ActionScriptOperator">==</span> 10 <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests observer class when initialized by constructor.
+           * 
+          */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testObserverConstructor</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create observer passing in notification method and context
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">observerTestMethod</span>,<span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+              
+               <span class="ActionScriptComment">// create a test note, setting a body value and notify 
+</span>               <span class="ActionScriptComment">// the observer with it. since the observer is this class 
+</span>               <span class="ActionScriptComment">// and the notification method is observerTestMethod,
+</span>               <span class="ActionScriptComment">// successful notification will result in our local 
+</span>               <span class="ActionScriptComment">// observerTestVar being set to the value we pass in 
+</span>               <span class="ActionScriptComment">// on the note body.
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Notification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ObserverTestNote&apos;</span>,5<span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">notifyObserver</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test assertions              
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting observerTestVar = 5&quot;</span>, <span class="ActionScriptDefault_Text">observerTestVar</span> <span class="ActionScriptOperator">==</span> 5 <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests the compareNotifyContext method of the Observer class
+           * 
+          */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testCompareNotifyContext</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create observer passing in notification method and context
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">observerTestMethod</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span>;
+              
+              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">negTestObj</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">()</span>;
+              
+            <span class="ActionScriptComment">// test assertions              
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting observer.compareNotifyContext(negTestObj) == false&quot;</span>, <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">compareNotifyContext</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">negTestObj</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting observer.compareNotifyContext(this) == true&quot;</span>, <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">compareNotifyContext</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * A test variable that proves the notify method was
+           * executed with &apos;this&apos; as its exectution context
+           */</span>
+          <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observerTestVar</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+
+          <span class="ActionScriptASDoc">/**
+           * A function that is used as the observer notification
+           * method. It multiplies the input number by the 
+           * observerTestVar value
+           */</span>
+          <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">observerTestMethod</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptDefault_Text">observerTestVar</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Number</span>;
+          <span class="ActionScriptBracket/Brace">}</span>
+          
+          
+         
+      <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,212 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Reflector.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">// Reflector, by Narciso Jaramillo, nj_flex@rictus.com
+</span><span class="ActionScriptComment">// Copyright 2006 Narciso Jaramillo
+</span>
+<span class="ActionScriptComment">// This program is free software; you can redistribute it and/or
+</span><span class="ActionScriptComment">// modify it under the terms of the GNU General Public License
+</span><span class="ActionScriptComment">// as published by the Free Software Foundation; either version 2
+</span><span class="ActionScriptComment">// of the License, or (at your option) any later version.
+</span>
+<span class="ActionScriptComment">// This program is distributed in the hope that it will be useful,
+</span><span class="ActionScriptComment">// but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span class="ActionScriptComment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span><span class="ActionScriptComment">// GNU General Public License for more details.
+</span>
+<span class="ActionScriptComment">// You should have received a copy of the GNU General Public License
+</span><span class="ActionScriptComment">// along with this program; if not, write to the Free Software
+</span><span class="ActionScriptComment">// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+</span>
+<span class="ActionScriptComment">// Partly based on ReflectFilter.as by Trey Long, trey@humanwasteland.com.
+</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">com</span>.<span class="ActionScriptDefault_Text">rictus</span>.<span class="ActionScriptDefault_Text">reflector</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptDefault_Text">BitmapData</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptDefault_Text">GradientType</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptDefault_Text">Sprite</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Event</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptDefault_Text">Matrix</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptDefault_Text">Point</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptDefault_Text">Rectangle</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">UIComponent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">FlexEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">MoveEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">ResizeEvent</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A component that displays a reflection below another component. 
+     * The reflection is &quot;live&quot;--as the other component&apos;s display updates,
+     * the reflection updates as well.  The reflection automatically positions
+     * itself below the target component (so it only works if the target
+     * component&apos;s container is absolutely positioned, like a Canvas or a
+     * Panel with layout=&quot;absolute&quot;).
+     * 
+     * Typically, you&apos;ll want to set a low alpha on the Reflector component (0.3
+     * would be a good default).
+     * 
+     * Author: Narciso Jaramillo, nj_flex@rictus.com
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Reflector</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">UIComponent</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// The component we&apos;re reflecting.
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_target</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">UIComponent</span>;
+        
+        <span class="ActionScriptComment">// Cached bitmap data objects.  We store these to avoid reallocating
+</span>        <span class="ActionScriptComment">// bitmap data every time the target redraws.
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_alphaGradientBitmap</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">BitmapData</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_targetBitmap</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">BitmapData</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_resultBitmap</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">BitmapData</span>;
+        
+        <span class="ActionScriptComment">// The current falloff value (see the description of the falloff property).
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_falloff</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0.6;
+        
+        <span class="ActionScriptASDoc">/**
+         * The UIComponent that you want to reflect.  Should be in an absolutely-
+         * positioned container.  The reflector will automatically position itself
+         * beneath the target.
+         */</span>         
+        <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptMetadata">Bindable</span><span class="ActionScriptBracket/Brace">]</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">target</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">UIComponent</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_target</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">target</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">UIComponent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_target</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Remove our listeners from the previous target.
+</span>                <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">removeEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">FlexEvent</span>.<span class="ActionScriptDefault_Text">UPDATE_COMPLETE</span>, <span class="ActionScriptDefault_Text">handleTargetUpdate</span>, <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">removeEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MoveEvent</span>.<span class="ActionScriptDefault_Text">MOVE</span>, <span class="ActionScriptDefault_Text">handleTargetMove</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">removeEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ResizeEvent</span>.<span class="ActionScriptDefault_Text">RESIZE</span>, <span class="ActionScriptDefault_Text">handleTargetResize</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptComment">// Clear our bitmaps, so we regenerate them next time a component is targeted.
+</span>                <span class="ActionScriptDefault_Text">clearCachedBitmaps</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptDefault_Text">_target</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_target</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Register to get notified whenever the target is redrawn.  We pass &quot;true&quot; 
+</span>                <span class="ActionScriptComment">// for useCapture here so we can detect when any descendants of the target are
+</span>                <span class="ActionScriptComment">// redrawn as well.
+</span>                <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">FlexEvent</span>.<span class="ActionScriptDefault_Text">UPDATE_COMPLETE</span>, <span class="ActionScriptDefault_Text">handleTargetUpdate</span>, <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptComment">// Register to get notified whenever the target moves or resizes.
+</span>                <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MoveEvent</span>.<span class="ActionScriptDefault_Text">MOVE</span>, <span class="ActionScriptDefault_Text">handleTargetMove</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ResizeEvent</span>.<span class="ActionScriptDefault_Text">RESIZE</span>, <span class="ActionScriptDefault_Text">handleTargetResize</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptComment">// Mark ourselves dirty so we get redrawn at the next opportunity.
+</span>                <span class="ActionScriptDefault_Text">invalidateDisplayList</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * How much of the component to reflect, between 0 and 1; 0 means not to
+         * reflect any of the component, while 1 means to reflect the entire
+         * component.  The default is 0.6.
+         */</span>
+        <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptMetadata">Bindable</span><span class="ActionScriptBracket/Brace">]</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">falloff</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_falloff</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">falloff</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_falloff</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>;
+            
+            <span class="ActionScriptComment">// Clear the cached gradient bitmap, since we need to regenerate it to
+</span>            <span class="ActionScriptComment">// reflect the new falloff value.
+</span>            <span class="ActionScriptDefault_Text">_alphaGradientBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            
+            <span class="ActionScriptDefault_Text">invalidateDisplayList</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleTargetUpdate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">FlexEvent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// The target has been redrawn, so mark ourselves for redraw.
+</span>            <span class="ActionScriptDefault_Text">invalidateDisplayList</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleTargetMove</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">MoveEvent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Move to be immediately below the target.  We don&apos;t need to
+</span>            <span class="ActionScriptComment">// redraw ourselves in this case.
+</span>            <span class="ActionScriptDefault_Text">move</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">x</span>, <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">y</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">height</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleTargetResize</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ResizeEvent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Since the target is resizing, we have to recreate our bitmaps
+</span>            <span class="ActionScriptComment">// in addition to redrawing and resizing ourselves.
+</span>            <span class="ActionScriptDefault_Text">clearCachedBitmaps</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">width</span>;
+            <span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">height</span>;
+            <span class="ActionScriptDefault_Text">invalidateDisplayList</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">updateDisplayList</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">unscaledWidth</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>, <span class="ActionScriptDefault_Text">unscaledHeight</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// This function is called by the framework at some point after invalidateDisplayList() is called.
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_target</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Create our cached bitmap data objects if they haven&apos;t been created already.
+</span>                <span class="ActionScriptDefault_Text">createBitmaps</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_target</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rect</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Rectangle</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Rectangle</span><span class="ActionScriptBracket/Brace">(</span>0, 0, <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">width</span>, <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">height</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptComment">// Draw the image of the target component into the target bitmap.
+</span>                <span class="ActionScriptDefault_Text">_targetBitmap</span>.<span class="ActionScriptDefault_Text">fillRect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">rect</span>, 0<span class="ActionScriptDefault_Text">x00000000</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">_targetBitmap</span>.<span class="ActionScriptDefault_Text">draw</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_target</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Matrix</span><span class="ActionScriptBracket/Brace">())</span>;
+                
+                <span class="ActionScriptComment">// Combine the target image with the alpha gradient to produce the reflection image.
+</span>                <span class="ActionScriptDefault_Text">_resultBitmap</span>.<span class="ActionScriptDefault_Text">fillRect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">rect</span>, 0<span class="ActionScriptDefault_Text">x00000000</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">_resultBitmap</span>.<span class="ActionScriptDefault_Text">copyPixels</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_targetBitmap</span>, <span class="ActionScriptDefault_Text">rect</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Point</span><span class="ActionScriptBracket/Brace">()</span>, <span class="ActionScriptDefault_Text">_alphaGradientBitmap</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptComment">// Flip the image upside down.
+</span>                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">transform</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Matrix</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Matrix</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">transform</span>.<span class="ActionScriptDefault_Text">scale</span><span class="ActionScriptBracket/Brace">(</span>1, <span class="ActionScriptOperator">-</span>1<span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">transform</span>.<span class="ActionScriptDefault_Text">translate</span><span class="ActionScriptBracket/Brace">(</span>0, <span class="ActionScriptDefault_Text">_target</span>.<span class="ActionScriptDefault_Text">height</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptComment">// Finally, copy the resulting bitmap into our own graphic context.
+</span>                <span class="ActionScriptDefault_Text">graphics</span>.<span class="ActionScriptDefault_Text">clear</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">graphics</span>.<span class="ActionScriptDefault_Text">beginBitmapFill</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_resultBitmap</span>, <span class="ActionScriptDefault_Text">transform</span>, <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">graphics</span>.<span class="ActionScriptDefault_Text">drawRect</span><span class="ActionScriptBracket/Brace">(</span>0, 0, <span class="ActionScriptDefault_Text">unscaledWidth</span>, <span class="ActionScriptDefault_Text">unscaledHeight</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">clearCachedBitmaps</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_alphaGradientBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            <span class="ActionScriptDefault_Text">_targetBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            <span class="ActionScriptDefault_Text">_resultBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createBitmaps</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">target</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">UIComponent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_alphaGradientBitmap</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Create and store an alpha gradient.  Whenever we redraw, this will be combined
+</span>                <span class="ActionScriptComment">// with an image of the target component to create the &quot;fadeout&quot; effect.
+</span>                <span class="ActionScriptDefault_Text">_alphaGradientBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BitmapData</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">width</span>, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span>, <span class="ActionScriptReserved">true</span>, 0<span class="ActionScriptDefault_Text">x00000000</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">gradientMatrix</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Matrix</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Matrix</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">gradientSprite</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Sprite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Sprite</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">gradientMatrix</span>.<span class="ActionScriptDefault_Text">createGradientBox</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">width</span>, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">_falloff</span>, <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">PI</span><span class="ActionScriptOperator">/</span>2, 
+                    0, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptBracket/Brace">(</span>1.0 <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">_falloff</span><span class="ActionScriptBracket/Brace">))</span>;
+                <span class="ActionScriptDefault_Text">gradientSprite</span>.<span class="ActionScriptDefault_Text">graphics</span>.<span class="ActionScriptDefault_Text">beginGradientFill</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">GradientType</span>.<span class="ActionScriptDefault_Text">LINEAR</span>, <span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptDefault_Text">xFFFFFF</span>, 0<span class="ActionScriptDefault_Text">xFFFFFF</span><span class="ActionScriptBracket/Brace">]</span>, 
+                    <span class="ActionScriptBracket/Brace">[</span>0, 1<span class="ActionScriptBracket/Brace">]</span>, <span class="ActionScriptBracket/Brace">[</span>0, 255<span class="ActionScriptBracket/Brace">]</span>, <span class="ActionScriptDefault_Text">gradientMatrix</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">gradientSprite</span>.<span class="ActionScriptDefault_Text">graphics</span>.<span class="ActionScriptDefault_Text">drawRect</span><span class="ActionScriptBracket/Brace">(</span>0, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptBracket/Brace">(</span>1.0 <span class="ActionScriptOperator">-</span> <span class="ActionScriptDefault_Text">_falloff</span><span class="ActionScriptBracket/Brace">)</span>, 
+                    <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">width</span>, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">*</span> <span class="ActionScriptDefault_Text">_falloff</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">gradientSprite</span>.<span class="ActionScriptDefault_Text">graphics</span>.<span class="ActionScriptDefault_Text">endFill</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">_alphaGradientBitmap</span>.<span class="ActionScriptDefault_Text">draw</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">gradientSprite</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Matrix</span><span class="ActionScriptBracket/Brace">())</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_targetBitmap</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Create a bitmap to hold the target&apos;s image.  This is updated every time
+</span>                <span class="ActionScriptComment">// we&apos;re redrawn in updateDisplayList().
+</span>                <span class="ActionScriptDefault_Text">_targetBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BitmapData</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">width</span>, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span>, <span class="ActionScriptReserved">true</span>, 0<span class="ActionScriptDefault_Text">x00000000</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_resultBitmap</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Create a bitmap to hold the reflected image.  This is updated every time
+</span>                <span class="ActionScriptComment">// we&apos;re redrawn in updateDisplayList().
+</span>                <span class="ActionScriptDefault_Text">_resultBitmap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BitmapData</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">width</span>, <span class="ActionScriptDefault_Text">target</span>.<span class="ActionScriptDefault_Text">height</span>, <span class="ActionScriptReserved">true</span>, 0<span class="ActionScriptDefault_Text">x00000000</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

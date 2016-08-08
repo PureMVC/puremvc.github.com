@@ -1,0 +1,69 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Flex Demo – History Panel
+ Copyright (c) 2008 Dragos Dascalita &lt;dragos.dascalita@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">historypanel</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">KeyboardEvent</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">FlexEvent</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">undo</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">CommandsHistoryProxy</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;ApplicationMediator&quot;</span>;
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">commandHistoryProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">CommandsHistoryProxy</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">HistoryPanel</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">commandHistoryProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">CommandsHistoryProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">CommandsHistoryProxy</span>;
+            <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">FlexEvent</span>.<span class="ActionScriptDefault_Text">APPLICATION_COMPLETE</span>, <span class="ActionScriptDefault_Text">onApplicationComplete</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">HistoryPanel</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">HistoryPanel</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onApplicationComplete</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FlexEvent</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">stage</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">KeyboardEvent</span>.<span class="ActionScriptDefault_Text">KEY_UP</span>, <span class="ActionScriptDefault_Text">onKeyUp</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onKeyUp</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">KeyboardEvent</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">ctrlKey</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">charCode</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">String</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;z&quot;</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">charCodeAt</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">commandHistoryProxy</span>.<span class="ActionScriptDefault_Text">canUndo</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">commandHistoryProxy</span>.<span class="ActionScriptDefault_Text">getPrevious</span><span class="ActionScriptBracket/Brace">()</span>.<span class="ActionScriptDefault_Text">undo</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">ctrlKey</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">charCode</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">String</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;y&quot;</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">charCodeAt</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">commandHistoryProxy</span>.<span class="ActionScriptDefault_Text">canRedo</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">commandHistoryProxy</span>.<span class="ActionScriptDefault_Text">getNext</span><span class="ActionScriptBracket/Brace">()</span>.<span class="ActionScriptDefault_Text">redo</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

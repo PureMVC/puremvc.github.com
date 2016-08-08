@@ -1,0 +1,41 @@
+strict digraph class_diagram {
+  rankdir=LR;
+  TypeMockSimpleCommand[
+    label="MockSimpleCommand",
+    URL="MockSimpleCommand.html",
+    tooltip="org.puremvc.as2.patterns.command.MockSimpleCommand",
+    shape="record"
+  ];
+  TypeMockMacroCommand[
+    label="MockMacroCommand",
+    URL="MockMacroCommand.html",
+    tooltip="org.puremvc.as2.patterns.command.MockMacroCommand",
+    shape="record"
+  ];
+  TypeMacroCommandTest[
+    label="MacroCommandTest",
+    URL="MacroCommandTest.html",
+    tooltip="org.puremvc.as2.patterns.command.MacroCommandTest",
+    shape="record"
+  ];
+  TypeSimpleCommandTest[
+    label="SimpleCommandTest",
+    URL="SimpleCommandTest.html",
+    tooltip="org.puremvc.as2.patterns.command.SimpleCommandTest",
+    shape="record"
+  ];
+  TypeSimpleCommand[
+    label="SimpleCommand",
+    URL="SimpleCommand.html",
+    tooltip="org.puremvc.as2.patterns.command.SimpleCommand",
+    shape="record"
+  ];
+  TypeMacroCommand[
+    label="MacroCommand",
+    URL="MacroCommand.html",
+    tooltip="org.puremvc.as2.patterns.command.MacroCommand",
+    shape="record"
+  ];
+  TypeSimpleCommand -> TypeMockSimpleCommand;
+  TypeMacroCommand -> TypeMockMacroCommand;
+}

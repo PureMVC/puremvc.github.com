@@ -1,0 +1,127 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><pre><span class="lineno" id="1">     1  </span><span class="comment">/* 
+<span class="lineno" id="2">     2  </span> PureMVC AS2 Unit Tests Ported by James Knight &lt;james.knight@puremvc.org&gt;  
+<span class="lineno" id="3">     3  </span> PureMVC - Copyright(c) 2006, 2007 Futurescale, Inc., Some rights reserved. 
+<span class="lineno" id="4">     4  </span> Your reuse is governed by the Creative Commons Attribution 3.0 License 
+<span class="lineno" id="5">     5  </span> */</span>
+<span class="lineno" id="6">     6  </span><span class="key">import</span> org.puremvc.as2.core.*;
+<span class="lineno" id="7">     7  </span><span class="key">import</span> org.puremvc.as2.interfaces.IController;
+<span class="lineno" id="8">     8  </span><span class="key">import</span> org.puremvc.as2.patterns.command.MockSimpleCommand;
+<span class="lineno" id="9">     9  </span><span class="key">import</span> org.puremvc.as2.patterns.observer.Notification;
+<span class="lineno" id="10">    10  </span><span class="key">import</span> org.puremvc.as2.patterns.proxy.MockVO;
+<span class="lineno" id="11">    11  </span>
+<span class="lineno" id="12">    12  </span><span class="key">class</span> org.puremvc.as2.core.ControllerTest <span class="key">extends</span> com.asunit.framework.TestCase {
+<span class="lineno" id="13">    13  </span>
+<span class="lineno" id="14">    14  </span>	<span class="key">private</span> <span class="key">var</span> className:String = <span class="str_const">"org.puremvc.as2.core.ControllerTest"</span>;
+<span class="lineno" id="15">    15  </span>
+<span class="lineno" id="16">    16  </span>	<span class="comment doc">/**
+<span class="lineno" id="17">    17  </span>	 * Tests the Controller Singleton Factory Method, ensuring
+<span class="lineno" id="18">    18  </span>	 * that all instantiated controller variables point to the same single Controller 
+<span class="lineno" id="19">    19  </span>	 */</span>
+<span class="lineno" id="20">    20  </span>	<span class="key">public</span> <span class="key">function</span> testGetInstance():Void {
+<span class="lineno" id="21">    21  </span>		
+<span class="lineno" id="22">    22  </span>		<span class="comment">// Test Factory Method</span>
+<span class="lineno" id="23">    23  </span>		<span class="key">var</span> controller:IController = Controller.getInstance();
+<span class="lineno" id="24">    24  </span>		
+<span class="lineno" id="25">    25  </span>		<span class="comment">// test assertions</span>
+<span class="lineno" id="26">    26  </span>		assertNotNull( <span class="str_const">"Expecting instance not null"</span>, controller);
+<span class="lineno" id="27">    27  </span>		assertTrue( <span class="str_const">"Expecting instance implements IController"</span>, controller <span class="key">instanceof</span> IController);
+<span class="lineno" id="28">    28  </span>		
+<span class="lineno" id="29">    29  </span>		<span class="key">var</span> secondController:IController = Controller.getInstance();
+<span class="lineno" id="30">    30  </span>		assertSame(<span class="str_const">"two controller variables should point to the same object"</span>, controller, secondController);
+<span class="lineno" id="31">    31  </span>	}
+<span class="lineno" id="32">    32  </span>
+<span class="lineno" id="33">    33  </span>	<span class="comment doc">/**
+<span class="lineno" id="34">    34  </span>	 * Tests Command registration and execution.
+<span class="lineno" id="35">    35  </span>	 * 
+<span class="lineno" id="36">    36  </span>	 * This registers a MockCommand object with a Controller instance 
+<span class="lineno" id="37">    37  </span>	 * to handle 'ControllerTest' Notifications.
+<span class="lineno" id="38">    38  </span>	 * 
+<span class="lineno" id="39">    39  </span>	 * It then constructs such a Notification and tells the Controller 
+<span class="lineno" id="40">    40  </span>	 * to execute the associated Command. Success is determined by 
+<span class="lineno" id="41">    41  </span>	 * evaluating a property on an object passed to the Command, which 
+<span class="lineno" id="42">    42  </span>	 * will be modified when the Command executes.
+<span class="lineno" id="43">    43  </span>	 * 
+<span class="lineno" id="44">    44  </span>	 */</span>
+<span class="lineno" id="45">    45  </span>	<span class="key">public</span> <span class="key">function</span> testRegisterAndExecuteCommand():Void {
+<span class="lineno" id="46">    46  </span>		
+<span class="lineno" id="47">    47  </span>		<span class="comment">// Create the controller, register the MockCommand to handle 'ControllerTest' notes</span>
+<span class="lineno" id="48">    48  </span>		<span class="key">var</span> controller:IController = Controller.getInstance();
+<span class="lineno" id="49">    49  </span>		controller.registerCommand(<span class="str_const">"ControllerTest"</span>, MockSimpleCommand);
+<span class="lineno" id="50">    50  </span>		
+<span class="lineno" id="51">    51  </span>		<span class="comment">// Create a 'ControllerTest' note</span>
+<span class="lineno" id="52">    52  </span>		<span class="key">var</span> vo:Object = <span class="key">new</span> MockVO( <span class="num_const">12</span> );
+<span class="lineno" id="53">    53  </span>		<span class="key">var</span> note:Notification = <span class="key">new</span> Notification( <span class="str_const">"ControllerTest"</span>, vo );
+<span class="lineno" id="54">    54  </span>
+<span class="lineno" id="55">    55  </span>		<span class="comment">// Tell the controller to execute the Command associated with the note</span>
+<span class="lineno" id="56">    56  </span>		<span class="comment">// which will multiply the vo.input value by 2 and store the result in vo.result</span>
+<span class="lineno" id="57">    57  </span>		controller.executeCommand(note);
+<span class="lineno" id="58">    58  </span>		
+<span class="lineno" id="59">    59  </span>		<span class="comment">// test assertions </span>
+<span class="lineno" id="60">    60  </span>		assertEquals( <span class="str_const">"Expecting vo.result == 24"</span>, <span class="num_const">24</span>, vo.result );
+<span class="lineno" id="61">    61  </span>	}
+<span class="lineno" id="62">    62  </span>	
+<span class="lineno" id="63">    63  </span>	<span class="comment doc">/**
+<span class="lineno" id="64">    64  </span>	 * Tests Command registration and removal.
+<span class="lineno" id="65">    65  </span>	 * 
+<span class="lineno" id="66">    66  </span>	 * Tests that once a Command is registered and verified
+<span class="lineno" id="67">    67  </span>	 * working, it can be removed from the Controller.
+<span class="lineno" id="68">    68  </span>	 */</span>
+<span class="lineno" id="69">    69  </span>	<span class="key">public</span> <span class="key">function</span> testRegisterAndRemoveCommand():Void {
+<span class="lineno" id="70">    70  </span>		
+<span class="lineno" id="71">    71  </span>		<span class="comment">// Create the controller, register the MockCommand to handle 'ControllerTest' notes</span>
+<span class="lineno" id="72">    72  </span>		<span class="key">var</span> controller:IController = Controller.getInstance();
+<span class="lineno" id="73">    73  </span>		controller.registerCommand(<span class="str_const">"ControllerRemoveTest"</span>, MockSimpleCommand);
+<span class="lineno" id="74">    74  </span>		
+<span class="lineno" id="75">    75  </span>		<span class="comment">// Create a 'ControllerTest' note</span>
+<span class="lineno" id="76">    76  </span>		<span class="key">var</span> vo:Object = <span class="key">new</span> MockVO( <span class="num_const">12</span> );
+<span class="lineno" id="77">    77  </span>		<span class="key">var</span> note:Notification = <span class="key">new</span> Notification( <span class="str_const">"ControllerRemoveTest"</span>, vo );
+<span class="lineno" id="78">    78  </span>
+<span class="lineno" id="79">    79  </span>		<span class="comment">// Tell the controller to execute the Command associated with the note</span>
+<span class="lineno" id="80">    80  </span>		<span class="comment">// which will multiply the vo.input value by 2 and set the result on vo.result</span>
+<span class="lineno" id="81">    81  </span>		controller.executeCommand(note);
+<span class="lineno" id="82">    82  </span>		
+<span class="lineno" id="83">    83  </span>		<span class="comment">// test assertions </span>
+<span class="lineno" id="84">    84  </span>		assertEquals( <span class="str_const">"Expecting vo.result == 24"</span>, <span class="num_const">24</span>, vo.result );
+<span class="lineno" id="85">    85  </span>		
+<span class="lineno" id="86">    86  </span>		<span class="comment">// Reset result</span>
+<span class="lineno" id="87">    87  </span>		vo.result = <span class="num_const">0</span>;
+<span class="lineno" id="88">    88  </span>		
+<span class="lineno" id="89">    89  </span>		<span class="comment">// Remove the Command from the Controller</span>
+<span class="lineno" id="90">    90  </span>		controller.removeCommand(<span class="str_const">"ControllerRemoveTest"</span>);
+<span class="lineno" id="91">    91  </span>		
+<span class="lineno" id="92">    92  </span>		<span class="comment">// Tell the controller to execute the Command associated with the</span>
+<span class="lineno" id="93">    93  </span>		<span class="comment">// note. This time, it should not be registered, and our vo result</span>
+<span class="lineno" id="94">    94  </span>		<span class="comment">// will not change   			</span>
+<span class="lineno" id="95">    95  </span>		controller.executeCommand(note);
+<span class="lineno" id="96">    96  </span>		
+<span class="lineno" id="97">    97  </span>		<span class="comment">// test assertions </span>
+<span class="lineno" id="98">    98  </span>		assertEquals( <span class="str_const">"Expecting vo.result == 24"</span>, <span class="num_const">0</span>, vo.result );
+<span class="lineno" id="99">    99  </span>	}
+<span class="lineno" id="100">   100  </span>  		
+<span class="lineno" id="101">   101  </span>	<span class="comment doc">/**
+<span class="lineno" id="102">   102  </span>	 * Test hasCommand method.
+<span class="lineno" id="103">   103  </span>	 */</span>
+<span class="lineno" id="104">   104  </span>	<span class="key">public</span> <span class="key">function</span> testHasCommand():Void {
+<span class="lineno" id="105">   105  </span>		
+<span class="lineno" id="106">   106  </span>		<span class="comment">// test that hasCommand returns true for hasCommandTest notifications </span>
+<span class="lineno" id="107">   107  </span>		assertFalse( <span class="str_const">"Before registering Command, expecting controller.hasCommand('hasCommandTest') == false"</span>, controller.hasCommand(<span class="str_const">"hasCommandTest"</span>));
+<span class="lineno" id="108">   108  </span>		
+<span class="lineno" id="109">   109  </span>		<span class="comment">// register the MockCommand to handle 'hasCommandTest' notes</span>
+<span class="lineno" id="110">   110  </span>		<span class="key">var</span> controller:IController = Controller.getInstance();
+<span class="lineno" id="111">   111  </span>		controller.registerCommand(<span class="str_const">"hasCommandTest"</span>, MockSimpleCommand);
+<span class="lineno" id="112">   112  </span>		
+<span class="lineno" id="113">   113  </span>		<span class="comment">// test that hasCommand returns true for hasCommandTest notifications </span>
+<span class="lineno" id="114">   114  </span>		assertTrue( <span class="str_const">"Expecting controller.hasCommand('hasCommandTest') == true"</span>, controller.hasCommand(<span class="str_const">"hasCommandTest"</span>));
+<span class="lineno" id="115">   115  </span>		
+<span class="lineno" id="116">   116  </span>		<span class="comment">// Remove the Command from the Controller</span>
+<span class="lineno" id="117">   117  </span>		controller.removeCommand(<span class="str_const">"hasCommandTest"</span>);
+<span class="lineno" id="118">   118  </span>		
+<span class="lineno" id="119">   119  </span>		<span class="comment">// test that hasCommand returns false for hasCommandTest notifications </span>
+<span class="lineno" id="120">   120  </span>		assertFalse( <span class="str_const">"Expecting controller.hasCommand('hasCommandTest') == false"</span>, controller.hasCommand(<span class="str_const">"hasCommandTest"</span>));
+<span class="lineno" id="121">   121  </span>	}
+<span class="lineno" id="122">   122  </span>	
+<span class="lineno" id="123">   123  </span>}
+<span class="lineno" id="124">   124  </span></pre><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.core" class="button">Package</a></li><li><a href="ControllerTest.html" title="Detail of org.puremvc.as2.core.ControllerTest API" class="button">Class</a></li><li><span class="button nav_current">Source</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

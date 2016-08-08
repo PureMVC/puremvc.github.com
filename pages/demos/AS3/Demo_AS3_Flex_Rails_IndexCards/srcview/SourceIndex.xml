@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>IndexCards Flex/Rails Demo</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_2_0_1.swc" url="source/libs/PureMVC_AS3_2_0_1.swc"/>
+		</node>
+		<node label="Services">
+			<node label="org">
+				<node label="puremvc">
+					<node label="as3">
+						<node label="demos">
+							<node label="flex">
+								<node label="rails">
+									<node label="indexcards">
+										<node label="app">
+											<node label="controllers">
+												<node label="application.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/controllers/application.rb.txt"/>
+												<node label="cards_controller.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/controllers/cards_controller.rb.txt"/>
+												<node label="rubber_bands_controller.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/controllers/rubber_bands_controller.rb.txt"/>
+												<node label="subjects_controller.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/controllers/subjects_controller.rb.txt"/>
+												<node label="users_controller.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/controllers/users_controller.rb.txt"/>
+											</node>
+											<node label="helpers">
+												<node label="application_helper.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/helpers/application_helper.rb.txt"/>
+												<node label="cards_helper.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/helpers/cards_helper.rb.txt"/>
+												<node label="rubber_bands_helper.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/helpers/rubber_bands_helper.rb.txt"/>
+												<node label="subjects_helper.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/helpers/subjects_helper.rb.txt"/>
+												<node label="users_helper.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/helpers/users_helper.rb.txt"/>
+											</node>
+											<node label="models">
+												<node label="card.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/models/card.rb.txt"/>
+												<node label="rubber_band.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/models/rubber_band.rb.txt"/>
+												<node label="subject.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/models/subject.rb.txt"/>
+												<node label="user.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/app/models/user.rb.txt"/>
+											</node>
+										</node>
+										<node label="db">
+											<node label="migrate">
+												<node label="001_create_subjects.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/db/migrate/001_create_subjects.rb.txt"/>
+												<node label="002_create_rubber_bands.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/db/migrate/002_create_rubber_bands.rb.txt"/>
+												<node label="003_create_cards.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/db/migrate/003_create_cards.rb.txt"/>
+												<node label="004_create_users.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/db/migrate/004_create_users.rb.txt"/>
+											</node>
+											<node label="create.sql" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/db/create.sql.txt"/>
+											<node label="schema.rb" url="source/Services/org/puremvc/as3/demos/flex/rails/indexcards/db/schema.rb.txt"/>
+										</node>
+									</node>
+								</node>
+							</node>
+						</node>
+					</node>
+				</node>
+			</node>
+			<node label="readme.txt" url="source/Services/readme.txt"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.controller" icon="packageIcon" expanded="true">
+				<node label="ApplicationLoginCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/controller/ApplicationLoginCommand.as.html"/>
+				<node label="ApplicationStartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/controller/ApplicationStartupCommand.as.html"/>
+				<node label="IndexCardCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/controller/IndexCardCommand.as.html"/>
+				<node label="RubberBandCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/controller/RubberBandCommand.as.html"/>
+				<node label="SubjectCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/controller/SubjectCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.model" icon="packageIcon" expanded="true">
+				<node label="IndexCardProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/IndexCardProxy.as.html"/>
+				<node label="RubberBandProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/RubberBandProxy.as.html"/>
+				<node label="SubjectProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/SubjectProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.model.utils" icon="packageIcon" expanded="true">
+				<node label="CollectionUtils.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/utils/CollectionUtils.as.html"/>
+				<node label="Translator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/utils/Translator.as.html"/>
+				<node label="URL.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/utils/URL.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.model.vo" icon="packageIcon" expanded="true">
+				<node label="IndexCard.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/vo/IndexCard.as.html"/>
+				<node label="RubberBand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/vo/RubberBand.as.html"/>
+				<node label="Subject.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/model/vo/Subject.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.view" icon="packageIcon" expanded="true">
+				<node label="IndexCardMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/IndexCardMediator.as.html"/>
+				<node label="NavigationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/NavigationMediator.as.html"/>
+				<node label="RubberBandMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/RubberBandMediator.as.html"/>
+				<node label="SubjectMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/SubjectMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.view.components" icon="packageIcon" expanded="true">
+				<node label="BandEditPanel.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/components/BandEditPanel.mxml.html"/>
+				<node label="CardEditPanel.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/components/CardEditPanel.mxml.html"/>
+				<node label="IndexCardViewer.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/components/IndexCardViewer.mxml.html"/>
+				<node label="SubjectEditPanel.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/components/SubjectEditPanel.mxml.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.view.components.base" icon="packageIcon" expanded="true">
+				<node label="IndexCardViewBase.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/components/base/IndexCardViewBase.mxml.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.view.events" icon="packageIcon" expanded="true">
+				<node label="ItemScrollEvent.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/events/ItemScrollEvent.as.html"/>
+				<node label="NavigationEvent.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/events/NavigationEvent.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.view.interfaces" icon="packageIcon" expanded="true">
+				<node label="IIndexCardView.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/interfaces/IIndexCardView.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.rails.indexcards.view.utils" icon="packageIcon" expanded="true">
+				<node label="Constants.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/rails/indexcards/view/utils/Constants.as.html"/>
+			</node>
+			<node selected="true" label="IndexCards.mxml" icon="mxmlAppIcon" url="source/IndexCards.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

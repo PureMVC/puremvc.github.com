@@ -1,0 +1,89 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>SimpleCommandTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurecale, Inc., Some rights reserved.
+ Your reuse is governed by Creative Commons Attribution 2.5 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+     
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span>.<span class="ActionScriptDefault_Text">SimpleCommandTestCommand</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span>.<span class="ActionScriptDefault_Text">SimpleCommandTestVO</span>;
+     
+    <span class="ActionScriptASDoc">/**
+     * Test the PureMVC SimpleCommand class.
+     *
+       * @see org.puremvc.as3.patterns.command.SimpleCommandTestVO SimpleCommandTestVO
+       * @see org.puremvc.as3.patterns.command.SimpleCommandTestCommand SimpleCommandTestCommand
+     */</span>
+     <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">SimpleCommandTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> <span class="ActionScriptBracket/Brace">{</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">SimpleCommandTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+      
+        <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SimpleCommandTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testSimpleCommandExecute&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the &lt;code&gt;execute&lt;/code&gt; method of a &lt;code&gt;SimpleCommand&lt;/code&gt;.
+           * 
+           * &lt;P&gt;
+           * This test creates a new &lt;code&gt;Notification&lt;/code&gt;, adding a 
+           * &lt;code&gt;SimpleCommandTestVO&lt;/code&gt; as the body. 
+           * It then creates a &lt;code&gt;SimpleCommandTestCommand&lt;/code&gt; and invokes
+           * its &lt;code&gt;execute&lt;/code&gt; method, passing in the note.&lt;/P&gt;
+           * 
+           * &lt;P&gt;
+           * Success is determined by evaluating a property on the 
+           * object that was passed on the Notification body, which will
+           * be modified by the SimpleCommand&lt;/P&gt;.
+           * 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testSimpleCommandExecute</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+              <span class="ActionScriptComment">// Create the VO
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">SimpleCommandTestVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SimpleCommandTestVO</span><span class="ActionScriptBracket/Brace">(</span>5<span class="ActionScriptBracket/Brace">)</span>;
+              
+              <span class="ActionScriptComment">// Create the Notification (note)
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Notification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;SimpleCommandTestNote&apos;</span>, <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create the SimpleCommand              
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">command</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">SimpleCommandTestCommand</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SimpleCommandTestCommand</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptComment">// Execute the SimpleCommand
+</span>               <span class="ActionScriptDefault_Text">command</span>.<span class="ActionScriptDefault_Text">execute</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 10&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 10 <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+      <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

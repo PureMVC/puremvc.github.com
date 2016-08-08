@@ -1,0 +1,133 @@
+<html>
+
+<head>
+<title>haXe API Documentation</title>
+
+<script type="text/javascript">
+<!--
+	function toggle(id) {
+		var e = document.getElementById(id);
+		e.isopen = !e.isopen;
+		e.style.display = e.isopen?"block":"none";
+		return false;
+	}
+-->
+</script>
+
+<style type="text/css">
+body {
+	text-align: center;
+	font-family: Trebuchet MS, sans-serif;
+	background-color : #ffffff;
+}
+
+.document {
+	width : 800px;
+	position : relative;
+	margin : 10px auto 5px auto;
+	border : solid 2px #CFD0D4;
+	text-align : justify;
+	background-color: #ffffff;
+	color: #292929;
+}
+
+.title {
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+	background-color : #0067b0;
+	color : white;
+}
+
+ul.entry {
+	list-style-type: circle;
+	font-weight : bold;
+	margin-left : 20px;
+}
+
+.package_content {
+	display : none;
+}
+
+a {
+	color : #0067b0;
+	font-weight : bold;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #0067b0;
+	text-decoration : underline;
+}
+
+a.package {
+	color : #292929;
+}
+
+.index {
+	margin-left : 10px;
+}
+
+.kwd {
+	color: #008cd7;
+}
+
+.classname {
+	font-size : 25px;
+	font-weight : bold;
+	margin : 20px 10px;
+}
+
+.classdoc {
+	border : 1px dashed #666;
+	margin-left : 20px;
+	margin-right : 20px;
+	padding : 5px 5px 5px 5px;
+}
+
+.importmod, .extends, .implements, .typedef, .platforms {
+	margin-left: 20px;
+	color : #777;
+}
+
+dd {
+	margin : 0px 20px 20px 40px;
+	font-size : 12pt;
+	color : #444;
+}
+
+dt {
+	margin-left : 20px;
+	margin-bottom : 5px;
+	text-align : left;
+	font-size : 10pt;
+	font-family: Courier New, monospace;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="document">
+<div class="title">PureMVC Framework for haXe: API Documentation</div>
+
+<a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../../../../../../../../index.html" class="index">Index</a><div class="classname"><span class="kwd">class </span>org.puremvc.haxe.multicore.utilities.asyncstub.model.AsyncStubProxy&lt;T&gt;</div><div class="extends">extends <a href="../../../../../../../org/puremvc/haxe/multicore/patterns/proxy/Proxy.html" class="type">org.puremvc.haxe.multicore.patterns.proxy.Proxy</a></div><div class="implements">implements <a href="../../../../../../../org/puremvc/haxe/multicore/interfaces/IProxy.html" class="type">org.puremvc.haxe.multicore.interfaces.IProxy</a></div><div class="classdoc"><p>Can be used to simulate an asynchrounous activity.  Instantiate as a proxy, with or without
+  a name. The async activity is started by invoking the <code>asyncAction</code> method. There
+  cannot be more than one activity running per stub instance.</p>
+<p><p>Uses a random number for the async delay.  Set the max delay in msecs using the
+  <code>maxDelayMSecs</code> property.</p></p>
+<p><p>When the async action completes, it invokes either a result method or a fault method,
+  similar to IResponder.  Use the <code>probabilityOfFault</code> property to govern random selection of
+  the method.</p></p>
+<p><p>Includes the facility to set a <code>token</code> property that will be returned to the
+  result/fault method, enabling the client app to track the stub instance that invoked the
+  result/fault.  This facility is optional.  If the token is not set, no arguments are passed
+  to the result/fault method.</p></p>
+<p><p>See the demo StartupAsOrdered for an example of use.</p></p></div><dl><dt><span class="kwd">var </span>maxDelayMSecs : <a href="../../../../../../../Int.html" class="type">Int</a></dt><dd></dd><dt><span class="kwd">var </span>probabilityOfFault : <a href="../../../../../../../Float.html" class="type">Float</a></dt><dd></dd><dt><span class="kwd">var </span>token : T</dt><dd></dd><dt><span class="kwd">function </span>new(?name : <a href="../../../../../../../String.html" class="type">String</a>) : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd></dd><dt><span class="kwd">function </span>asyncAction(resultFunction : T -> <a href="../../../../../../../Void.html" class="type">Void</a>, ?faultFunction : T -> <a href="../../../../../../../Void.html" class="type">Void</a>) : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd></dd></dl><a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../../../../../../../../index.html" class="index">Index</a>
+
+</div>
+
+</body>
+</html>

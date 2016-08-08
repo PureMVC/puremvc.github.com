@@ -1,0 +1,119 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>UploadFormMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC Flex/CF Demo – File Uploader 
+ Copyright (c) 2007 Simon Bailey &lt;simon.bailey@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IMediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">components</span>.<span class="ActionScriptDefault_Text">UploadForm</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">FileReferenceProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">ProgressVO</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">managers</span>.<span class="ActionScriptDefault_Text">PopManager</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">controls</span>.<span class="ActionScriptDefault_Text">Alert</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Event</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">UploadFormMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;UploadFormMediator&apos;</span>;
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">fileReferenceProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FileReferenceProxy</span>; 
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">UploadFormMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">UploadForm</span>.<span class="ActionScriptDefault_Text">BROWSE</span>, <span class="ActionScriptDefault_Text">onBrowse</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">UploadForm</span>.<span class="ActionScriptDefault_Text">UPLOAD</span>, <span class="ActionScriptDefault_Text">onUpload</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">UploadForm</span>.<span class="ActionScriptDefault_Text">CANCEL</span>, <span class="ActionScriptDefault_Text">onCancel</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">UploadForm</span>.<span class="ActionScriptDefault_Text">CLOSE_POP</span>, <span class="ActionScriptDefault_Text">onClose</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">uploadForm</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">UploadForm</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">UploadForm</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onBrowse</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">FILE_BROWSE</span>  <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onUpload</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">e</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">FILE_UPLOAD</span>  <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onCancel</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CANCEL_UPLOAD</span>  <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">resetUploader</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span> 
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onClose</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">e</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">resetUploader</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">PopManager</span>.<span class="ActionScriptDefault_Text">closePopUpWindow</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">uploadForm</span>, <span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">resetUploader</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">mode</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;&quot;</span>;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">f_name</span>.<span class="ActionScriptDefault_Text">text</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;&quot;</span>;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">p_bar</span>.<span class="ActionScriptDefault_Text">label</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;** Click Browse **&quot;</span>;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">p_bar</span>.<span class="ActionScriptDefault_Text">maximum</span> <span class="ActionScriptOperator">=</span> 0;
+            <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">p_bar</span>.<span class="ActionScriptDefault_Text">minimum</span> <span class="ActionScriptOperator">=</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span>
+                    <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">FILE_SELECTED</span>,
+                    <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">PROGRESS</span>,
+                    <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">RESET_FORM</span>
+                   <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">FILE_SELECTED</span><span class="ActionScriptOperator">:</span>
+                     <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">f_name</span>.<span class="ActionScriptDefault_Text">text</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">String</span>;
+                     <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">mode</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">UploadForm</span>.<span class="ActionScriptDefault_Text">MODE_UPLOAD</span>;
+                     <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">p_bar</span>.<span class="ActionScriptDefault_Text">label</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;** Click Upload **&quot;</span>;
+                     <span class="ActionScriptReserved">break</span>;
+                     
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">PROGRESS</span><span class="ActionScriptOperator">:</span>
+                     <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">p</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ProgressVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ProgressVO</span>;
+                     <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">p_bar</span>.<span class="ActionScriptDefault_Text">setProgress</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">p</span>.<span class="ActionScriptDefault_Text">b_loaded</span>, <span class="ActionScriptDefault_Text">p</span>.<span class="ActionScriptDefault_Text">b_total</span> <span class="ActionScriptBracket/Brace">)</span>;
+                     <span class="ActionScriptDefault_Text">uploadForm</span>.<span class="ActionScriptDefault_Text">p_bar</span>.<span class="ActionScriptDefault_Text">label</span> <span class="ActionScriptOperator">=</span> 
+                     <span class="ActionScriptString">&quot;Uploading &quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">p</span>.<span class="ActionScriptDefault_Text">b_loaded</span> <span class="ActionScriptOperator">/</span> 1024 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> 
+                     <span class="ActionScriptString">&quot; kb of &quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">p</span>.<span class="ActionScriptDefault_Text">b_total</span> <span class="ActionScriptOperator">/</span> 1024 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&quot; kb &quot;</span>;
+                     <span class="ActionScriptReserved">break</span>;
+                     
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">RESET_FORM</span><span class="ActionScriptOperator">:</span>
+                     <span class="ActionScriptDefault_Text">resetUploader</span><span class="ActionScriptBracket/Brace">()</span>;
+                     <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

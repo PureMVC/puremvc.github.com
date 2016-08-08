@@ -1,0 +1,224 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>TeeSplitTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3/MultiCore Pipes Utility Unit Tests
+ Copyright (c) 2008 Cliff Hall&lt;cliff.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeFitting</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeMessage</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">messages</span>.<span class="ActionScriptDefault_Text">Message</span>;
+    
+     <span class="ActionScriptASDoc">/**
+     * Test the TeeSplit class.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">TeeSplitTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+          
+           <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">TeeSplitTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> 
+         <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> 
+         <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TeeSplitTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testConnectingAndDisconnectingIOPipes&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TeeSplitTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testDisconnectFitting&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TeeSplitTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testReceiveMessagesFromTwoTeeSplitOutputs&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          
+          <span class="ActionScriptASDoc">/**
+           * Test connecting and disconnecting I/O Pipes.
+           * 
+           * &lt;P&gt;
+           * Connect an input and several output pipes to a splitting tee. 
+           * Then disconnect all outputs in LIFO order by calling disconnect 
+           * repeatedly.&lt;/P&gt;
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testConnectingAndDisconnectingIOPipes</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptComment">// create input pipe
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">input1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+
+              <span class="ActionScriptComment">// create output pipes 1, 2, 3 and 4
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe3</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe4</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+
+              <span class="ActionScriptComment">// create splitting tee (args are first two output fittings of tee)
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">teeSplit</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TeeSplit</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TeeSplit</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe1</span>, <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// connect 2 extra outputs for a total of 4
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">connectedExtra1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe3</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">connectedExtra2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe4</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// connect the single input
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">inputConnected</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">input1</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">teeSplit</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe1 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe1</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe2 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe3 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe3</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe4 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe4</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting teeSplit is TeeSplit&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">TeeSplit</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected pipe 3&quot;</span>, <span class="ActionScriptDefault_Text">connectedExtra1</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected pipe 4&quot;</span>, <span class="ActionScriptDefault_Text">connectedExtra2</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test LIFO order of output disconnection
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting disconnected pipe 4&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">disconnect</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">pipe4</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting disconnected pipe 3&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">disconnect</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">pipe3</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting disconnected pipe 2&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">disconnect</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting disconnected pipe 1&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">disconnect</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">pipe1</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Test disconnectFitting method.
+           * 
+           * &lt;P&gt;
+           * Connect several output pipes to a splitting tee. 
+           * Then disconnect specific outputs, making sure that once
+           * a fitting is disconnected using disconnectFitting, that
+           * it isn&apos;t returned when disconnectFitting is called again. 
+           * Finally, make sure that the when a message is sent to 
+           * the tee that the correct number of output messages is
+           * written.
+           * &lt;/P&gt;
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testDisconnectFitting</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptDefault_Text">messagesReceived</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+              
+              <span class="ActionScriptComment">// create input pipe
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">input1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+
+              <span class="ActionScriptComment">// create output pipes 1, 2, 3 and 4
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe3</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe4</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptComment">// setup pipelisteners 
+</span>               <span class="ActionScriptDefault_Text">pipe1</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">pipe2</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">pipe3</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">pipe4</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+ 
+              <span class="ActionScriptComment">// create splitting tee 
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">teeSplit</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TeeSplit</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TeeSplit</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// add outputs
+</span>               <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe1</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe3</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe4</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting teeSplit.disconnectFitting(pipe4) === pipe4&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">disconnectFitting</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">pipe4</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">pipe4</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting teeSplit.disconnectFitting(pipe4) == null&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">disconnectFitting</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">pipe4</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Write a message to the tee 
+</span>            <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">write</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Message</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Message</span>.<span class="ActionScriptDefault_Text">NORMAL</span><span class="ActionScriptBracket/Brace">))</span>;
+            
+            <span class="ActionScriptComment">// test assertions             
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting messagesReceived.length == 3&quot;</span>, <span class="ActionScriptDefault_Text">messagesReceived</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 3<span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          
+          <span class="ActionScriptASDoc">/**
+           * Test receiving messages from two pipes using a TeeMerge.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testReceiveMessagesFromTwoTeeSplitOutputs</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptDefault_Text">messagesReceived</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+              
+            <span class="ActionScriptComment">// create a message to send on pipe 1
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">message</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Message</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Message</span>.<span class="ActionScriptDefault_Text">NORMAL</span>, <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptDefault_Text">testProp</span><span class="ActionScriptOperator">:</span> 1 <span class="ActionScriptBracket/Brace">})</span>;
+              
+              <span class="ActionScriptComment">// create output pipes 1 and 2
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+
+            <span class="ActionScriptComment">// create and connect anonymous listeners
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">connected1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe1</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">connected2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe2</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+           
+              <span class="ActionScriptComment">// create splitting tee (args are first two output fittings of tee)
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">teeSplit</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TeeSplit</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TeeSplit</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">pipe1</span>, <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptComment">// write messages to their respective pipes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">written</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">teeSplit</span>.<span class="ActionScriptDefault_Text">write</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">message</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting message is IPipeMessage&quot;</span>, <span class="ActionScriptDefault_Text">message</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe1 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe1</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe2 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting teeSplit is TeeSplit&quot;</span>, <span class="ActionScriptDefault_Text">teeSplit</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">TeeSplit</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected anonymous listener to pipe 1&quot;</span>, <span class="ActionScriptDefault_Text">connected1</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected anonymous listener to pipe 2&quot;</span>, <span class="ActionScriptDefault_Text">connected2</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting wrote single message to tee&quot;</span>, <span class="ActionScriptDefault_Text">written</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test that both messages were received, then test
+</span>               <span class="ActionScriptComment">// FIFO order by inspecting the messages themselves
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting received 2 messages&quot;</span>, <span class="ActionScriptDefault_Text">messagesReceived</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 2 <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test message 1 assertions 
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">message1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">messagesReceived</span>.<span class="ActionScriptDefault_Text">shift</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IPipeMessage</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting message1 is IPipeMessage&quot;</span>, <span class="ActionScriptDefault_Text">message1</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting message1 === pipe1Message&quot;</span>, <span class="ActionScriptDefault_Text">message1</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">message</span> <span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">// object equality
+</span>
+               <span class="ActionScriptComment">// test message 2 assertions
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">message2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">messagesReceived</span>.<span class="ActionScriptDefault_Text">shift</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IPipeMessage</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting message1 is IPipeMessage&quot;</span>, <span class="ActionScriptDefault_Text">message2</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting message1 === pipe1Message&quot;</span>, <span class="ActionScriptDefault_Text">message2</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">message</span> <span class="ActionScriptBracket/Brace">)</span>; <span class="ActionScriptComment">// object equality
+</span>
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+           
+        <span class="ActionScriptASDoc">/**
+         * Array of received messages.
+         * &lt;P&gt;
+         * Used by &lt;code&gt;callBackMedhod&lt;/code&gt; as a place to store
+         * the recieved messages.&lt;/P&gt;
+         */</span>             
+           <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">messagesReceived</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+           
+           <span class="ActionScriptASDoc">/**
+            * Callback given to &lt;code&gt;PipeListener&lt;/code&gt; for incoming message.
+            * &lt;P&gt;
+            * Used by &lt;code&gt;testReceiveMessageViaPipeListener&lt;/code&gt; 
+            * to get the output of pipe back into this  test to see 
+            * that a message passes through the pipe.&lt;/P&gt;
+            */</span>
+           <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">callBackMethod</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">message</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+           <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">messagesReceived</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">message</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

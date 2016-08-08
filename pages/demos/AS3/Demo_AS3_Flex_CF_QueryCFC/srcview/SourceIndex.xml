@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>QueryCFC Flex/CF Demo</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_2_0_1.swc" url="source/libs/PureMVC_AS3_2_0_1.swc"/>
+		</node>
+		<node label="Services">
+			<node label="cfc">
+				<node label="UserManager.cfc" url="source/Services/cfc/UserManager.cfc.txt"/>
+				<node label="UserVO.cfc" url="source/Services/cfc/UserVO.cfc.txt"/>
+			</node>
+			<node label="mysql">
+				<node label="flexcf.sql" url="source/Services/mysql/flexcf.sql"/>
+			</node>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.flex.cf.querycfc" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cf.querycfc.controller" icon="packageIcon" expanded="true">
+				<node label="AddUserCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/controller/AddUserCommand.as.html"/>
+				<node label="DeleteUserCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/controller/DeleteUserCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/controller/StartupCommand.as.html"/>
+				<node label="UpdateUserCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/controller/UpdateUserCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cf.querycfc.model" icon="packageIcon" expanded="true">
+				<node label="RemoteDelegate.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/model/RemoteDelegate.as.html"/>
+				<node label="RemoteProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/model/RemoteProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cf.querycfc.model.vo" icon="packageIcon" expanded="true">
+				<node label="UserVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/model/vo/UserVO.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cf.querycfc.view" icon="packageIcon" expanded="true">
+				<node label="UserFormMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/view/UserFormMediator.as.html"/>
+				<node label="UserListMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/view/UserListMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cf.querycfc.view.components" icon="packageIcon" expanded="true">
+				<node label="UserForm.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/view/components/UserForm.mxml.html"/>
+				<node label="UserList.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/cf/querycfc/view/components/UserList.mxml.html"/>
+			</node>
+			<node selected="true" label="QueryCFC.mxml" icon="mxmlAppIcon" url="source/QueryCFC.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

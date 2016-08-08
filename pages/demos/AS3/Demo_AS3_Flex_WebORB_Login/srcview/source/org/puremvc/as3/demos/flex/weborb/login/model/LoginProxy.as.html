@@ -1,0 +1,134 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>LoginProxy.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/* 
+ PureMVC Flex/WebORB Demo – Login 
+ Copyright (c) 2007 Jens Krause &lt;jens.krause@puremvc.org&gt; &lt;www.websector.de&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">weborb</span>.<span class="ActionScriptDefault_Text">login</span>.<span class="ActionScriptDefault_Text">model</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">managers</span>.<span class="ActionScriptDefault_Text">CursorManager</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">FaultEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">ResultEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">remoting</span>.<span class="ActionScriptDefault_Text">RemoteObject</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">weborb</span>.<span class="ActionScriptDefault_Text">login</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">LoginVO</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">Proxy</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Proxy for storing users data and sending and retrieving data to/from its remoting service
+     * 
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">LoginProxy</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Proxy</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IProxy</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;loginProxy&apos;</span>;
+        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// Notification name constants
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">LOGIN_FAILED</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;loginFailed&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">LOGIN_SUCCESS</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;loginSucces&quot;</span>;    
+        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// login service                
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_loginService</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">RemoteObject</span>;
+        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// error message
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">faultMessage</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptComment">//
+</span>        <span class="ActionScriptComment">// other part of the model
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_appProxy</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor
+         * 
+         * @param Proxy&apos;s data if necessary
+         */</span>        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">LoginProxy</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">LoginVO</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// A local reference to another part of the model
+</span>            <span class="ActionScriptComment">// Note: Be carefull that the ApplicationProxy has already registered within
+</span>            <span class="ActionScriptComment">// the ModelPrepCommand before
+</span>            <span class="ActionScriptDefault_Text">_appProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>;
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// login service
+</span>            <span class="ActionScriptDefault_Text">_loginService</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">RemoteObject</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">_loginService</span>.<span class="ActionScriptDefault_Text">destination</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;GenericDestination&quot;</span>;
+            <span class="ActionScriptDefault_Text">_loginService</span>.<span class="ActionScriptDefault_Text">source</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;org.puremvc.as3.demos.flex.weborb.login.LoginFacade&quot;</span>;
+            
+            <span class="ActionScriptDefault_Text">_loginService</span>.<span class="ActionScriptDefault_Text">getUser</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ResultEvent</span>.<span class="ActionScriptDefault_Text">RESULT</span>, <span class="ActionScriptDefault_Text">getUserResult</span><span class="ActionScriptBracket/Brace">)</span>; 
+            <span class="ActionScriptDefault_Text">_loginService</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">FaultEvent</span>.<span class="ActionScriptDefault_Text">FAULT</span>, <span class="ActionScriptDefault_Text">getUserFailed</span><span class="ActionScriptBracket/Brace">)</span>;
+    
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Calls the remoting service passing users data
+         * 
+         * @param     users data as LoginVO
+         */</span>            
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getUser</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">LoginVO</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_loginService</span>.<span class="ActionScriptDefault_Text">getUser</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span>;        
+            <span class="ActionScriptDefault_Text">CursorManager</span>.<span class="ActionScriptDefault_Text">setBusyCursor</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Receives the remoting service result users data
+         * 
+         * @param     result event object
+         */</span>            
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getUserResult</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ResultEvent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">CursorManager</span>.<span class="ActionScriptDefault_Text">removeBusyCursor</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// populate its data object using the result
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loginVO</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">LoginVO</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">LoginVO</span>
+            <span class="ActionScriptDefault_Text">loginVO</span>.<span class="ActionScriptDefault_Text">loginDate</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Date</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">setData</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loginVO</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// change the view state
+</span>            <span class="ActionScriptDefault_Text">_appProxy</span>.<span class="ActionScriptDefault_Text">viewState</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGGED_IN_STATE</span>;
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// notify all interested members
+</span>            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LoginProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_SUCCESS</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Receives the remoting service fault event
+         * 
+         * @param     fault event object
+         */</span>    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getUserFailed</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">FaultEvent</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">faultMessage</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">fault</span>.<span class="ActionScriptDefault_Text">faultString</span>;
+            <span class="ActionScriptDefault_Text">CursorManager</span>.<span class="ActionScriptDefault_Text">removeBusyCursor</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// change the view state    
+</span>            <span class="ActionScriptDefault_Text">_appProxy</span>.<span class="ActionScriptDefault_Text">viewState</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_ERROR_STATE</span>;    
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// notify all interested members            
+</span>            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LoginProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_FAILED</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Getter for its data object casted as LoginVO
+         * 
+         * @return     LoginVO
+         */</span>            
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">loginVO</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">LoginVO</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">LoginVO</span>;
+        <span class="ActionScriptBracket/Brace">}</span>                
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

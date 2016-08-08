@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_pure_m_v_c_1_1_patterns_1_1_notifier.html" title="PureMVC::Patterns::Notifier" alt="" coords="7,112,188,141"/>
+<area shape="rect" id="node3" href="$class_pure_m_v_c_1_1_patterns_1_1_facade.html" title="PureMVC::Patterns::Facade" alt="" coords="265,5,452,35"/>
+<area shape="rect" id="node5" href="$class_pure_m_v_c_1_1_patterns_1_1_macro_command.html" title="PureMVC::Patterns::MacroCommand" alt="" coords="240,59,477,88"/>
+<area shape="rect" id="node7" href="$class_pure_m_v_c_1_1_patterns_1_1_mediator.html" title="PureMVC::Patterns::Mediator" alt="" coords="263,112,455,141"/>
+<area shape="rect" id="node9" href="$class_pure_m_v_c_1_1_patterns_1_1_proxy.html" title="PureMVC::Patterns::Proxy" alt="" coords="271,165,447,195"/>
+<area shape="rect" id="node11" href="$class_pure_m_v_c_1_1_patterns_1_1_simple_command.html" title="PureMVC::Patterns::SimpleCommand" alt="" coords="237,219,480,248"/>
+</map>

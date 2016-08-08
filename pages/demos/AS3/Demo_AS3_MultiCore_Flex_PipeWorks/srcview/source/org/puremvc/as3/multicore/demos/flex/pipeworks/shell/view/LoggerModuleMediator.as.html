@@ -1,0 +1,102 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>LoggerModuleMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 MultiCore Demo – Flex PipeWorks 
+ Copyright (c) 2008 Cliff Hall &lt;cliff.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">shell</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">common</span>.<span class="ActionScriptDefault_Text">PipeAwareModule</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">modules</span>.<span class="ActionScriptDefault_Text">LoggerModule</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">shell</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeAware</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeFitting</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>.<span class="ActionScriptDefault_Text">Junction</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>.<span class="ActionScriptDefault_Text">Pipe</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>.<span class="ActionScriptDefault_Text">TeeMerge</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * Mediator for the LoggerModule.
+     * &lt;P&gt;
+     * Instantiates and manages the LoggerModule for the application.&lt;/P&gt;
+     * &lt;P&gt;
+     * Listens for Notifications to connect things to the 
+     * LoggerModule, which implements IPipeAware, an interface that
+     * requires methods for accepting input and output pipes.&lt;/P&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">LoggerModuleMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;LoggerModuleMediator&apos;</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">LoggerModuleMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">LoggerModule</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * LoggerModule related Notification list.
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CONNECT_MODULE_TO_LOGGER</span>,
+                     <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CONNECT_SHELL_TO_LOGGER</span> 
+                   <span class="ActionScriptBracket/Brace">]</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Handle LoggerModule related Notifications.
+         * &lt;P&gt;
+         * Connecting modules and the Shell to the LoggerModule.
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Connect any Module&apos;s STDLOG to the logger&apos;s STDIN
+</span>                <span class="ActionScriptReserved">case</span>  <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CONNECT_MODULE_TO_LOGGER</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">module</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeAware</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IPipeAware</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptDefault_Text">module</span>.<span class="ActionScriptDefault_Text">acceptOutputPipe</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDLOG</span>,<span class="ActionScriptDefault_Text">pipe</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">logger</span>.<span class="ActionScriptDefault_Text">acceptInputPipe</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDIN</span>,<span class="ActionScriptDefault_Text">pipe</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptComment">// Bidirectionally connect shell and logger on STDLOG/STDSHELL
+</span>                <span class="ActionScriptReserved">case</span>  <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CONNECT_SHELL_TO_LOGGER</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptComment">// The junction was passed from ShellJunctionMediator
+</span>                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">junction</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Junction</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Junction</span>;
+                    
+                    <span class="ActionScriptComment">// Connect the shell&apos;s STDLOG to the logger&apos;s STDIN
+</span>                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">shellToLog</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">junction</span>.<span class="ActionScriptDefault_Text">retrievePipe</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDLOG</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">logger</span>.<span class="ActionScriptDefault_Text">acceptInputPipe</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDIN</span>, <span class="ActionScriptDefault_Text">shellToLog</span><span class="ActionScriptBracket/Brace">)</span>;
+                    
+                    <span class="ActionScriptComment">// Connect the logger&apos;s STDSHELL to the shell&apos;s STDIN
+</span>                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">logToShell</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">shellIn</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TeeMerge</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">junction</span>.<span class="ActionScriptDefault_Text">retrievePipe</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDIN</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">TeeMerge</span>;
+                    <span class="ActionScriptDefault_Text">shellIn</span>.<span class="ActionScriptDefault_Text">connectInput</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">logToShell</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">logger</span>.<span class="ActionScriptDefault_Text">acceptOutputPipe</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDSHELL</span>,<span class="ActionScriptDefault_Text">logToShell</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * The Logger Module.
+         */</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">logger</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">LoggerModule</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">LoggerModule</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+    
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

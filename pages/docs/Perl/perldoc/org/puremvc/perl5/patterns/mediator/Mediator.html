@@ -1,0 +1,259 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Mediator</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::patterns::mediator::Mediator</code></p>
+<p><strong>inherits:</strong></p>
+<ul>
+<li>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+</li>
+</ul>
+<p>Base pureMVC <code>Mediator</code> concept implementation.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>A concrete <code>Mediator</code> implementor usually looks something like this:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">com::me::myapp::mediators::AMediator</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span> <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">org::puremvc::perl5::patterns::mediator::Mediator</span><span class="operator">;</span>
+  <span class="keyword">our</span> <span class="variable">@ISA</span> <span class="operator">=</span> <span class="string">qw( org::puremvc::perl5::patterns::mediator::Mediator )</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> listNotificationInterests </span><span class="operator">{</span>
+    <span class="keyword">return</span> <span class="operator">[</span><span class="string">"ANotification"</span><span class="operator">]</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> handleNotification </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$self</span><span class="operator">,</span> <span class="variable">$note</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+  
+    <span class="keyword">my</span> <span class="variable">$note_name</span> <span class="operator">=</span> <span class="variable">$note</span><span class="operator">-&gt;</span><span class="variable">getName</span><span class="operator">();</span>
+  
+    <span class="keyword">return</span> <span class="keyword">unless</span> <span class="variable">$note_name</span> <span class="keyword">eq</span> <span class="string">"ANotification"</span><span class="operator">;</span>
+  
+    <span class="keyword">print</span> <span class="string">"AMediator reacted to notification ANotification\n"</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> onRegister </span><span class="operator">{</span>
+    <span class="keyword">print</span> <span class="string">"AMediator registered\n"</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> onRemove </span><span class="operator">{</span>
+    <span class="keyword">print</span> <span class="string">"AMediator removed\n"</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, <code>Mediator</code> implementors assume these responsibilities:</p>
+<ul>
+<li>
+<p>Implement a common method which returns a list of all <a href="../observer/Notification.html">notifications</a> the <code>Mediator</code> has interest in.</p>
+</li>
+<li>
+<p>Implement a <a href="../observer/Notification.html">notification</a> callback method.</p>
+</li>
+<li>
+<p>Implement methods that are called when the <code>Mediator</code> is registered or removed from the View.</p>
+</li>
+</ul>
+<p>Additionally, mediators typically:</p>
+<ul>
+<li>
+<p>Act as an intermediary between one or more view components ( typically server scripts, external to your application).</p>
+</li>
+<li>
+<p>In server environments where event concept is implemented, this is often the place where event listeners are added to view components, and their handlers implemented.</p>
+</li>
+<li>
+<p>Respond to and generate <a href="../observer/Notification.html">notifications</a>, interacting with of the rest of the PureMVC application.</p>
+</li>
+</ul>
+<p>When a <code>Mediator</code> is registered with the <code>View</code>, the <code>View</code> will call the <code>Mediator</code>'s <a href="#listnotificationinterests"><code>listNotificationInterests</code></a> method. The <code>Mediator</code> will return an array of <a href="../observer/Notification.html">notification</a> names which it wishes to be notified about.</p>
+<p>The <code>View</code> will then create an <a href="../observer/Observer.html">Observer</a> object encapsulating that <code>Mediator</code>'s (<a href="#handlenotification"><code>handleNotification</code></a>) method and register it as an <a href="../observer/Observer.html">observer</a> for each <a href="../observer/Notification.html">notification</a> name returned by <a href="#listnotificationinterests"><code>listNotificationInterests</code></a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong></dt>
+
+<dd>
+<p><a href="#new"><code>sub new( $mediator_name, $view_component );</code></a></p>
+<p>It is common to define a default name for your <code>Mediator</code> class implementation by mean of a constant:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">constant</span> <span class="string">NAME</span> <span class="operator">=&gt;</span> <span class="string">"com::me::myapp::mediators::AMediator"</span><span class="operator">;</span>
+</pre>
+<p>To register an instance of your <code>Mediator</code> class you can then do so:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::mediators::AMediator</span><span class="operator">;</span>
+  
+  <span class="keyword">my</span> <span class="variable">$facade</span> <span class="operator">=</span> <span class="variable">org::puremvc::perl5::patterns::facade::Facade</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">();</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$mediator</span> <span class="operator">=</span> <span class="variable">com::me::myapp::mediators::AMediator</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="variable">com::me::myapp::mediators::AMediator::NAME</span> <span class="operator">);</span>
+  <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">registerMediator</span><span class="operator">(</span><span class="variable">$mediator</span><span class="operator">);</span>
+</pre>
+<p>It is possible to register several instances of the same <code>Mediator</code> class. You must then give different names to each instance registration in order to fully qualify them in your application:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::mediators::AMediator</span><span class="operator">;</span>
+  
+  <span class="keyword">my</span> <span class="variable">$facade</span> <span class="operator">=</span> <span class="variable">org::puremvc::perl5::patterns::facade::Facade</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">();</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$mediator</span> <span class="operator">=</span> <span class="variable">com::me::myapp::mediators::AMediator</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="variable">com::me::myapp::mediators::AMediator::NAME</span> <span class="operator">);</span>
+  <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">registerMediator</span><span class="operator">(</span><span class="variable">$mediator</span><span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$other_mediator</span> <span class="operator">=</span> <span class="variable">com::me::myapp::mediators::AMediator</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">"SOME_OTHER_NAME"</span> <span class="operator">);</span>
+  <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">registerMediator</span><span class="operator">(</span><span class="variable">$other_mediator</span><span class="operator">);</span>
+</pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code> : name by which any retrieval, removal, or existence checking will be achieved in your application.</p>
+</li>
+<li>
+<p><code>$view_component - *</code> : object instance representing an external component handled by your <code>Mediator</code> - Optional.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getmediatorname" class="item">getMediatorName</a></strong></dt>
+
+<dd>
+<p><a href="#getmediatorname"><code>sub getMediatorName();</code></a></p>
+<p>Returns the name by which a <code>Mediator</code> was registered with the <code>View</code>.</p>
+<p><strong>Returns</strong></p>
+<p><code>String</code> - The name by which a <code>Mediator</code> was registered with the <code>View</code>.</p>
+</dd>
+<dt><strong><a name="getviewcomponent" class="item">getViewComponent</a></strong></dt>
+
+<dd>
+<p><a href="#getviewcomponent"><code>sub getViewComponent();</code></a></p>
+<p>Returns the <code>Mediator's</code> view component.</p>
+<p><strong>Returns</strong></p>
+<p><code>*</code> - The view component.</p>
+</dd>
+<dt><strong><a name="setviewcomponent" class="item">setViewComponent</a></strong></dt>
+
+<dd>
+<p><a href="#setviewcomponent"><code>sub setViewComponent( $view_component );</code></a></p>
+<p>Sets the <code>Mediator's</code> view component.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$view_component - *</code></p>
+<p>Any object representing the view component.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="listnotificationinterests" class="item">listNotificationInterests</a></strong></dt>
+
+<dd>
+<p><a href="#listnotificationinterests"><code>sub listNotificationInterests();</code></a></p>
+<p>Returns an array reference holding the <a href="../observer/Notification.html">notification</a> names the <code>Mediator</code> is interested in being notified of.</p>
+<p>When your application will dispatch a <a href="../observer/Notification.html">notification</a> whose name matches one of those in the array, the <a href="#handlenotification"><code>handleNotification</code></a> method of the <code>Mediator</code> will be automatically called.</p>
+<p><strong>Returns</strong></p>
+<p><code>\ARRAY</code> - The reference on the array holding the <a href="../observer/Notification.html">notifications'</a> name.</p>
+</dd>
+<dt><strong><a name="handlenotification" class="item">handleNotification</a></strong></dt>
+
+<dd>
+<p><a href="#handlenotification"><code>sub handleNotification( $notification );</code></a></p>
+<p>This method is automatically called by the <a href="../../core/View.html">view</a> if <code>$notification</code>'s name is one of those returned by <a href="#listnotificationinterests"><code>listNotificationInterests</code></a> method.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification - org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>The <a href="../observer/Notification.html">notification</a> to handle.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="onregister" class="item">onRegister</a></strong></dt>
+
+<dd>
+<p><a href="#onregister"><code>sub onRegister();</code></a></p>
+<p>Called by the <a href="../../core/View.html">view</a> when the <code>Mediator</code> is registered.</p>
+</dd>
+<dt><strong><a name="onremove" class="item">onRemove</a></strong></dt>
+
+<dd>
+<p><a href="#onremove"><code>sub onRemove();</code></a></p>
+<p>Called by the <a href="../../core/View.html">view</a> when the <code>Mediator</code> is removed.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../core/Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="../../core/View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../../core/Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

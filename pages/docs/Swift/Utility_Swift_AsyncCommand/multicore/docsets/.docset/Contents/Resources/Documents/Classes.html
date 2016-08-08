@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Classes  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a title="Classes  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/PureMVC/puremvc-swift-util-asynccommand/multicore"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Classes  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+          <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/AsyncCommand.html">AsyncCommand</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/AsyncMacroCommand.html">AsyncMacroCommand</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/IAsyncCommand.html">IAsyncCommand</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Classes</h1>
+            <p>The following classes are available globally.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C12AsyncCommand12AsyncCommand"></a>
+                    <a name="//apple_ref/swift/Class/AsyncCommand" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C12AsyncCommand12AsyncCommand">AsyncCommand</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A base <code>IAsyncCommand</code> implementation.</p>
+
+<p>Your subclass should override the <code>execute</code>
+method where your business logic will handle the <code>INotification</code>. </p>
+
+<p><code>@see org.puremvc.swift.multicore.utilities.asynccommand.patterns.command.AsyncMacroCommand AsyncMacroCommand</code></p>
+
+                        <a href="Classes/AsyncCommand.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AsyncCommand</span><span class="p">:</span> <span class="kt">SimpleCommand</span><span class="p">,</span> <span class="kt">IAsyncCommand</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C12AsyncCommand17AsyncMacroCommand"></a>
+                    <a name="//apple_ref/swift/Class/AsyncMacroCommand" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C12AsyncCommand17AsyncMacroCommand">AsyncMacroCommand</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A base <code>ICommand</code> implementation that executes other
+<code>ICommand</code>s asynchronously.</p>
+
+<p>An <code>AsyncMacroCommand</code> maintains a list of
+closures returning <code>ICommand</code> references called <em>SubCommands</em>.</p>
+
+<p>When <code>execute</code> is called, the <code>AsyncMacroCommand</code>
+caches a reference to the <code>INotification</code> and calls
+<code>nextCommand</code>.</p>
+
+<p>If there are still <em>SubCommands&rsquo;s to be executed,
+the <code>nextCommand</code> method instantiates and calls <code>execute</code>
+on each of its *SubCommands</em> in turn. Each <em>SubCommand</em> will be passed
+a reference to the original <code>INotification</code> that was passed to the
+<code>AsyncMacroCommand</code>&rsquo;s <code>execute</code> method. If the
+<em>SubCommand</em> to execute is an <code>IAsyncCommand</code>, the
+next <em>SubCommand</em> will not be executed until the previous
+<code>IAsyncCommand</code> has called its <em>commandComplete</em> method.</p>
+
+<p>Unlike <code>AsyncCommand</code> and <code>SimpleCommand</code>, your subclass
+should not override <code>execute</code>, but instead, should
+override the <code>initializeAsyncMacroCommand</code> method,
+calling <code>addSubCommand</code> once for each <em>SubCommand</em>
+to be executed.</p>
+
+<p><code>@see org.puremvc.as3.multicore.patterns.command.AsyncCommand AsyncCommand</code></p>
+
+                        <a href="Classes/AsyncMacroCommand.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AsyncMacroCommand</span><span class="p">:</span> <span class="kt">Notifier</span><span class="p">,</span> <span class="kt">IAsyncCommand</span><span class="p">,</span> <span class="kt">INotifier</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-05-12)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

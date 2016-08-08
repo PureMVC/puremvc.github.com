@@ -1,0 +1,186 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC State Machine - State</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::utilities::statemachine::State</code></p>
+<p>Defines a state in a PureMVC application.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>A finite state machine <code>State</code> object.</p>
+<ul>
+<li>
+<p>is identified by its name.</p>
+</li>
+<li>
+<p>Optionally defines PureMVC <code>Notification</code> names to be sent by the <a href="StateMachine.html">StateMachine</a> when</p>
+<ul>
+<li>
+<p>the <a href="StateMachine.html">StateMachine</a> current state is changed to this one.</p>
+</li>
+<li>
+<p>the <a href="StateMachine.html">StateMachine</a> current state is this one and is about to enter it.</p>
+</li>
+<li>
+<p>the <a href="StateMachine.html">StateMachine</a> current state is this one and is about to exit it.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Optionally defines transitions to other states (target states) for a given action.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong></dt>
+
+<dd>
+<p><a href="#new"><code>sub new( $name, $entering, $exiting, $changed );</code></a></p>
+<p>Contructor.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$name - String</code></p>
+<p>Name identifing the <code>State</code>.</p>
+</li>
+<li>
+<p><code>$entering - String</code></p>
+<p>PureMVC <code>Notification</code> name to be sent by the <a href="StateMachine.html">StateMachine</a> when the <a href="StateMachine.html">StateMachine</a> current state is this one and is about to enter it.</p>
+</li>
+<li>
+<p><code>$exiting - String</code></p>
+<p>PureMVC <code>Notification</code> name to be sent by the <a href="StateMachine.html">StateMachine</a> when the <a href="StateMachine.html">StateMachine</a> current state is this one and is about to exit it.</p>
+</li>
+<li>
+<p><code>$changed - String</code></p>
+<p>PureMVC <code>Notification</code> name to be sent by the <a href="StateMachine.html">StateMachine</a> when the <a href="StateMachine.html">StateMachine</a> current state is changed to this one.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="definetrans" class="item">defineTrans</a></strong></dt>
+
+<dd>
+<p><a href="#definetrans"><code>sub defineTrans( $action, $target );</code></a></p>
+<p>Defines a transition to a target state base on an action.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$action - String</code></p>
+<p>The name of the StateMachine.ACTION <code>Notification</code> type.</p>
+</li>
+<li>
+<p><code>$target - String</code></p>
+<p>The name of the target state to transition to.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="gettarget" class="item">getTarget</a></strong></dt>
+
+<dd>
+<p><a href="#gettarget"><code>sub getTarget( $action );</code></a></p>
+<p>Get the target state name for a given action.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$action - String</code></p>
+<p>The name of the StateMachine.ACTION <code>Notification</code> type.</p>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - Name of the target state for action <code>$action</code> if one exists, <code>undef</code> otherwise.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="removetrans" class="item">removeTrans</a></strong></dt>
+
+<dd>
+<p><a href="#removetrans"><code>sub removeTrans( $action );</code></a></p>
+<p>Remove the transition identified by <code>$action</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$action - String</code></p>
+<p>The name of the StateMachine.ACTION <code>Notification</code> type identifying transtion to be removed.</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="changed" class="item">changed</a></strong></dt>
+
+<dd>
+<p>See <a href="#new"><code>new</code></a> constructor method.</p>
+</dd>
+<dt><strong><a name="entering" class="item">entering</a></strong></dt>
+
+<dd>
+<p>See <a href="#new"><code>new</code></a> constructor method.</p>
+</dd>
+<dt><strong><a name="exiting" class="item">exiting</a></strong></dt>
+
+<dd>
+<p>See <a href="#new"><code>new</code></a> constructor method.</p>
+</dd>
+<dt><strong><a name="name" class="item">name</a></strong></dt>
+
+<dd>
+<p>See <a href="#new"><code>new</code></a> constructor method.</p>
+</dd>
+<dt><strong><a name="transitions" class="item">transitions</a></strong></dt>
+
+<dd>
+<p>Transition map of actions to target states.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="FSMInjector.html">org::puremvc::perl5::utilities::statemachine::FSMInjector</a></p>
+<p><a href="StateMachine.html">org::puremvc::perl5::utilities::statemachine::StateMachine</a></p>
+
+</body>
+
+</html>

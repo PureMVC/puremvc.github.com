@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>PureMVC/AS3 2.0.4 - Standard Version</title>
+	<nodes>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.core" icon="packageIcon" expanded="true">
+				<node label="Controller.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/Controller.as.html"/>
+				<node label="Model.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/Model.as.html"/>
+				<node label="View.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/View.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.interfaces" icon="packageIcon" expanded="true">
+				<node label="ICommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/ICommand.as.html"/>
+				<node label="IController.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IController.as.html"/>
+				<node label="IFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IFacade.as.html"/>
+				<node label="IMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IMediator.as.html"/>
+				<node label="IModel.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IModel.as.html"/>
+				<node label="INotification.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/INotification.as.html"/>
+				<node label="INotifier.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/INotifier.as.html"/>
+				<node label="IObserver.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IObserver.as.html"/>
+				<node label="IProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IProxy.as.html"/>
+				<node label="IView.as" icon="actionScriptIcon" url="source/org/puremvc/as3/interfaces/IView.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.command" icon="packageIcon" expanded="true">
+				<node label="MacroCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/MacroCommand.as.html"/>
+				<node label="SimpleCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/SimpleCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.facade" icon="packageIcon" expanded="true">
+				<node label="Facade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/facade/Facade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.mediator" icon="packageIcon" expanded="true">
+				<node label="Mediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/mediator/Mediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.observer" icon="packageIcon" expanded="true">
+				<node label="Notification.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/observer/Notification.as.html"/>
+				<node label="Notifier.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/observer/Notifier.as.html"/>
+				<node label="Observer.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/observer/Observer.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.proxy" icon="packageIcon" expanded="true">
+				<node label="Proxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/proxy/Proxy.as.html"/>
+			</node>
+			<node label="puremvc-manifest.xml" url="source/puremvc-manifest.xml.txt"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

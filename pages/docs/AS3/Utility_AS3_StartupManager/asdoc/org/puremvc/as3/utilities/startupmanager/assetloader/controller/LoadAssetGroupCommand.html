@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../../../../print.css" type="text/css" media="print">
+<meta content="LoadAssetGroupCommand,org.puremvc.as3.utilities.startupmanager.assetloader.controller.LoadAssetGroupCommand,INSTRUCTIONS_NOT_SUFFICIENT_MSG,PROXY_NAME_EXISTS_MSG,STARTUP_MANAGER_BUSY_MSG,execute,prepAssetGroupForLoad,startLoading" name="keywords">
+<title>org.puremvc.as3.utilities.startupmanager.assetloader.controller.LoadAssetGroupCommand</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'LoadAssetGroupCommand - API Documentation';
+				var baseRef = '../../../../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../../../../all-classes.html')" href="../../../../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../../../all-classes.html')" href="../../../../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../../../index-list.html')" href="../../../../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../../../../index.html?org/puremvc/as3/utilities/startupmanager/assetloader/controller/LoadAssetGroupCommand.html&amp;org/puremvc/as3/utilities/startupmanager/assetloader/controller/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;LoadAssetGroupCommand</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class LoadAssetGroupCommand"); titleBar_setSubNav(true,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.puremvc.as3.utilities.startupmanager.assetloader.controller</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class LoadAssetGroupCommand</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">LoadAssetGroupCommand <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../../../../images/inherit-arrow.gif"> org.puremvc.as3.patterns.command.SimpleCommand</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td>org.puremvc.as3.interfaces.ICommand</td>
+</tr>
+</table>
+<p></p>
+      This command provides a convenient way for a client app to use the StartupManager's asset 
+      loader feature.  If it is not used, then the app must include an equivalent process.  See 
+      the StartupForAssets demo for an example use of this command.  It is useful to think of
+      the assetloader classes as being a client of the StartupManager core, even though they are
+      contained within the utilty.
+      <p>
+      We choose to load this group of assets as a new use of the StartupManager (SM), 
+      hence we have to reset() it since it might have been used already, say for a 
+      different group of assets or whatever.  We use the groupId as the SM jobId for the
+      duration of the loading process. 
+      <p>
+      Another approach might be to use the 'keep resource list open' feature and retain 
+      the SM state across groups.</p>
+      <p>
+      Notification body is the loading instructions; it must be a LoadAssetGroupInstructions object.
+      Instructions must include the group id and the group of urls as an array of url strings.
+      Instructions can also include a specification of retry parameters, if the SM default is to
+      be overriden - see StartupMonitorProxy. The retry parameters apply per asset.  The instructions
+      can also specify a loading progress interval, to dictate the frequency of progress reporting, 
+      if the default is to be overriden - see AssetGroupProxy.</p>
+      <p>
+      As regards retry parameters, note that the StartupAsOrdered demo offers interactive
+      experience with them.</p>
+      <p>
+      We register each asset with the StartupManager (SM) using addResourceViaStartupProxy()
+      - this is a nice shortcut but it requires that the SM will create the corresponding 
+      StartupResourceProxy object internally and assumes that we don't need access to that 
+      object, or at least we don't need easy access to it i.e. we don't have a local reference
+      to it and we haven't specified its proxy name.</p>
+     <p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#execute()">execute</a>(note:INotification):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadAssetGroupCommand</td>
+</tr>
+</table>
+</div>
+<a name="protectedMethodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Methods</div>
+<table id="summaryTableProtectedMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#prepAssetGroupForLoad()">prepAssetGroupForLoad</a>(instructions:<a href="LoadAssetGroupInstructions.html">LoadAssetGroupInstructions</a>):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadAssetGroupCommand</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#startLoading()">startLoading</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadAssetGroupCommand</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a><a name="protectedConstantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Constants</div>
+<table id="summaryTableProtectedConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#INSTRUCTIONS_NOT_SUFFICIENT_MSG">INSTRUCTIONS_NOT_SUFFICIENT_MSG</a> : String = "LoadAssetGroupCommand, instructions are not sufficient, cannot proceed"<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadAssetGroupCommand</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#PROXY_NAME_EXISTS_MSG">PROXY_NAME_EXISTS_MSG</a> : String = "LoadAssetGroupCommand, proxy name already exists, cannot proceed, name="<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadAssetGroupCommand</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#STARTUP_MANAGER_BUSY_MSG">STARTUP_MANAGER_BUSY_MSG</a> : String = "LoadAssetGroupCommand, StartupManager is busy, cannot proceed"<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadAssetGroupCommand</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="execute()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">execute</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function execute(note:INotification):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">note</span>:INotification</code></td>
+</tr>
+</table>
+</div>
+<a name="prepAssetGroupForLoad()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">prepAssetGroupForLoad</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function prepAssetGroupForLoad(instructions:<a href="LoadAssetGroupInstructions.html">LoadAssetGroupInstructions</a>):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instructions</span>:<a href="LoadAssetGroupInstructions.html">LoadAssetGroupInstructions</a></code></td>
+</tr>
+</table>
+</div>
+<a name="startLoading()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">startLoading</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function startLoading():void</code>
+</div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="INSTRUCTIONS_NOT_SUFFICIENT_MSG"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">INSTRUCTIONS_NOT_SUFFICIENT_MSG</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected const INSTRUCTIONS_NOT_SUFFICIENT_MSG:String = "LoadAssetGroupCommand, instructions are not sufficient, cannot proceed"</code>
+</div>
+<a name="PROXY_NAME_EXISTS_MSG"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">PROXY_NAME_EXISTS_MSG</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected const PROXY_NAME_EXISTS_MSG:String = "LoadAssetGroupCommand, proxy name already exists, cannot proceed, name="</code>
+</div>
+<a name="STARTUP_MANAGER_BUSY_MSG"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">STARTUP_MANAGER_BUSY_MSG</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected const STARTUP_MANAGER_BUSY_MSG:String = "LoadAssetGroupCommand, StartupManager is busy, cannot proceed"</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

@@ -1,0 +1,121 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>EmployeeLoginMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex CafeTownsend
+ Copyright (c) 2007-08 Michael Ramirez &lt;michael.ramirez@puremvc.org&gt;
+ Parts Copyright (c) 2005-07 Adobe Systems, Inc. 
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">controls</span>.<span class="ActionScriptDefault_Text">Alert</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Event</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">UserProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">components</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Mediator for interacting with the EmployeeLogin component.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">EmployeeLoginMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// Cannonical name of the Mediator
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;EmployeeLoginMediator&quot;</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">EmployeeLoginMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// pass the viewComponent to the superclass where 
+</span>            <span class="ActionScriptComment">// it will be stored in the inherited viewComponent property
+</span>            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">userProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">UserProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">UserProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptDefault_Text">employeeLogin</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">EmployeeLogin</span>.<span class="ActionScriptDefault_Text">APP_LOGIN</span>, <span class="ActionScriptDefault_Text">login</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * List all notifications this Mediator is interested in.
+         * &lt;P&gt;
+         * Automatically called by the framework when the mediator
+         * is registered with the view.&lt;/P&gt;
+         * 
+         * @return Array the list of Nofitication names
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">APP_LOGOUT</span> <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Handle all notifications this Mediator is interested in.
+         * &lt;P&gt;
+         * Called by the framework when a notification is sent that
+         * this mediator expressed an interest in when registered
+         * (see &lt;code&gt;listNotificationInterests&lt;/code&gt;.&lt;/P&gt;
+         * 
+         * @param INotification a notification 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">APP_LOGOUT</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">employeeLogin</span>.<span class="ActionScriptDefault_Text">resetLogin</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+                    
+        <span class="ActionScriptASDoc">/**
+         * Cast the viewComponent to its actual type.
+         * 
+         * &lt;P&gt;
+         * This is a useful idiom for mediators. The
+         * PureMVC Mediator class defines a viewComponent
+         * property of type Object. &lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * Here, we cast the generic viewComponent to 
+         * its actual type in a protected mode. This 
+         * retains encapsulation, while allowing the instance
+         * (and subclassed instance) access to a 
+         * strongly typed reference with a meaningful
+         * name.&lt;/P&gt;
+         * 
+         * @return EmployeeLogin the viewComponent cast to EmployeeLogin
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">employeeLogin</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">EmployeeLogin</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">EmployeeLogin</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">login</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">isValid</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">userProxy</span>.<span class="ActionScriptDefault_Text">validate</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">employeeLogin</span>.<span class="ActionScriptDefault_Text">username</span>.<span class="ActionScriptDefault_Text">text</span>,<span class="ActionScriptDefault_Text">employeeLogin</span>.<span class="ActionScriptDefault_Text">password</span>.<span class="ActionScriptDefault_Text">text</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">isValid</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">VIEW_EMPLOYEE_LIST</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">else</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// if the auth info was incorrect, prompt with an alert box and remain on the login screen
+</span>                <span class="ActionScriptDefault_Text">Alert</span>.<span class="ActionScriptDefault_Text">show</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Invaild username and/or password. Please try again.&quot;</span>,<span class="ActionScriptString">&quot;Login Failed&quot;</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">userProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">UserProxy</span>;
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

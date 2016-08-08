@@ -1,0 +1,60 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.interfaces.IObserver - PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.interfaces" rel="up"/><link href="../../../../org/puremvc/as2/interfaces/IView.html" title="Interface org.puremvc.as2.interfaces.IView" rel="prev"/><link href="../../../../org/puremvc/as2/interfaces/INotification.html" title="Interface org.puremvc.as2.interfaces.INotification" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Interface org.puremvc.as2.interfaces.IObserver</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.interfaces.IObserver</strong></li></ul></div><div class="type_description"><h2>Description</h2><p>
+ The interface definition for a PureMVC Observer.
+
+ <P>
+ In PureMVC, <code>IObserver</code> implementors assume these responsibilities:
+ <UL>
+ <LI>Encapsulate the notification (callback) method of the interested object.</LI>
+ <LI>Encapsulate the notification context (this) of the interested object.</LI>
+ <LI>Provide methods for setting the interested object' notification method and context.</LI>
+ <LI>Provide a method for notifying the interested object.</LI>
+ </UL>
+ 
+ <P>
+ PureMVC does not rely upon underlying event
+ models such as the one provided with Flash,
+ and ActionScript 3 does not have an inherent
+ event model.</P>
+ 
+ <P>
+ The Observer Pattern as implemented within
+ PureMVC exists to support event driven communication
+ between the application and the actors of the
+ MVC triad.</P>
+ 
+ <P> 
+ An Observer is an object that encapsulates information
+ about an interested object with a notification method that
+ should be called when an </code>INotification</code> is broadcast. The Observer then
+ acts as a proxy for notifying the interested object.
+ 
+ <P>
+ Observers can receive <code>Notification</code>s by having their
+ <code>notifyObserver</code> method invoked, passing
+ in an object implementing the <code>INotification</code> interface, such
+ as a subclass of <code>Notification</code>.</P>
+ 
+ </p><h4>See Also</h4><ul class="extra_info"><li><a href="../../../../org/puremvc/as2/interfaces/IView.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IView">IView</a></li><li><a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a></li></ul></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><a href="#compareNotifyContext" title="function compareNotifyContext(object:Object):Boolean">compareNotifyContext()</a>, <a href="#notifyObserver" title="function notifyObserver(notification:INotification):Void">notifyObserver()</a>, <a href="#setNotifyContext" title="function setNotifyContext(notifyContext:Object):Void">setNotifyContext()</a>, <a href="#setNotifyMethod" title="function setNotifyMethod(notifyMethod:Function):Void">setNotifyMethod()</a></div></div><div class="type_details"><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="setNotifyMethod"></a><h3>setNotifyMethod</h3><code class="method_synopsis">function <strong class="method_name">setNotifyMethod</strong>(notifyMethod:<span class="unresolved_type_name">Function</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Set the notification method.
+ 
+ <P>
+ The notification method should take one parameter of type <code>INotification</code></P>
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notifyMethod</code></td><td>the notification (callback) method of the interested object
+	 </td></tr></table></div></div><div class="method_details"><a name="setNotifyContext"></a><h3>setNotifyContext</h3><code class="method_synopsis">function <strong class="method_name">setNotifyContext</strong>(notifyContext:<span class="unresolved_type_name">Object</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Set the notification context.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notifyContext</code></td><td>the notification context (this) of the interested object
+	 </td></tr></table></div></div><div class="method_details alt_row"><a name="notifyObserver"></a><h3>notifyObserver</h3><code class="method_synopsis">function <strong class="method_name">notifyObserver</strong>(notification:<a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Notify the interested object.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notification</code></td><td>the <code>INotification</code> to pass to the interested object's notification method
+	 </td></tr></table></div></div><div class="method_details"><a name="compareNotifyContext"></a><h3>compareNotifyContext</h3><code class="method_synopsis">function <strong class="method_name">compareNotifyContext</strong>(object:<span class="unresolved_type_name">Object</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Compare the given object to the notificaiton context object.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>object</code></td><td>the object to compare.
+ </td></tr></table><h4>Return</h4><p class="extra_info"> boolean indicating if the notification context and the object are the same.
+	 </p></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.interfaces" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="IObserver.as.html" title="Source code of org.puremvc.as2.interfaces.IObserver" class="button">Source</a></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

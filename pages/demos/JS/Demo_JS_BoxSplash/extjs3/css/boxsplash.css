@@ -1,0 +1,58 @@
+/* 
+    Document   : boxsplash
+    Created on : Feb 4, 2010, 9:16:23 PM
+    Author     : Justin
+    Description:
+        Purpose of the stylesheet follows.
+*/
+root { 
+    display: block;
+}
+body{
+    background: #000;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: .75em;
+}
+#shell {
+    padding-top: 25px;
+    margin: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 1000px;
+    height: 100%;
+}
+#control-panel{
+    float: left;
+    position: relative;
+    width: 200px;
+    height: 700px;
+    background: #222;
+    color: #fff;
+}
+#world-space{
+    overflow: hidden;
+    float: right;
+    position: relative;
+    border: 1px solid #fff;
+    width: 775px;
+    height: 700px;
+}
+#restartButton{
+    position: absolute;
+    bottom: 0;
+}
+#header-label{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 1.25em;
+}
+#current-config-label{
+    font-size: .75em;
+    position: absolute;
+}
+#available-configs-label{
+    
+}

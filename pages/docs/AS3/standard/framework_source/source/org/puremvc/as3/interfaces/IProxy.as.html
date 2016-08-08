@@ -1,0 +1,71 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IProxy.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptASDoc">/**
+     * The interface definition for a PureMVC Proxy.
+     *
+     * &lt;P&gt;
+     * In PureMVC, &lt;code&gt;IProxy&lt;/code&gt; implementors assume these responsibilities:&lt;/P&gt;
+     * &lt;UL&gt;
+     * &lt;LI&gt;Implement a common method which returns the name of the Proxy.&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for setting and getting the data object.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     * &lt;P&gt;
+     * Additionally, &lt;code&gt;IProxy&lt;/code&gt;s typically:&lt;/P&gt;
+     * &lt;UL&gt;
+     * &lt;LI&gt;Maintain references to one or more pieces of model data.&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for manipulating that data.&lt;/LI&gt;
+     * &lt;LI&gt;Generate &lt;code&gt;INotifications&lt;/code&gt; when their model data changes.&lt;/LI&gt;
+     * &lt;LI&gt;Expose their name as a &lt;code&gt;public static const&lt;/code&gt; called &lt;code&gt;NAME&lt;/code&gt;, if they are not instantiated multiple times.&lt;/LI&gt;
+     * &lt;LI&gt;Encapsulate interaction with local or remote services used to fetch and persist model data.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IProxy</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the Proxy name
+         * 
+         * @return the Proxy instance name
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getProxyName</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Set the data object
+         * 
+         * @param data the data object
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setData</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the data object
+         * 
+         * @return the data as type Object
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getData</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>; 
+        
+        <span class="ActionScriptASDoc">/**
+         * Called by the Model when the Proxy is registered
+         */</span> 
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Called by the Model when the Proxy is removed
+         */</span> 
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRemove</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

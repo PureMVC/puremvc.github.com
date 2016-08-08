@@ -1,0 +1,190 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.patterns.facade.Facade - PureMVC Unit Tests</title><script src="../../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../../index-files";
+//--></script><link href="../../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.patterns.facade" rel="up"/><link href="../../../../../org/puremvc/as2/patterns/mediator/Mediator.html" title="Class org.puremvc.as2.patterns.mediator.Mediator" rel="prev"/><link href="../../../../../org/puremvc/as2/patterns/proxy/Proxy.html" title="Class org.puremvc.as2.patterns.proxy.Proxy" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Class org.puremvc.as2.patterns.facade.Facade</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.patterns.facade.Facade</strong></li></ul></div><div class="interfaces"><h2>Implemented Interfaces</h2><code><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">IFacade</a></code> </div><div class="type_description"><h2>Description</h2><p>
+ A base Singleton <code>IFacade</code> implementation.
+ 
+ <P>
+ In PureMVC, the <code>Facade</code> class assumes these 
+ responsibilities:
+ <UL>
+ <LI>Initializing the <code>Model</code>, <code>View</code>
+ and <code>Controller</code> Singletons.</LI> 
+ <LI>Providing all the methods defined by the <code>IModel, 
+ IView, & IController</code> interfaces.</LI>
+ <LI>Providing the ability to override the specific <code>Model</code>,
+ <code>View</code> and <code>Controller</code> Singletons created.</LI> 
+ <LI>Providing a single point of contact to the application for 
+ registering <code>Commands</code> and notifying <code>Observers</code></LI>
+ </UL>
+ <P>
+ Example usage:
+ <listing>
+	import org.puremvc.as2.patterns.facade.&lowast;;
+ 
+	import com.me.myapp.model.~~;
+	import com.me.myapp.view.~~;
+	import com.me.myapp.controller.~~;
+ 
+	public class MyFacade extends Facade
+	{
+		// Notification constants. The Facade is the ideal
+		// location for these constants, since any part
+		// of the application participating in PureMVC 
+		// Observer Notification will know the Facade.
+		public static const GO_COMMAND:String = "go";
+ 		
+		// Override Singleton Factory method 
+		public static function getInstance() : MyFacade {
+			if (instance == null) instance = new MyFacade();
+			return instance as MyFacade;
+		}
+ 		
+		// optional initialization hook for Facade
+		override public function initializeFacade() : Void {
+			super.initializeFacade();
+			// do any special subclass initialization here
+		}
+	
+		// optional initialization hook for Controller
+		override public function initializeController() : Void {
+			// call super to use the PureMVC Controller Singleton. 
+			super.initializeController();
+ 
+			// Otherwise, if you're implmenting your own
+			// IController, then instead do:
+			// if ( controller != null ) return;
+			// controller = MyAppController.getInstance();
+ 		
+			// do any special subclass initialization here
+			// such as registering Commands
+			registerCommand( GO_COMMAND, com.me.myapp.controller.GoCommand )
+		}
+	
+		// optional initialization hook for Model
+		override public function initializeModel() : Void {
+			// call super to use the PureMVC Model Singleton. 
+			super.initializeModel();
+ 
+			// Otherwise, if you're implmenting your own
+			// IModel, then instead do:
+			// if ( model != null ) return;
+			// model = MyAppModel.getInstance();
+ 		
+			// do any special subclass initialization here
+			// such as creating and registering Model proxys
+			// that don't require a facade reference at
+			// construction time, such as fixed type lists
+			// that never need to send Notifications.
+			regsiterProxy( new USStateNamesProxy() );
+ 			
+			// CAREFUL: Can't reference Facade instance in constructor 
+			// of new Proxys from here, since this step is part of
+			// Facade construction!  Usually, Proxys needing to send 
+			// notifications are registered elsewhere in the app 
+			// for this reason.
+		}
+	
+		// optional initialization hook for View
+		override public function initializeView() : Void {
+			// call super to use the PureMVC View Singleton. 
+			super.initializeView();
+ 
+			// Otherwise, if you're implmenting your own
+			// IView, then instead do:
+			// if ( view != null ) return;
+			// view = MyAppView.getInstance();
+ 		
+			// do any special subclass initialization here
+			// such as creating and registering Mediators
+			// that do not need a Facade reference at construction
+			// time.
+			registerMediator( new LoginMediator() ); 
+ 
+			// CAREFUL: Can't reference Facade instance in constructor 
+			// of new Mediators from here, since this is a step
+			// in Facade construction! Usually, all Mediators need 
+			// receive notifications, and are registered elsewhere in 
+			// the app for this reason.
+		}
+	}
+ </listing>
+ 
+ </p><h4>See Also</h4><ul class="extra_info"><li><span class="unresolved_type_name">org.puremvc.as2.core.model.Model</span></li><li><span class="unresolved_type_name">org.puremvc.as2.core.view.View</span></li><li><span class="unresolved_type_name">org.puremvc.as2.core.controller.Controller</span></li><li><a href="../../../../../org/puremvc/as2/patterns/observer/Notification.html" class="class_name" title="Class org.puremvc.as2.patterns.observer.Notification">Notification</a></li><li><a href="../../../../../org/puremvc/as2/patterns/mediator/Mediator.html" class="class_name" title="Class org.puremvc.as2.patterns.mediator.Mediator">Mediator</a></li><li><a href="../../../../../org/puremvc/as2/patterns/proxy/Proxy.html" class="class_name" title="Class org.puremvc.as2.patterns.proxy.Proxy">Proxy</a></li><li><a href="../../../../../org/puremvc/as2/patterns/command/SimpleCommand.html" class="class_name" title="Class org.puremvc.as2.patterns.command.SimpleCommand">SimpleCommand</a></li><li><a href="../../../../../org/puremvc/as2/patterns/command/MacroCommand.html" class="class_name" title="Class org.puremvc.as2.patterns.command.MacroCommand">MacroCommand</a></li></ul></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><div><code>new <a href="#Facade" title="public function Facade()">Facade()</a></code></div><a href="#getInstance" title="static public function getInstance():IFacade">getInstance()</a>, <a href="#hasCommand" title="public function hasCommand(notificationName:String):Boolean">hasCommand()</a>, <a href="#hasMediator" title="public function hasMediator(mediatorName:String):Boolean">hasMediator()</a>, <a href="#hasProxy" title="public function hasProxy(proxyName:String):Boolean">hasProxy()</a>, <a href="#notifyObservers" title="public function notifyObservers(notification:INotification):Void">notifyObservers()</a>, <a href="#registerCommand" title="public function registerCommand(notificationName:String, commandClassRef:Function):Void">registerCommand()</a>, <a href="#registerMediator" title="public function registerMediator(mediator:IMediator):Void">registerMediator()</a>, <a href="#registerProxy" title="public function registerProxy(proxy:IProxy):Void">registerProxy()</a>, <a href="#removeCommand" title="public function removeCommand(notificationName:String):Void">removeCommand()</a>, <a href="#removeMediator" title="public function removeMediator(mediatorName:String):IMediator">removeMediator()</a>, <a href="#removeProxy" title="public function removeProxy(proxyName:String):IProxy">removeProxy()</a>, <a href="#retrieveMediator" title="public function retrieveMediator(mediatorName:String):IMediator">retrieveMediator()</a>, <a href="#retrieveProxy" title="public function retrieveProxy(proxyName:String):IProxy">retrieveProxy()</a>, <a href="#sendNotification" title="public function sendNotification(notificationName:String, body:Object, type:String):Void">sendNotification()</a></div></div><div class="type_details"><div class="constructor_detail_list"><h2>Constructor Detail</h2><div class="method_details"><a name="Facade"></a><h3>Facade</h3><code class="method_synopsis">public function <strong class="method_name">Facade</strong>()</code><div class="method_info"><p>
+ Constructor. 
+ 
+ <P>
+ This <code>IFacade</code> implementation is a Singleton, 
+ so you should not call the constructor 
+ directly, but instead call the static Singleton 
+ Factory method <code>Facade.getInstance()</code>
+ 
+ </p><h4>Throws</h4><table class="exceptions extra_info" summary=""><tr><td><span class="unresolved_type_name">Error</span></td><td>Error if Singleton instance has already been constructed
+ 
+	 </td></tr></table></div></div></div><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="getInstance"></a><h3>getInstance</h3><code class="method_synopsis">static public function <strong class="method_name">getInstance</strong>():<a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">IFacade</a></code><div class="method_info"><p>
+ Facade Singleton Factory method
+ 
+ </p><h4>Return</h4><p class="extra_info"> the Singleton instance of the Facade
+	 </p></div></div><div class="method_details"><a name="notifyObservers"></a><h3>notifyObservers</h3><code class="method_synopsis">public function <strong class="method_name">notifyObservers</strong>(notification:<a href="../../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Notify <code>Observer</code>s.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notification</code></td><td>the <code>INotification</code> to have the <code>View</code> notify <code>Observers</code> of.
+	 </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#notifyObservers" title="function notifyObservers(note:INotification):Void">notifyObservers()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details alt_row"><a name="registerCommand"></a><h3>registerCommand</h3><code class="method_synopsis">public function <strong class="method_name">registerCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>, commandClassRef:<span class="unresolved_type_name">Function</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register an <code>ICommand</code> with the <code>Controller</code> by Notification name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code> to associate the <code>ICommand</code> with
+ </td></tr><tr><td><code>commandClassRef</code></td><td>the Class of the <code>ICommand</code>.
+
+	 </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#registerCommand" title="function registerCommand(noteName:String, commandClassRef:Function):Void">registerCommand()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details"><a name="removeCommand"></a><h3>removeCommand</h3><code class="method_synopsis">public function <strong class="method_name">removeCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Remove a previously registered <code>ICommand</code> to <code>INotification</code> mapping from the Controller.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
+	 </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#removeCommand" title="function removeCommand(notificationName:String):Void">removeCommand()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details alt_row"><a name="hasCommand"></a><h3>hasCommand</h3><code class="method_synopsis">public function <strong class="method_name">hasCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Command is registered for a given Notification 
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Command is currently registered for the given <code>notificationName</code>.
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#hasCommand" title="function hasCommand(notificationName:String):Boolean">hasCommand()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details"><a name="registerProxy"></a><h3>registerProxy</h3><code class="method_synopsis">public function <strong class="method_name">registerProxy</strong>(proxy:<a href="../../../../../org/puremvc/as2/interfaces/IProxy.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IProxy">IProxy</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register an <code>IProxy</code> with the <code>Model</code> by name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxy</code></td><td>the <code>IProxy</code> instance to be registered with the <code>Model</code>.
+	 </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#registerProxy" title="function registerProxy(proxy:IProxy):Void">registerProxy()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details alt_row"><a name="retrieveProxy"></a><h3>retrieveProxy</h3><code class="method_synopsis">public function <strong class="method_name">retrieveProxy</strong>(proxyName:<span class="unresolved_type_name">String</span>):<a href="../../../../../org/puremvc/as2/interfaces/IProxy.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IProxy">IProxy</a></code><div class="method_info"><p>
+ Retrieve an <code>IProxy</code> from the <code>Model</code> by name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxyName</code></td><td>the name of the proxy to be retrieved.
+ </td></tr></table><h4>Return</h4><p class="extra_info"> the <code>IProxy</code> instance previously registered with the given <code>proxyName</code>.
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#retrieveProxy" title="function retrieveProxy(proxyName:String):IProxy">retrieveProxy()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details"><a name="removeProxy"></a><h3>removeProxy</h3><code class="method_synopsis">public function <strong class="method_name">removeProxy</strong>(proxyName:<span class="unresolved_type_name">String</span>):<a href="../../../../../org/puremvc/as2/interfaces/IProxy.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IProxy">IProxy</a></code><div class="method_info"><p>
+ Remove an <code>IProxy</code> from the <code>Model</code> by name.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxyName</code></td><td>the <code>IProxy</code> to remove from the <code>Model</code>.
+ </td></tr></table><h4>Return</h4><p class="extra_info"> the <code>IProxy</code> that was removed from the <code>Model</code>
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#removeProxy" title="function removeProxy(proxyName:String):IProxy">removeProxy()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details alt_row"><a name="hasProxy"></a><h3>hasProxy</h3><code class="method_synopsis">public function <strong class="method_name">hasProxy</strong>(proxyName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Proxy is registered
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxyName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Proxy is currently registered with the given <code>proxyName</code>.
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#hasProxy" title="function hasProxy(proxyName:String):Boolean">hasProxy()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details"><a name="registerMediator"></a><h3>registerMediator</h3><code class="method_synopsis">public function <strong class="method_name">registerMediator</strong>(mediator:<a href="../../../../../org/puremvc/as2/interfaces/IMediator.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IMediator">IMediator</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register a <code>IMediator</code> with the <code>View</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediator</code></td><td>a reference to the <code>IMediator</code>
+	 </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#registerMediator" title="function registerMediator(mediator:IMediator):Void">registerMediator()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details alt_row"><a name="retrieveMediator"></a><h3>retrieveMediator</h3><code class="method_synopsis">public function <strong class="method_name">retrieveMediator</strong>(mediatorName:<span class="unresolved_type_name">String</span>):<a href="../../../../../org/puremvc/as2/interfaces/IMediator.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IMediator">IMediator</a></code><div class="method_info"><p>
+ Retrieve an <code>IMediator</code> from the <code>View</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediatorName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> the <code>IMediator</code> previously registered with the given <code>mediatorName</code>.
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#retrieveMediator" title="function retrieveMediator(mediatorName:String):IMediator">retrieveMediator()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details"><a name="removeMediator"></a><h3>removeMediator</h3><code class="method_synopsis">public function <strong class="method_name">removeMediator</strong>(mediatorName:<span class="unresolved_type_name">String</span>):<a href="../../../../../org/puremvc/as2/interfaces/IMediator.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IMediator">IMediator</a></code><div class="method_info"><p>
+ Remove an <code>IMediator</code> from the <code>View</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediatorName</code></td><td>name of the <code>IMediator</code> to be removed.
+ </td></tr></table><h4>Return</h4><p class="extra_info"> the <code>IMediator</code> that was removed from the <code>View</code>
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#removeMediator" title="function removeMediator(mediatorName:String):IMediator">removeMediator()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details alt_row"><a name="hasMediator"></a><h3>hasMediator</h3><code class="method_synopsis">public function <strong class="method_name">hasMediator</strong>(mediatorName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Mediator is registered or not
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediatorName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Mediator is registered with the given <code>mediatorName</code>.
+	 </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../../org/puremvc/as2/interfaces/IFacade.html#hasMediator" title="function hasMediator(mediatorName:String):Boolean">hasMediator()</a> in <a href="../../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">org.puremvc.as2.interfaces.IFacade</a></p></div></div><div class="method_details"><a name="sendNotification"></a><h3>sendNotification</h3><code class="method_synopsis">public function <strong class="method_name">sendNotification</strong>(notificationName:<span class="unresolved_type_name">String</span>, body:<span class="unresolved_type_name">Object</span>, type:<span class="unresolved_type_name">String</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Create and send an <code>INotification</code>.
+ 
+ <P>
+ Keeps us from having to construct new notification 
+ instances in our implementation code.
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the notiification to send
+ </td></tr><tr><td><code>body</code></td><td>the body of the notification (optional)
+ </td></tr><tr><td><code>type</code></td><td>the type of the notification (optional)
+	 </td></tr></table></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.patterns.facade" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="Facade.as.html" title="Source code of org.puremvc.as2.patterns.facade.Facade" class="button">Source</a></li><li><a href="../../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

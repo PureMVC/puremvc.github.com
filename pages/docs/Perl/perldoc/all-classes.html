@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Package List</title>
+<base target="classFrame">
+<link rel="stylesheet" href="style.css" type="text/css" media="screen">
+<script type="text/javascript">
+<!--
+activeHolder="";
+activeOldLink;
+function link_clicked(holderName) {
+ if ( activeHolder != "" ) {
+   activeHolder.innerHTML="";
+   activeHolder.style.backgroundColor = '';
+   activeHolder.appendChild(activeOldLink);
+ }
+ if ( holderName == '' ) {
+   activeHolder="";
+   return;
+ }
+ var holder=document.getElementById(holderName);
+ var links=holder.getElementsByTagName("a");
+ var link=links[0];
+ activeOldLink=link;
+ var linkContent=link.innerHTML;
+ holder.removeChild(link);
+ holder.innerHTML=linkContent;
+ holder.style.backgroundColor = "#222288";
+ holder.style.color = "#EEEEEE";
+ activeHolder=holder;
+}
+//-->
+</script>
+
+</head>
+<body>
+<h3>Classes</h3>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td id="Controller"><a href="org/puremvc/perl5/core/Controller.html" title="org::puremvc::perl5::core::Controller" target="classFrame" onclick="link_clicked('Controller')">Controller</a></td>
+</tr>
+<tr>
+<td id="Facade"><a href="org/puremvc/perl5/patterns/facade/Facade.html" title="org::puremvc::perl5::patterns::facade::Facade" target="classFrame" onclick="link_clicked('Facade')">Facade</a></td>
+</tr>
+<tr>
+<td id="MacroCommand"><a href="org/puremvc/perl5/patterns/command/MacroCommand.html" title="org::puremvc::perl5::patterns::command::MacroCommand" target="classFrame" onclick="link_clicked('MacroCommand')">MacroCommand</a></td>
+</tr>
+<tr>
+<td id="Mediator"><a href="org/puremvc/perl5/patterns/mediator/Mediator.html" title="org::puremvc::perl5::patterns::mediator::Mediator" target="classFrame" onclick="link_clicked('Mediator')">Mediator</a></td>
+</tr>
+<tr>
+<td id="Model"><a href="org/puremvc/perl5/core/Model.html" title="org::puremvc::perl5::core::Model" target="classFrame" onclick="link_clicked('Model')">Model</a></td>
+</tr>
+<tr>
+<td id="Notification"><a href="org/puremvc/perl5/patterns/observer/Notification.html" title="org::puremvc::perl5::patterns::observer::Notification" target="classFrame" onclick="link_clicked('Notification')">Notification</a></td>
+</tr>
+<tr>
+<td id="Notifier"><a href="org/puremvc/perl5/patterns/observer/Notifier.html" title="org::puremvc::perl5::patterns::observer::Notifier" target="classFrame" onclick="link_clicked('Notifier')">Notifier</a></td>
+</tr>
+<tr>
+<td id="Observer"><a href="org/puremvc/perl5/patterns/observer/Observer.html" title="org::puremvc::perl5::patterns::observer::Observer" target="classFrame" onclick="link_clicked('Observer')">Observer</a></td>
+</tr>
+<tr>
+<td id="Proxy"><a href="org/puremvc/perl5/patterns/proxy/Proxy.html" title="org::puremvc::perl5::patterns::proxy::Proxy" target="classFrame" onclick="link_clicked('Proxy')">Proxy</a></td>
+</tr>
+<tr>
+<td id="SimpleCommand"><a href="org/puremvc/perl5/patterns/command/SimpleCommand.html" title="org::puremvc::perl5::patterns::command::SimpleCommand" target="classFrame" onclick="link_clicked('SimpleCommand')">SimpleCommand</a></td>
+</tr>
+<tr>
+<td id="View"><a href="org/puremvc/perl5/core/View.html" title="org::puremvc::perl5::core::View" target="classFrame" onclick="link_clicked('View')">View</a></td>
+</tr>
+</table></body>
+
+</html>

@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<!-- PAGE TITLE -->
+		<title>PureMVC Dart Demo - Reverse Text</title>
+
+		<!-- CSS STYLES -->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+	</head>
+	<body>
+<p></p>
+<!-- INPUT FORM --><form class="well form-horizontal" id="textForm"><fieldset><!-- INPUT TEXT -->
+<div class="control-group"><label class="control-label" for="inputText">Input Text</label>
+<div class="controls"><input class="span3" placeholder="Type something..." id="inputText" type="text" /></div>
+</div>
+<!-- OUTPUT TEXT (REVERSED) -->
+<div class="control-group"><label class="control-label" for="outputText" id="outputTextLabel">Output Text</label>
+<div class="controls"><input class="span3 uneditable-input" placeholder="Nothing to reverse..." id="outputText" type="text" /></div>
+</div>
+<!-- OPTIONS -->
+<div class="control-group"><!-- REVERSE AS I TYPE --> <label class="control-label" for="optionsCheckboxList">Options</label>
+<div class="controls"><label class="checkbox"> <input name="optionsCheckboxList1" value="option1" type="checkbox" />Reverse as I type </label></div>
+</div>
+<!-- ACTIONS -->
+<div class="form-actions"><!-- REVERSE --> <button type="submit" class="btn btn-inverse vertical">Reverse</button> <!-- CLEAR --> <button type="reset" class="btn">Clear</button></div>
+</fieldset></form><!-- THE APPLICATION -->
+<script type="application/dart" src="ReverseText.dart"></script>
+<!-- DART -->
+<script type="text/javascript" src="packages/browser/dart.js"></script>
+<!--<script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js" type="text/javascript"></script>-->
+<p></p>
+</body>
+</html>

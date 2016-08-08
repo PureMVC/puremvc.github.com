@@ -1,0 +1,165 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ModelTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurecale, Inc., Some rights reserved.
+ Your reuse is governed by Creative Commons Attribution 2.5 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">core</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+     
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptOperator">*</span>;
+      
+     <span class="ActionScriptASDoc">/**
+     * Test the PureMVC Model class.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ModelTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> <span class="ActionScriptBracket/Brace">{</span>
+          
+           <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ModelTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ModelTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testGetInstance&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ModelTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRetrieveProxy&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ModelTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRemoveProxy&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ModelTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testHasProxy&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ModelTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testOnRegisterAndOnRemove&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the Model Singleton Factory Method 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testGetInstance</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptComment">// Test Factory Method
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">model</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IModel</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertNotNull</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance not null&quot;</span>, <span class="ActionScriptDefault_Text">model</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance implements IModel&quot;</span>, <span class="ActionScriptDefault_Text">model</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IModel</span><span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests the proxy registration and retrieval methods.
+           * 
+           * &lt;P&gt;
+           * Tests &lt;code&gt;registerProxy&lt;/code&gt; and &lt;code&gt;retrieveProxy&lt;/code&gt; in the same test.
+           * These methods cannot currently be tested separately
+           * in any meaningful way other than to show that the
+           * methods do not throw exception when called. &lt;/P&gt;
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRetrieveProxy</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a proxy and retrieve it.
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">model</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IModel</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;colors&apos;</span>, <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;red&apos;</span>, <span class="ActionScriptString">&apos;green&apos;</span>, <span class="ActionScriptString">&apos;blue&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Proxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;colors&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Proxy</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">getData</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Array</span>;
+            
+            <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertNotNull</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data not null&quot;</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data type is Array&quot;</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data.length == 3&quot;</span>, <span class="ActionScriptDefault_Text">data</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 3 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data[0] == &apos;red&apos;&quot;</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">]</span>  <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;red&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data[1] == &apos;green&apos;&quot;</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">[</span>1<span class="ActionScriptBracket/Brace">]</span>  <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;green&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data[2] == &apos;blue&apos;&quot;</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">[</span>2<span class="ActionScriptBracket/Brace">]</span>  <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;blue&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the proxy removal method.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRemoveProxy</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a proxy, remove it, then try to retrieve it
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">model</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IModel</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;sizes&apos;</span>, <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;7&apos;</span>, <span class="ActionScriptString">&apos;13&apos;</span>, <span class="ActionScriptString">&apos;21&apos;</span><span class="ActionScriptBracket/Brace">])</span>;
+            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// remove the proxy
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">removedProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">removeProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;sizes&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// assert that we removed the appropriate proxy
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting removedProxy.getProxyName() == &apos;sizes&apos;&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">removedProxy</span>.<span class="ActionScriptDefault_Text">getProxyName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;sizes&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// ensure that the proxy is no longer retrievable from the model
+</span>            <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;sizes&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertNull</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting proxy is null&quot;</span>, <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the hasProxy Method
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testHasProxy</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a proxy
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">model</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IModel</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;aces&apos;</span>, <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;clubs&apos;</span>, <span class="ActionScriptString">&apos;spades&apos;</span>, <span class="ActionScriptString">&apos;hearts&apos;</span>, <span class="ActionScriptString">&apos;diamonds&apos;</span><span class="ActionScriptBracket/Brace">])</span>;
+            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// assert that the model.hasProxy method returns true
+</span>               <span class="ActionScriptComment">// for that proxy name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting model.hasProxy(&apos;aces&apos;) == true&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;aces&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// remove the proxy
+</span>            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">removeProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;aces&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// assert that the model.hasProxy method returns false
+</span>               <span class="ActionScriptComment">// for that proxy name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting model.hasProxy(&apos;aces&apos;) == false&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;aces&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+        <span class="ActionScriptASDoc">/**
+         * Tests that the Model calls the onRegister and onRemove methods
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testOnRegisterAndOnRemove</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Singleton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">model</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IModel</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+
+            <span class="ActionScriptComment">// Create and register the test mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ModelTestProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// assert that onRegsiter was called, and the proxy responded by setting its data accordingly
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting proxy.getData() == ModelTestProxy.ON_REGISTER_CALLED&quot;</span>, 
+                        <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">getData</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">ModelTestProxy</span>.<span class="ActionScriptDefault_Text">ON_REGISTER_CALLED</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Remove the component
+</span>            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">removeProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ModelTestProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// assert that onRemove was called, and the proxy responded by setting its data accordingly
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting proxy.getData() == ModelTestProxy.ON_REMOVE_CALLED&quot;</span>, 
+                        <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">getData</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">ModelTestProxy</span>.<span class="ActionScriptDefault_Text">ON_REMOVE_CALLED</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+
+
+      <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

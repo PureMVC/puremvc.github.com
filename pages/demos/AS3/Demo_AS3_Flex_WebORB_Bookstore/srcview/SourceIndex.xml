@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Bookstore Flex/WebORB Demo</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_2_0_3.swc" url="source/libs/PureMVC_AS3_2_0_3.swc"/>
+		</node>
+		<node label="Services">
+			<node label="org">
+				<node label="puremvc">
+					<node label="as3">
+						<node label="demos">
+							<node label="flex">
+								<node label="weborb">
+									<node label="bookstore">
+										<node label="vo">
+											<node label="Book.php" url="source/Services/org/puremvc/as3/demos/flex/weborb/bookstore/vo/Book.php.txt"/>
+										</node>
+										<node label="LibraryService.php" url="source/Services/org/puremvc/as3/demos/flex/weborb/bookstore/LibraryService.php.txt"/>
+									</node>
+								</node>
+							</node>
+						</node>
+					</node>
+				</node>
+			</node>
+			<node label="Book.php" url="source/Services/Book.php.txt"/>
+			<node label="LibraryService.php" url="source/Services/LibraryService.php.txt"/>
+			<node label="readme.txt" url="source/Services/readme.txt"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore.controller" icon="packageIcon" expanded="true">
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore.model" icon="packageIcon" expanded="true">
+				<node label="BookProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/model/BookProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore.model.business" icon="packageIcon" expanded="true">
+				<node label="LibraryDelegate.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/model/business/LibraryDelegate.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore.model.vo" icon="packageIcon" expanded="true">
+				<node label="Book.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/model/vo/Book.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore.view" icon="packageIcon" expanded="true">
+				<node label="BookFormMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/view/BookFormMediator.as.html"/>
+				<node label="BooksPanelMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/view/BooksPanelMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.weborb.bookstore.view.components" icon="packageIcon" expanded="true">
+				<node label="BookForm.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/view/components/BookForm.mxml.html"/>
+				<node label="BooksPanel.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/weborb/bookstore/view/components/BooksPanel.mxml.html"/>
+			</node>
+			<node selected="true" label="Bookstore.mxml" icon="mxmlAppIcon" url="source/Bookstore.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

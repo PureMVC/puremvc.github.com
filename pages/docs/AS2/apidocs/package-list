@@ -1,0 +1,7 @@
+org.puremvc.as2.patterns.facade
+org.puremvc.as2.core
+org.puremvc.as2.patterns.mediator
+org.puremvc.as2.patterns.command
+org.puremvc.as2.patterns.observer
+org.puremvc.as2.patterns.proxy
+org.puremvc.as2.interfaces

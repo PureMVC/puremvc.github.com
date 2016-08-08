@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$struct_pure_m_v_c_1_1_core_1_1_view_1_1_i_passive_observer.html" title="PureMVC::Core::View::IPassiveObserver" alt="" coords="5,32,261,61"/>
+<area shape="rect" id="node3" href="$class_pure_m_v_c_1_1_core_1_1_view_1_1_inserted_observer.html" title="PureMVC::Core::View::InsertedObserver" alt="" coords="315,5,568,35"/>
+<area shape="rect" id="node5" href="$class_pure_m_v_c_1_1_core_1_1_view_1_1_removing_observer.html" title="PureMVC::Core::View::RemovingObserver" alt="" coords="309,59,573,88"/>
+</map>

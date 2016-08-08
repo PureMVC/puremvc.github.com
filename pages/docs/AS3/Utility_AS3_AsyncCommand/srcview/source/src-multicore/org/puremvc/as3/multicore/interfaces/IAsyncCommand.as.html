@@ -1,0 +1,34 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IAsyncCommand.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore Utility for AS3 - AsyncCommand
+ Copyright(c) 2008 Duncan Hall &lt;duncan.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span> 
+<span class="ActionScriptBracket/Brace">{</span>
+     
+    <span class="ActionScriptASDoc">/** 
+     * Interface for an Asynchronous Command.
+     */</span> 
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IAsyncCommand</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">ICommand</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+    
+        <span class="ActionScriptASDoc">/**
+         * Registers the callback for a parent &lt;code&gt;AsyncMacroCommand&lt;/code&gt;.  
+         * 
+         * @param value    The &lt;code&gt;AsyncMacroCommand&lt;/code&gt; method to call on completion
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setOnComplete</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+    
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

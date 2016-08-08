@@ -1,0 +1,6 @@
+org.puremvc.java.core
+org.puremvc.java.patterns.command
+org.puremvc.java.patterns.facade
+org.puremvc.java.patterns.mediator
+org.puremvc.java.patterns.observer
+org.puremvc.java.patterns.proxy

@@ -1,0 +1,68 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationFacade.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex Employee Admin 
+ Copyright (c) 2007-10 Clifford Hall &lt;clifford.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">employeeadmin</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">employeeadmin</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">Facade</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Facade</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// Notification name constants
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">STARTUP</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>             <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;startup&quot;</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NEW_USER</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;newUser&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">DELETE_USER</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;deleteUser&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CANCEL_SELECTED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;cancelSelected&quot;</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">POPULATE_USERS</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;populateUsers&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">USER_SELECTED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;userSelected&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">USER_ADDED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;userAdded&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">USER_UPDATED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;userUpdated&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">USER_DELETED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;userDeleted&quot;</span>;
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">ADD_ROLE</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>         <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;addRole&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">ADD_ROLE_RESULT</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>     <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;addRoleResult&quot;</span>;
+        
+        
+        <span class="ActionScriptASDoc">/**
+         * Singleton Factory Method
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptBracket/Brace">)</span> ;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Start the application
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">startup</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">EmployeeAdmin</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+         <span class="ActionScriptBracket/Brace">{</span>
+             <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">STARTUP</span>, <span class="ActionScriptDefault_Text">app</span> <span class="ActionScriptBracket/Brace">)</span>;    
+         <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register Commands with the Controller 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span>.<span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">()</span>;            
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">STARTUP</span>, <span class="ActionScriptDefault_Text">StartupCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">DELETE_USER</span>, <span class="ActionScriptDefault_Text">DeleteUserCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ADD_ROLE_RESULT</span>, <span class="ActionScriptDefault_Text">AddRoleResultCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

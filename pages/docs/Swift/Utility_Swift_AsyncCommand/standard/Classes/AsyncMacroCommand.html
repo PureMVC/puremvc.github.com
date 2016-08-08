@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AsyncMacroCommand Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/AsyncMacroCommand" class="dashAnchor"></a>
+    <a title="AsyncMacroCommand Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/PureMVC/puremvc-swift-util-asynccommand/wiki"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        AsyncMacroCommand Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+          <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AsyncCommand.html">AsyncCommand</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AsyncMacroCommand.html">AsyncMacroCommand</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/IAsyncCommand.html">IAsyncCommand</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>AsyncMacroCommand</h1>
+            <p>A base <code>ICommand</code> implementation that executes other
+<code>ICommand</code>s asynchronously.</p>
+
+<p>An <code>AsyncMacroCommand</code> maintains a list of
+closures returning <code>ICommand</code> references called <em>SubCommands</em>.</p>
+
+<p>When <code>execute</code> is called, the <code>AsyncMacroCommand</code>
+caches a reference to the <code>INotification</code> and calls
+<code>nextCommand</code>.</p>
+
+<p>If there are still <em>SubCommands&rsquo;s to be executed,
+the <code>nextCommand</code> method instantiates and calls <code>execute</code>
+on each of its *SubCommands</em> in turn. Each <em>SubCommand</em> will be passed
+a reference to the original <code>INotification</code> that was passed to the
+<code>AsyncMacroCommand</code>&rsquo;s <code>execute</code> method. If the
+<em>SubCommand</em> to execute is an <code>IAsyncCommand</code>, the
+next <em>SubCommand</em> will not be executed until the previous
+<code>IAsyncCommand</code> has called its <em>commandComplete</em> method.</p>
+
+<p>Unlike <code>AsyncCommand</code> and <code>SimpleCommand</code>, your subclass
+should not override <code>execute</code>, but instead, should
+override the <code>initializeAsyncMacroCommand</code> method,
+calling <code>addSubCommand</code> once for each <em>SubCommand</em>
+to be executed.</p>
+
+<p><code>@see org.puremvc.as3.multicore.patterns.command.AsyncCommand AsyncCommand</code></p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12AsyncCommand17AsyncMacroCommandcERR"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12AsyncCommand17AsyncMacroCommandcERR">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Constructor.
+*</p>
+
+<p>You should not need to define a constructor,
+instead, override the <code>initializeAsyncMacroCommand</code>
+method.
+*</p>
+
+<p>If your subclass does define a constructor, be
+sure to call <code>super()</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12AsyncCommand17AsyncMacroCommand27initializeAsyncMacroCommandFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/initializeAsyncMacroCommand()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12AsyncCommand17AsyncMacroCommand27initializeAsyncMacroCommandFS0_FT_T_">initializeAsyncMacroCommand()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize the <code>AsyncMacroCommand</code>.</p>
+
+<p>In your subclass, override this method to
+initialize the <code>AsyncMacroCommand</code>&rsquo;s <em>SubCommand</em>
+list with <code>ICommand</code> class references.</p>
+
+<pre class="highlight plaintext"><code>// Initialize MyMacroCommand
+override public func initializeAsyncMacroCommand()
+{
+    addSubCommand( { FirstCommand() } )
+    addSubCommand( { SecondCommand() } )
+    addSubCommand { ThirdCommand() } //trailing closure style
+}
+</code></pre>
+
+<p>Note that *SubCommand*s may be any <code>ICommand</code> implementor,
+<code>AsyncMacroCommand</code>s, <code>AsyncCommand</code>s,
+<code>MacroCommand</code>s or <code>SimpleCommand</code>s are all acceptable.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">initializeAsyncMacroCommand</span><span class="p">()</span> <span class="p">{}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12AsyncCommand17AsyncMacroCommand13addSubCommandERR"></a>
+                    <a name="//apple_ref/swift/Method/addSubCommand(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12AsyncCommand17AsyncMacroCommand13addSubCommandERR">addSubCommand(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add a <em>SubCommand</em>.</p>
+
+<p>The <em>SubCommands</em> will be called in First In/First Out (FIFO)
+order.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addSubCommand</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">ICommand</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>closure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>reference returning <code>ICommand</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC12AsyncCommand17AsyncMacroCommand7executeERR"></a>
+                    <a name="//apple_ref/swift/Method/execute(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC12AsyncCommand17AsyncMacroCommand7executeERR">execute(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Starts execution of this <code>AsyncMacroCommand</code>&rsquo;s <em>SubCommands</em>.</p>
+
+<p>The <em>SubCommands</em> will be called in First In/First Out (FIFO) order.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">notification</span><span class="p">:</span> <span class="kt">INotification</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>notification</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the <code>INotification</code> object to be passsed to each <em>SubCommand</em>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC12AsyncCommand17AsyncMacroCommand10onCompleteGSqFT_T__"></a>
+                    <a name="//apple_ref/swift/Property/onComplete" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC12AsyncCommand17AsyncMacroCommand10onCompleteGSqFT_T__">onComplete</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get or set the callback for a parent <code>AsyncMacroCommand</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="Swift">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onComplete</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">())?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2015-05-12)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

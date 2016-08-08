@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>simple admin demo</title>
+<style>
+body
+{
+	font-family: arial;
+}
+
+a
+{
+	text-decoration: none;
+	color: #999999;
+}
+
+#employees a
+{
+	text-decoration: none;
+	color: #333333;
+	display: block;
+}
+
+#details
+{
+	font-size: 90%;
+}
+</style>
+</head>
+<body>
+	<p><em>note: this demo is kept to a bare minimum to show just the pureMVC functionalities (so no scrollbars, rollovers, etc)</em></p>
+	<h4>flash9 version</h4>
+	<div id="flash9_container">
+		<object	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+	    	width="800"
+			height="300"
+			id="haxe"
+			align="middle">
+			<param name="movie" value="out.swf"/>
+			<param name="allowScriptAccess" value="always" />
+			<param name="quality" value="high" />
+			<param name="scale" value="noscale" />
+			<param name="salign" value="lt" />
+			<param name="bgcolor" value="#ffffff"/>
+			<embed src="out.swf"
+	       		bgcolor="#ffffff"
+	       		width="800"
+	       		height="300"
+	       		name="haxe"
+	       		quality="high"
+	       		align="middle"
+	       		allowScriptAccess="always"
+	       		type="application/x-shockwave-flash"
+	       		pluginspage="http://www.macromedia.com/go/getflashplayer"
+			/>
+		</object>
+	</div>
+	
+	<hr />
+	<h4>javascript version</h4>
+	<div id="js_container" style="position: relative;">
+		<p id="menu">
+			<a href="#" id="new_e">new</a>&nbsp;&nbsp;<a href="#" id="remove_e">remove</a>&nbsp;&nbsp;<a href="#" id="save_e">save</a>
+		</p>
+		<div id="employees" style="position: absolute; top: 20px; left: 200px;"></div>
+		<div id="details" style="position: absolute; top: 20px;">
+			<p>id:<br/><span id="em_id"></span></p>
+			<p>name:<br/><input type="text" id="em_name" /></p>
+			<p>last name:<br/><input type="text" id="em_lastname" /></p>
+			<p>role:<br/><input type="text" id="em_role" /></p>
+		</div>
+	</div>
+	
+	<div id="haxe:trace"></div>
+	<script type="text/javascript" src="out.js"></script>
+</body>

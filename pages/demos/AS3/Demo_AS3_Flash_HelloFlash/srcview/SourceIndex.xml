@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>HelloFlash CS3 Demo</title>
+	<nodes>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.flash.helloflash" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flash/helloflash/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flash.helloflash.controller" icon="packageIcon" expanded="true">
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flash/helloflash/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flash.helloflash.model" icon="packageIcon" expanded="true">
+				<node label="SpriteDataProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flash/helloflash/model/SpriteDataProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flash.helloflash.view" icon="packageIcon" expanded="true">
+				<node label="HelloSpriteMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flash/helloflash/view/HelloSpriteMediator.as.html"/>
+				<node label="StageMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flash/helloflash/view/StageMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flash.helloflash.view.components" icon="packageIcon" expanded="true">
+				<node label="HelloSprite.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flash/helloflash/view/components/HelloSprite.as.html"/>
+			</node>
+			<node selected="true" label="HelloFlash.as" icon="mxmlAppIcon" url="source/HelloFlash.as.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="PureMVC-Enable-Flash.txt" url="source/PureMVC-Enable-Flash.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

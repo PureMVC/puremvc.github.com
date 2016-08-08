@@ -1,0 +1,106 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>PipeTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3/MultiCore Pipes Utility Unit Tests
+ Copyright (c) 2008 Cliff Hall&lt;cliff.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeFitting</span>;
+    
+     <span class="ActionScriptASDoc">/**
+     * Test the Pipe class.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">PipeTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+          
+           <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">PipeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> 
+         <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> 
+         <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testConstructor&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testConnectingAndDisconnectingTwoPipes&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testConnectingToAConnectedPipe&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Test the constructor.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testConstructor</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Test connecting and disconnecting two pipes. 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testConnectingAndDisconnectingTwoPipes</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptComment">// create two pipes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptComment">// connect them
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">success</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe1</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe1 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe1</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe2 is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected pipe1 to pipe2&quot;</span>, <span class="ActionScriptDefault_Text">success</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// disconnect pipe 2 from pipe 1
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">disconnectedPipe</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe1</span>.<span class="ActionScriptDefault_Text">disconnect</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting disconnected pipe2 from pipe1&quot;</span>, <span class="ActionScriptDefault_Text">disconnectedPipe</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptDefault_Text">pipe2</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+          <span class="ActionScriptASDoc">/**
+           * Test attempting to connect a pipe to a pipe with an output already connected. 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testConnectingToAConnectedPipe</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptComment">// create two pipes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe3</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+
+               <span class="ActionScriptComment">// connect them
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">success</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe1</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">pipe2</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected pipe1 to pipe2&quot;</span>, <span class="ActionScriptDefault_Text">success</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting can&apos;t connect pipe3 to pipe1&quot;</span>, <span class="ActionScriptDefault_Text">pipe1</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">pipe3</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+            
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,40 @@
+strict digraph class_diagram {
+  rankdir=LR;
+  TypeMockNotification[
+    label="MockNotification",
+    URL="MockNotification.html",
+    tooltip="org.puremvc.as2.patterns.observer.MockNotification",
+    shape="record"
+  ];
+  TypeObserverTest[
+    label="ObserverTest",
+    URL="ObserverTest.html",
+    tooltip="org.puremvc.as2.patterns.observer.ObserverTest",
+    shape="record"
+  ];
+  TypeNotificationTest[
+    label="NotificationTest",
+    URL="NotificationTest.html",
+    tooltip="org.puremvc.as2.patterns.observer.NotificationTest",
+    shape="record"
+  ];
+  TypeObserver[
+    label="Observer",
+    URL="Observer.html",
+    tooltip="org.puremvc.as2.patterns.observer.Observer",
+    shape="record"
+  ];
+  TypeNotification[
+    label="Notification",
+    URL="Notification.html",
+    tooltip="org.puremvc.as2.patterns.observer.Notification",
+    shape="record"
+  ];
+  TypeNotifier[
+    label="Notifier",
+    URL="Notifier.html",
+    tooltip="org.puremvc.as2.patterns.observer.Notifier",
+    shape="record"
+  ];
+  TypeNotification -> TypeMockNotification;
+}

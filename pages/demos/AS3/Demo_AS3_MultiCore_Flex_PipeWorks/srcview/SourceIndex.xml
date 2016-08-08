@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>PipeWorks - PureMVC/AS3 MultiCore Flex Demo</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_MultiCore_1_0_4.swc" url="source/libs/PureMVC_AS3_MultiCore_1_0_4.swc"/>
+			<node label="Utility_AS3_MultiCore_Pipes_1_0.swc" url="source/libs/Utility_AS3_MultiCore_Pipes_1_0.swc"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.common" icon="packageIcon" expanded="true">
+				<node label="LogFilterMessage.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/common/LogFilterMessage.as.html"/>
+				<node label="LoggingJunctionMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/common/LoggingJunctionMediator.as.html"/>
+				<node label="LogMessage.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/common/LogMessage.as.html"/>
+				<node label="PipeAwareModule.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/common/PipeAwareModule.as.html"/>
+				<node label="UIQueryMessage.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/common/UIQueryMessage.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules" icon="packageIcon" expanded="true">
+				<node label="LoggerModule.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/LoggerModule.as.html"/>
+				<node label="PrattlerModule.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/PrattlerModule.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.logger" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.logger.controller" icon="packageIcon" expanded="true">
+				<node label="CreateLogButtonCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/controller/CreateLogButtonCommand.as.html"/>
+				<node label="CreateLogWindowCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/controller/CreateLogWindowCommand.as.html"/>
+				<node label="LogMessageCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/controller/LogMessageCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.logger.model" icon="packageIcon" expanded="true">
+				<node label="LoggerProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/model/LoggerProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.logger.view" icon="packageIcon" expanded="true">
+				<node label="LoggerJunctionMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/view/LoggerJunctionMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.logger.view.components" icon="packageIcon" expanded="true">
+				<node label="LogButton.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/view/components/LogButton.mxml.html"/>
+				<node label="LogWindow.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/logger/view/components/LogWindow.mxml.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.prattler" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.prattler.controller" icon="packageIcon" expanded="true">
+				<node label="ChangeFeedCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/controller/ChangeFeedCommand.as.html"/>
+				<node label="IntervalCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/controller/IntervalCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.prattler.model" icon="packageIcon" expanded="true">
+				<node label="FeedProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/model/FeedProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.prattler.model.vo" icon="packageIcon" expanded="true">
+				<node label="FeedVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/model/vo/FeedVO.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.prattler.view" icon="packageIcon" expanded="true">
+				<node label="FeedWindowMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/view/FeedWindowMediator.as.html"/>
+				<node label="PrattlerJunctionMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/view/PrattlerJunctionMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.modules.prattler.view.components" icon="packageIcon" expanded="true">
+				<node label="FeedControls.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/view/components/FeedControls.mxml.html"/>
+				<node label="FeedWindow.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/view/components/FeedWindow.mxml.html"/>
+				<node label="Viewer.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/modules/prattler/view/components/Viewer.mxml.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.shell" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.shell.controller" icon="packageIcon" expanded="true">
+				<node label="PrattleCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/controller/PrattleCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.flex.pipeworks.shell.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/view/ApplicationMediator.as.html"/>
+				<node label="LoggerModuleMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/view/LoggerModuleMediator.as.html"/>
+				<node label="PrattlerModuleMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/view/PrattlerModuleMediator.as.html"/>
+				<node label="ShellJunctionMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/demos/flex/pipeworks/shell/view/ShellJunctionMediator.as.html"/>
+			</node>
+			<node selected="true" label="PipeWorks.mxml" icon="mxmlAppIcon" url="source/PipeWorks.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

@@ -1,0 +1,237 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - View</title>
+<link rel="stylesheet" href="../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::core::View</code></p>
+<p>Singleton responsible for implementing the MVC <code>View</code> pattern.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, the <code>View</code> class assumes these responsibilities:</p>
+<ul>
+<li>
+<p>Maintain a cache of <a href="../patterns/mediator/Mediator.html">Mediator</a> instances.</p>
+</li>
+<li>
+<p>Provide methods for registering, retrieving, and removing <a href="../patterns/mediator/Mediator.html">mediators</a>.</p>
+</li>
+<li>
+<p>Notifiying <a href="../patterns/mediator/Mediator.html">mediators</a> when they are registered or removed.</p>
+</li>
+<li>
+<p>Managing the <a href="../patterns/observer/Observer.html">observers</a> lists for each <a href="../patterns/observer/Notification.html">notification</a> in the application.</p>
+</li>
+<li>
+<p>Providing a method for attaching <a href="../patterns/observer/Observer.html">observers</a> to a <a href="../patterns/observer/Notification.html">notification's</a> observer list.</p>
+</li>
+<li>
+<p>Providing a method for broadcasting a <a href="../patterns/observer/Notification.html">notification</a>.</p>
+</li>
+<li>
+<p>Notifying the <a href="../patterns/observer/Observer.html">observers</a> of a given <a href="../patterns/observer/Notification.html">notification</a> when it broadcast.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="getinstance" class="item">getInstance</a></strong></dt>
+
+<dd>
+<p><a href="#getinstance"><code>sub getInstance();</code></a></p>
+<p>Returns the singleton instance of the <code>View</code>.</p>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::core::View</code> - The singleton instance of the <code>View</code>.</p>
+</dd>
+<dt><strong><a name="initializeview" class="item">initializeView</a></strong></dt>
+
+<dd>
+<p><a href="#initializeview"><code>sub initializeView();</code></a></p>
+<p>Initialize the singleton instance of the <code>View</code>.
+This method is automatically called during singleton instantiation.</p>
+<p>This is where you will achieve your <code>View</code> subclass specific initializations if your application actually overrides pureMVC <code>View</code> class.</p>
+</dd>
+<dt><strong><a name="registerobserver" class="item">registerObserver</a></strong></dt>
+
+<dd>
+<p><a href="#registerobserver"><code>sub registerObserver( $notification_name, $observer );</code></a></p>
+<p>Register an <a href="../patterns/observer/Observer.html">observer</a> to be notified of <a href="../patterns/observer/Notification.html">notifications</a> with a given name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../patterns/observer/Notification.html">notifications</a> the registered observer will be notified of.</p>
+</li>
+<li>
+<p><code>$observer - org::puremvc::perl5::patterns::observer::Observer</code></p>
+<p>The registered observer with the <code>View</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="notifyobservers" class="item">notifyObservers</a></strong></dt>
+
+<dd>
+<p><a href="#notifyobservers"><code>sub notifyObservers( $notification );</code></a></p>
+<p>Notify the <a href="../patterns/observer/Observer.html">observer</a> for a particular <a href="../patterns/observer/Notification.html">notification</a>.</p>
+<p>All previously attached <a href="../patterns/observer/Observer.html">observer</a> for this <a href="../patterns/observer/Notification.html">notification's</a> list are notified and are passed a reference to the <a href="../patterns/observer/Notification.html">notification</a> in the order in which they were registered.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification - org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>Instance of <a href="../patterns/observer/Notification.html">Notification</a> the observers will receive as a parameter when notified.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="removeobserver" class="item">removeObserver</a></strong></dt>
+
+<dd>
+<p><a href="#removeobserver"><code>sub removeObserver( $notification_name, $observer );</code></a></p>
+<p>Remove the <a href="../patterns/observer/Observer.html">observer</a> from the observers list for a given <a href="../patterns/observer/Notification.html">notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../patterns/observer/Notification.html">notifications</a> the registered observer will be removed from.</p>
+</li>
+<li>
+<p><code>$observer - org::puremvc::perl5::patterns::observer::Observer</code></p>
+<p>The registered observer with the <code>View</code> to be removed.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="registermediator" class="item">registerMediator</a></strong></dt>
+
+<dd>
+<p><a href="#registermediator"><code>sub registerMediator( $mediator );</code></a></p>
+<p>Register a <a href="../patterns/mediator/Mediator.html">Mediator</a> instance with the <code>View</code>. During registration <a href="../patterns/mediator/Mediator.html">mediator's</a> <code>getMediatorName</code> method is called by <code>View</code> singleton to map <code>$mediator</code> instance with its name.</p>
+<p>Any registered <a href="../patterns/mediator/Mediator.html">mediator</a> is afterwards retrieved, removed or checked by its name.</p>
+<p>Registers the <a href="../patterns/mediator/Mediator.html">mediator</a> so that it can be retrieved by name, and further interrogates the <a href="../patterns/mediator/Mediator.html">mediator</a> for its <a href="../patterns/observer/Notification.html">notification</a> interests.</p>
+<p>If the <a href="../patterns/mediator/Mediator.html">mediator</a> returns any <a href="../patterns/observer/Notification.html">notification</a> name to be notified about, an <a href="../patterns/observer/Observer.html">observer</a> is created encapsulating the <a href="../patterns/mediator/Mediator.html">mediator</a> instance's <code>handleNotification</code> method and registering it as an <a href="../patterns/observer/Observer.html">observer</a> for all <a href="../patterns/observer/Notification.html">notifications</a> the <a href="../patterns/mediator/Mediator.html">mediator</a> is interested in.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator - org::puremvc::perl5::patterns::mediator::Mediator</code></p>
+<p>A <a href="../patterns/mediator/Mediator.html">Mediator</a> instance to register with the <code>View</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="retrievemediator" class="item">retrieveMediator</a></strong></dt>
+
+<dd>
+<p><a href="#retrievemediator"><code>sub retrieveMediator( $mediator_name );</code></a></p>
+<p>Retrieve from the <code>View</code> a <a href="../patterns/mediator/Mediator.html">mediator</a> registered with name <code>$mediator_name</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code></p>
+<p>Name of the <a href="../patterns/mediator/Mediator.html">mediator</a> to retrieve from the <code>View</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::mediator::Mediator</code> - The <a href="../patterns/mediator/Mediator.html">Mediator</a> instance retrieved from the <code>View</code>.</p>
+</dd>
+<dt><strong><a name="removemediator" class="item">removeMediator</a></strong></dt>
+
+<dd>
+<p><a href="#removemediator"><code>sub removeMediator( $mediator_name );</code></a></p>
+<p>Remove from the <code>View</code> a <a href="../patterns/mediator/Mediator.html">mediator</a> registered with name <code>$mediator_name</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code></p>
+<p>Name of the <a href="../patterns/mediator/Mediator.html">mediator</a> to remove from the <code>View</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::mediator::Mediator</code> - The <a href="../patterns/mediator/Mediator.html">Mediator</a> instance removed from the <code>View</code>.</p>
+</dd>
+<dt><strong><a name="hasmediator" class="item">hasMediator</a></strong></dt>
+
+<dd>
+<p><a href="#hasmediator"><code>sub hasMediator( $mediator_name );</code></a></p>
+<p>Check whether a <a href="../patterns/mediator/Mediator.html">mediator</a> is registered with name <code>$mediator_name</code> or not.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code></p>
+<p>Name of the <a href="../patterns/mediator/Mediator.html">mediator</a> to check.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if a <a href="../patterns/mediator/Mediator.html">Mediator</a> instance is registered with the <code>View</code> with name <code>$mediator_name</code>, &quot;&quot; otherwise.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="_mediators" class="item">_mediators</a></strong></dt>
+
+<dd>
+<p>Array reference on registered <a href="../patterns/mediator/Mediator.html">mediators</a> with the <code>View</code>. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+</dl>
+<dl>
+<dt><strong><a name="_observers" class="item">_observers</a></strong></dt>
+
+<dd>
+<p>Array reference on registered <a href="../patterns/observer/Observer.html">observers</a> with the <code>View</code>. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../patterns/facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../patterns/observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../patterns/proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../patterns/mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../patterns/command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../patterns/command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../patterns/observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../patterns/observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

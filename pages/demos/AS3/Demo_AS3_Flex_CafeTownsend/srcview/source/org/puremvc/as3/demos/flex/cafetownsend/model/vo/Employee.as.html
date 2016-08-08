@@ -1,0 +1,43 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Employee.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex CafeTownsend
+ Copyright (c) 2007-08 Michael Ramirez &lt;michael.ramirez@puremvc.org&gt;
+ Parts Copyright (c) 2005-07 Adobe Systems, Inc. 
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span>  <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">vo</span> 
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Employee</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">emp_id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">firstname</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">lastname</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">email</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">startdate</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Date</span>;
+
+        <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">currentIndex</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> <span class="ActionScriptOperator">=</span> 1000;
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">Employee</span><span class="ActionScriptBracket/Brace">(</span>    <span class="ActionScriptDefault_Text">emp_id</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">uint</span> <span class="ActionScriptOperator">=</span>            0, 
+                                    <span class="ActionScriptDefault_Text">firstname</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span>    <span class="ActionScriptString">&quot;&quot;</span>, 
+                                    <span class="ActionScriptDefault_Text">lastname</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span>        <span class="ActionScriptString">&quot;&quot;</span>, 
+                                    <span class="ActionScriptDefault_Text">email</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span>        <span class="ActionScriptString">&quot;&quot;</span>, 
+                                    <span class="ActionScriptDefault_Text">startdate</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Date</span> <span class="ActionScriptOperator">=</span>        <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">emp_id</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">emp_id</span> <span class="ActionScriptOperator">==</span> 0 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">?</span>  <span class="ActionScriptDefault_Text">currentIndex</span> <span class="ActionScriptOperator">+=</span> 1 <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">emp_id</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">firstname</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">firstname</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">lastname</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">lastname</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">email</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">email</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">startdate</span> <span class="ActionScriptOperator">=</span>  <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">startdate</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">?</span>  <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Date</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">startdate</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,224 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Proxy</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::patterns::proxy::Proxy</code></p>
+<p><strong>inherits:</strong></p>
+<ul>
+<li>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+</li>
+</ul>
+<p>Implementation of the pureMVC <code>Proxy</code> pattern.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">package</span> <span class="variable">com::me::myapp::proxies::AProxy</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span> <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">org::puremvc::perl5::patterns::proxy::Proxy</span><span class="operator">;</span>
+  <span class="keyword">our</span> <span class="variable">@ISA</span> <span class="operator">=</span> <span class="string">qw( org::puremvc::perl5::patterns::proxy::Proxy )</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> onRegister </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+  
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">sendNotification</span><span class="operator">(</span><span class="string">"ANotification"</span><span class="operator">);</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> onRemove </span><span class="operator">{</span>
+    <span class="keyword">print</span> <span class="string">"AProxy removed\n"</span><span class="operator">;</span>
+  
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, <code>Proxy</code> implementors assume these responsibilities:</p>
+<ul>
+<li>
+<p>Implement a common method which returns the name of the <code>Proxy</code>.</p>
+</li>
+<li>
+<p>Provide methods for setting and getting the data object.</p>
+</li>
+</ul>
+<p>Additionally, proxies typically:</p>
+<ul>
+<li>
+<p>Maintain references to one or more pieces of model data.</p>
+</li>
+<li>
+<p>Provide methods for manipulating that data.</p>
+</li>
+<li>
+<p>Generate <a href="../observer/Notification.html">notification</a> when their <a href="../../core/Model.html">model</a> data changes.</p>
+</li>
+<li>
+<p>Encapsulate interaction with local or remote services used to fetch and persist model data.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong></dt>
+
+<dd>
+<p><a href="#new"><code>sub new( $proxy_name, $data );</code></a></p>
+<p>Constructor.</p>
+<p>A <code>Proxy</code> might simply manage a reference to a local data object, in which case interacting with it might involve setting and getting of its data in synchronous fashion.</p>
+<p><code>Proxy</code> classes are also used to encapsulate the application's interaction with remote services to save or retrieve data, in which case, we adopt an asyncronous idiom; setting data (or calling a method) on the <code>Proxy</code> and listening for a <a href="../observer/Notification.html">notification</a> to be sent when the <code>Proxy</code> has retrieved the data from the service.</p>
+<p>It is common to define a default name for your <code>Proxy</code> class implementation by mean of a constant:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">constant</span> <span class="string">NAME</span> <span class="operator">=&gt;</span> <span class="string">"com::me::myapp::proxies::AProxy"</span><span class="operator">;</span>
+</pre>
+<p>To register an instance of your <code>Proxy</code> class you can then do as follows:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::proxies::AProxy</span><span class="operator">;</span>
+  
+  <span class="keyword">my</span> <span class="variable">$facade</span> <span class="operator">=</span> <span class="variable">org::puremvc::perl5::patterns::facade::Facade</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">();</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$proxy</span> <span class="operator">=</span> <span class="variable">com::me::myapp::proxies::AProxy</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="variable">com::me::myapp::proxies::AProxy::NAME</span> <span class="operator">);</span>
+  <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">registerProxy</span><span class="operator">(</span><span class="variable">$proxy</span><span class="operator">);</span>
+</pre>
+<p>It is possible to register several instances of the same <code>Proxy</code> class. You must then give different names to each instance registration in order to fully qualify them in your application:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::proxies::AProxy</span><span class="operator">;</span>
+  
+  <span class="keyword">my</span> <span class="variable">$facade</span> <span class="operator">=</span> <span class="variable">org::puremvc::perl5::patterns::facade::Facade</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">();</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$proxy</span> <span class="operator">=</span> <span class="variable">com::me::myapp::proxies::AProxy</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="variable">com::me::myapp::proxies::AProxy::NAME</span> <span class="operator">);</span>
+  <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">registerProxy</span><span class="operator">(</span><span class="variable">$proxy</span><span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$other_proxy</span> <span class="operator">=</span> <span class="variable">com::me::myapp::proxies::AProxy</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">"SOME_OTHER_NAME"</span> <span class="operator">);</span>
+  <span class="variable">$facade</span><span class="operator">-&gt;</span><span class="variable">registerProxy</span><span class="operator">(</span><span class="variable">$other_proxy</span><span class="operator">);</span>
+</pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name by which any retrieval, removal, or existence checking will be achieved in your application.</p>
+</li>
+<li>
+<p><code>$data - *</code></p>
+<p>Object instance representing business data - Optional.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getproxyname" class="item">getProxyName</a></strong></dt>
+
+<dd>
+<p><a href="#getproxyname"><code>sub getProxyName();</code></a></p>
+<p><code>Proxy</code> name getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>String</code> - The <code>proxy's</code> name.</p>
+</dd>
+<dt><strong><a name="setdata" class="item">setData</a></strong></dt>
+
+<dd>
+<p><a href="#setdata"><code>sub setData( $data );</code></a></p>
+<p><code>Proxy</code>'s local data setter.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$data - *</code></p>
+<p>Object instance or scalar representing business data.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getdata" class="item">getData</a></strong></dt>
+
+<dd>
+<p><a href="#getdata"><code>sub getData( $data );</code></a></p>
+<p><code>Proxy</code>'s local data getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>*</code> - <code>Proxy</code>'s local data object or scalar.</p>
+</dd>
+<dt><strong><a name="onregister" class="item">onRegister</a></strong></dt>
+
+<dd>
+<p><a href="#onregister"><code>sub onRegister();</code></a></p>
+<p>Called by the <a href="../../core/Model.html">model</a> when the <code>Proxy</code> is registered.</p>
+</dd>
+<dt><strong><a name="onremove" class="item">onRemove</a></strong></dt>
+
+<dd>
+<p><a href="#onremove"><code>sub onRemove();</code></a></p>
+<p>Called by the <a href="../../core/Model.html">model</a> when the <code>Proxy</code> is removed.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../core/Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="../../core/View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../../core/Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

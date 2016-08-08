@@ -1,0 +1,146 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex Application Skeleton 
+ Copyright (c) 2007 Daniele Ugoletti &lt;daniele.ugoletti@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+     
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">components</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Mediator for interacting with the top level Application.
+     * 
+     * &lt;P&gt;
+     * In addition to the ordinary responsibilities of a mediator
+     * the MXML application (in this case) built all the view components
+     * and so has a direct reference to them internally. Therefore
+     * we create and register the mediators for each view component
+     * with an associated mediator here.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * Then, ongoing responsibilities are: 
+     * &lt;UL&gt;
+     * &lt;LI&gt;listening for events from the viewComponent (the application)&lt;/LI&gt;
+     * &lt;LI&gt;sending notifications on behalf of or as a result of these 
+     * events or other notifications.&lt;/LI&gt;
+     * &lt;LI&gt;direct manipulating of the viewComponent by method invocation
+     * or property setting&lt;/LI&gt;
+     * &lt;/UL&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// Cannonical name of the Mediator
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;ApplicationMediator&quot;</span>;
+        
+        <span class="ActionScriptComment">// available values for the main viewstack
+</span>        <span class="ActionScriptComment">// defined as contants to help uncover errors at compile time instead of run time
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">SPLASH_SCREEN</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>     <span class="ActionScriptOperator">=</span>    1;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">MAIN_SCREEN</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Number</span>     <span class="ActionScriptOperator">=</span>    2;
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * On &lt;code&gt;applicationComplete&lt;/code&gt; in the &lt;code&gt;Application&lt;/code&gt;,
+         * the &lt;code&gt;ApplicationFacade&lt;/code&gt; is initialized and the 
+         * &lt;code&gt;ApplicationMediator&lt;/code&gt; is created and registered.&lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * The &lt;code&gt;ApplicationMediator&lt;/code&gt; constructor also registers the 
+         * Mediators for the view components created by the application.&lt;/P&gt;
+         * 
+         * @param object the viewComponent (the ApplicationSkeleton instance in this case)
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AppSkeleton</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// pass the viewComponent to the superclass where 
+</span>            <span class="ActionScriptComment">// it will be stored in the inherited viewComponent property
+</span>            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Create and register Mediators
+</span>            <span class="ActionScriptComment">// components that were instantiated by the mxml application 
+</span>            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">SplashScreenMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">splashScreen</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MainScreenMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">mainScreen</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * List all notifications this Mediator is interested in.
+         * &lt;P&gt;
+         * Automatically called by the framework when the mediator
+         * is registered with the view.&lt;/P&gt;
+         * 
+         * @return Array the list of Nofitication names
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span>
+                        <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">VIEW_SPLASH_SCREEN</span>,
+                        <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">VIEW_MAIN_SCREEN</span>
+                    <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Handle all notifications this Mediator is interested in.
+         * &lt;P&gt;
+         * Called by the framework when a notification is sent that
+         * this mediator expressed an interest in when registered
+         * (see &lt;code&gt;listNotificationInterests&lt;/code&gt;.&lt;/P&gt;
+         * 
+         * @param INotification a notification 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">VIEW_SPLASH_SCREEN</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">vwStack</span>.<span class="ActionScriptDefault_Text">selectedIndex</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">SPLASH_SCREEN</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">VIEW_MAIN_SCREEN</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">vwStack</span>.<span class="ActionScriptDefault_Text">selectedIndex</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">MAIN_SCREEN</span>;
+                    <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Cast the viewComponent to its actual type.
+         * 
+         * &lt;P&gt;
+         * This is a useful idiom for mediators. The
+         * PureMVC Mediator class defines a viewComponent
+         * property of type Object. &lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * Here, we cast the generic viewComponent to 
+         * its actual type in a protected mode. This 
+         * retains encapsulation, while allowing the instance
+         * (and subclassed instance) access to a 
+         * strongly typed reference with a meaningful
+         * name.&lt;/P&gt;
+         * 
+         * @return app the viewComponent cast to AppSkeleton
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AppSkeleton</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">AppSkeleton</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

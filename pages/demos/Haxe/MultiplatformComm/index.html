@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>multiplatform communication demo</title>
+<script type="text/javascript" src="out.js"></script>
+
+<style>
+body
+{
+	font-family: arial;
+}
+
+a
+{
+	text-decoration: none;
+	color: #999999;
+}
+
+#js_container
+{
+	position: relative;
+	width: 540px;
+	height: 60px;
+	background-color: #dedede;
+}
+
+#box
+{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	background-color: #666666;
+	top: 10px;
+}
+</style>
+</head>
+<body onLoad="setTimeout( MultiplatformComm.main(), 500 )">
+	<p><em>This example shows how to communicate (using notificatons) between different platforms using pureMVC and haXe remoting (flash 8 and 9 only). The core application is javascript based, but could be easily written in flash8/flash9.</em></p>
+	<p>choose value:&nbsp;<input type="text" id="distance" value="10" />&nbsp;<a id="send_link" href="#">send</a></p>
+
+	<h4>view 1: flash9</h4>
+	<div id="flash9_container">
+		<object	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+	    	width="540"
+			height="60"
+			id="haxe_fl9"
+			align="middle">
+			<param name="movie" value="out_fl9.swf"/>
+			<param name="allowScriptAccess" value="always" />
+			<param name="quality" value="high" />
+			<param name="scale" value="noscale" />
+			<param name="salign" value="lt" />
+			<param name="bgcolor" value="#dedede"/>
+			<embed src="out_fl9.swf"
+	       		bgcolor="#dedede"
+	       		width="540"
+	       		height="60"
+	       		name="haxe_fl9"
+	       		quality="high"
+	       		align="middle"
+	       		allowScriptAccess="always"
+	       		type="application/x-shockwave-flash"
+	       		pluginspage="http://www.macromedia.com/go/getflashplayer"
+			/>
+		</object>
+	</div>
+	<hr />
+
+	<h4>view 2: flash8</h4>
+	<div id="flash8_container">
+		<object	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+	    	width="540"
+			height="60"
+			id="haxe_fl8"
+			align="middle">
+			<param name="movie" value="out_fl8.swf"/>
+			<param name="allowScriptAccess" value="always" />
+			<param name="quality" value="high" />
+			<param name="scale" value="noscale" />
+			<param name="salign" value="lt" />
+			<param name="bgcolor" value="#dedede"/>
+			<embed src="out_fl8.swf"
+	       		bgcolor="#dedede"
+	       		width="540"
+	       		height="60"
+	       		name="haxe_fl8"
+	       		quality="high"
+	       		align="middle"
+	       		allowScriptAccess="always"
+	       		type="application/x-shockwave-flash"
+	       		pluginspage="http://www.macromedia.com/go/getflashplayer"
+			/>
+		</object>
+	</div>
+	<hr />
+
+	<h4>view 3: javascript</h4>
+	<div id="js_container"><div id="box"></div></div>
+	<hr />
+	
+	<div id="haxe:trace"></div>
+</body>

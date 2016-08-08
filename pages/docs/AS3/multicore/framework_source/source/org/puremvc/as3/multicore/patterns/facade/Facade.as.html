@@ -1,0 +1,363 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Facade.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A base Multiton &lt;code&gt;IFacade&lt;/code&gt; implementation.
+     * 
+     * @see org.puremvc.as3.multicore.core.Model Model
+     * @see org.puremvc.as3.multicore.core.View View
+     * @see org.puremvc.as3.multicore.core.Controller Controller 
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Facade</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IFacade</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * This &lt;code&gt;IFacade&lt;/code&gt; implementation is a Multiton, 
+         * so you should not call the constructor 
+         * directly, but instead call the static Factory method, 
+         * passing the unique key for this instance 
+         * &lt;code&gt;Facade.getInstance( multitonKey )&lt;/code&gt;
+         * 
+         * @throws Error Error if instance for this Multiton key has already been constructed
+         * 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">Facade</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">throw</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MULTITON_MSG</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">initializeNotifier</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>;
+            <span class="ActionScriptDefault_Text">initializeFacade</span><span class="ActionScriptBracket/Brace">()</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Initialize the Multiton &lt;code&gt;Facade&lt;/code&gt; instance.
+         * 
+         * &lt;P&gt;
+         * Called automatically by the constructor. Override in your
+         * subclass to do any subclass specific initializations. Be
+         * sure to call &lt;code&gt;super.initializeFacade()&lt;/code&gt;, though.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeFacade</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">initializeModel</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">initializeView</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Facade Multiton Factory method
+         * 
+         * @return the Multiton instance of the Facade
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Facade</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Initialize the &lt;code&gt;Controller&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Called by the &lt;code&gt;initializeFacade&lt;/code&gt; method.
+         * Override this method in your subclass of &lt;code&gt;Facade&lt;/code&gt; 
+         * if one or both of the following are true:
+         * &lt;UL&gt;
+         * &lt;LI&gt; You wish to initialize a different &lt;code&gt;IController&lt;/code&gt;.&lt;/LI&gt;
+         * &lt;LI&gt; You have &lt;code&gt;Commands&lt;/code&gt; to register with the &lt;code&gt;Controller&lt;/code&gt; at startup.&lt;/code&gt;. &lt;/LI&gt;          
+         * &lt;/UL&gt;
+         * If you don&apos;t want to initialize a different &lt;code&gt;IController&lt;/code&gt;, 
+         * call &lt;code&gt;super.initializeController()&lt;/code&gt; at the beginning of your
+         * method, then register &lt;code&gt;Command&lt;/code&gt;s.
+         * &lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">controller</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptDefault_Text">controller</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Initialize the &lt;code&gt;Model&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Called by the &lt;code&gt;initializeFacade&lt;/code&gt; method.
+         * Override this method in your subclass of &lt;code&gt;Facade&lt;/code&gt; 
+         * if one or both of the following are true:
+         * &lt;UL&gt;
+         * &lt;LI&gt; You wish to initialize a different &lt;code&gt;IModel&lt;/code&gt;.&lt;/LI&gt;
+         * &lt;LI&gt; You have &lt;code&gt;Proxy&lt;/code&gt;s to register with the Model that do not 
+         * retrieve a reference to the Facade at construction time.&lt;/code&gt;&lt;/LI&gt; 
+         * &lt;/UL&gt;
+         * If you don&apos;t want to initialize a different &lt;code&gt;IModel&lt;/code&gt;, 
+         * call &lt;code&gt;super.initializeModel()&lt;/code&gt; at the beginning of your
+         * method, then register &lt;code&gt;Proxy&lt;/code&gt;s.
+         * &lt;P&gt;
+         * Note: This method is &lt;i&gt;rarely&lt;/i&gt; overridden; in practice you are more
+         * likely to use a &lt;code&gt;Command&lt;/code&gt; to create and register &lt;code&gt;Proxy&lt;/code&gt;s
+         * with the &lt;code&gt;Model&lt;/code&gt;, since &lt;code&gt;Proxy&lt;/code&gt;s with mutable data will likely
+         * need to send &lt;code&gt;INotification&lt;/code&gt;s and thus will likely want to fetch a reference to 
+         * the &lt;code&gt;Facade&lt;/code&gt; during their construction. 
+         * &lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeModel</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">model</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptDefault_Text">model</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+
+        <span class="ActionScriptASDoc">/**
+         * Initialize the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Called by the &lt;code&gt;initializeFacade&lt;/code&gt; method.
+         * Override this method in your subclass of &lt;code&gt;Facade&lt;/code&gt; 
+         * if one or both of the following are true:
+         * &lt;UL&gt;
+         * &lt;LI&gt; You wish to initialize a different &lt;code&gt;IView&lt;/code&gt;.&lt;/LI&gt;
+         * &lt;LI&gt; You have &lt;code&gt;Observers&lt;/code&gt; to register with the &lt;code&gt;View&lt;/code&gt;&lt;/LI&gt;
+         * &lt;/UL&gt;
+         * If you don&apos;t want to initialize a different &lt;code&gt;IView&lt;/code&gt;, 
+         * call &lt;code&gt;super.initializeView()&lt;/code&gt; at the beginning of your
+         * method, then register &lt;code&gt;IMediator&lt;/code&gt; instances.
+         * &lt;P&gt;
+         * Note: This method is &lt;i&gt;rarely&lt;/i&gt; overridden; in practice you are more
+         * likely to use a &lt;code&gt;Command&lt;/code&gt; to create and register &lt;code&gt;Mediator&lt;/code&gt;s
+         * with the &lt;code&gt;View&lt;/code&gt;, since &lt;code&gt;IMediator&lt;/code&gt; instances will need to send 
+         * &lt;code&gt;INotification&lt;/code&gt;s and thus will likely want to fetch a reference 
+         * to the &lt;code&gt;Facade&lt;/code&gt; during their construction. 
+         * &lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeView</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;ICommand&lt;/code&gt; with the &lt;code&gt;Controller&lt;/code&gt; by Notification name.
+         * 
+         * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt; to associate the &lt;code&gt;ICommand&lt;/code&gt; with
+         * @param commandClassRef a reference to the Class of the &lt;code&gt;ICommand&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">commandClassRef</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Class</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span>, <span class="ActionScriptDefault_Text">commandClassRef</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove a previously registered &lt;code&gt;ICommand&lt;/code&gt; to &lt;code&gt;INotification&lt;/code&gt; mapping from the Controller.
+         * 
+         * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt; to remove the &lt;code&gt;ICommand&lt;/code&gt; mapping for
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Command is registered for a given Notification 
+         * 
+         * @param notificationName
+         * @return whether a Command is currently registered for the given &lt;code&gt;notificationName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IProxy&lt;/code&gt; with the &lt;code&gt;Model&lt;/code&gt; by name.
+         * 
+         * @param proxyName the name of the &lt;code&gt;IProxy&lt;/code&gt;.
+         * @param proxy the &lt;code&gt;IProxy&lt;/code&gt; instance to be registered with the &lt;code&gt;Model&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerProxy</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>    
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">registerProxy</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+                
+        <span class="ActionScriptASDoc">/**
+         * Retrieve an &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt; by name.
+         * 
+         * @param proxyName the name of the proxy to be retrieved.
+         * @return the &lt;code&gt;IProxy&lt;/code&gt; instance previously registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">retrieveProxy</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt; by name.
+         *
+         * @param proxyName the &lt;code&gt;IProxy&lt;/code&gt; to remove from the &lt;code&gt;Model&lt;/code&gt;.
+         * @return the &lt;code&gt;IProxy&lt;/code&gt; that was removed from the &lt;code&gt;Model&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeProxy</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">model</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">removeProxy</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">)</span>;    
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">proxy</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Proxy is registered
+         * 
+         * @param proxyName
+         * @return whether a Proxy is currently registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register a &lt;code&gt;IMediator&lt;/code&gt; with the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName the name to associate with this &lt;code&gt;IMediator&lt;/code&gt;
+         * @param mediator a reference to the &lt;code&gt;IMediator&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Retrieve an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; previously registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName name of the &lt;code&gt;IMediator&lt;/code&gt; to be removed.
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; that was removed from the &lt;code&gt;View&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IMediator</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">)</span>;            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">mediator</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Mediator is registered or not
+         * 
+         * @param mediatorName
+         * @return whether a Mediator is registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Create and send an &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Keeps us from having to construct new notification 
+         * instances in our implementation code.
+         * @param notificationName the name of the notiification to send
+         * @param body the body of the notification (optional)
+         * @param type the type of the notification (optional)
+         */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">body</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">type</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span>, <span class="ActionScriptDefault_Text">body</span>, <span class="ActionScriptDefault_Text">type</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Notify &lt;code&gt;Observer&lt;/code&gt;s.
+         * &lt;P&gt;
+         * This method is left public mostly for backward 
+         * compatibility, and to allow you to send custom 
+         * notification classes using the facade.&lt;/P&gt;
+         *&lt;P&gt; 
+         * Usually you should just call sendNotification
+         * and pass the parameters, never having to 
+         * construct the notification yourself.&lt;/P&gt;
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to have the &lt;code&gt;View&lt;/code&gt; notify &lt;code&gt;Observers&lt;/code&gt; of.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">notifyObservers</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/** 
+         * Set the Multiton key for this facade instance.
+         * &lt;P&gt;
+         * Not called directly, but instead from the 
+         * constructor when getInstance is invoked. 
+         * It is necessary to be public in order to 
+         * implement INotifier.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeNotifier</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">key</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Core is registered or not
+         * 
+         * @param key the multiton key for the Core in question
+         * @return whether a Core is registered with the given &lt;code&gt;key&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasCore</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove a Core.
+         * &lt;P&gt;
+         * Remove the Model, View, Controller and Facade 
+         * instances for the given key.&lt;/P&gt;
+         * 
+         * @param multitonKey of the Core to remove
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeCore</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptDefault_Text">Model</span>.<span class="ActionScriptDefault_Text">removeModel</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>; 
+            <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">removeView</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">Controller</span>.<span class="ActionScriptDefault_Text">removeController</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">delete</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">// References to Model, View and Controller
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">controller</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IController</span>;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">model</span>         <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IModel</span>;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span>         <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IView</span>;
+        
+        <span class="ActionScriptComment">// The Multiton Key for this app
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>;
+        
+        <span class="ActionScriptComment">// The Multiton Facade instanceMap.
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">instanceMap</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>; 
+        
+        <span class="ActionScriptComment">// Message Constants
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">MULTITON_MSG</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Facade instance for this Multiton key already constructed!&quot;</span>;
+    
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

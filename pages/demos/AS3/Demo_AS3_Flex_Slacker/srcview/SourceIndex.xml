@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Slacker</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_2_0_4.swc" url="source/libs/PureMVC_AS3_2_0_4.swc"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="assets">
+				<node label="slacker-transparent.png" icon="imageIcon" url="source/assets/slacker-transparent.png.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.slacker" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.slacker.controller" icon="packageIcon" expanded="true">
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.slacker.model">
+			</node>
+			<node label="org.puremvc.as3.demos.flex.slacker.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/ApplicationMediator.as.html"/>
+				<node label="EditorViewMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/EditorViewMediator.as.html"/>
+				<node label="GalleryViewMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/GalleryViewMediator.as.html"/>
+				<node label="MainDisplayMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/MainDisplayMediator.as.html"/>
+				<node label="ProfileViewMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/ProfileViewMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.slacker.view.components" icon="packageIcon" expanded="true">
+				<node label="EditorView.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/components/EditorView.mxml.html"/>
+				<node label="GalleryView.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/components/GalleryView.mxml.html"/>
+				<node label="MainDisplay.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/components/MainDisplay.mxml.html"/>
+				<node label="ProfileView.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/components/ProfileView.mxml.html"/>
+				<node label="SplashView.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/slacker/view/components/SplashView.mxml.html"/>
+			</node>
+			<node selected="true" label="Slacker.mxml" icon="mxmlAppIcon" url="source/Slacker.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

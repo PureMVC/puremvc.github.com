@@ -1,0 +1,68 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.interfaces.IFacade - PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.interfaces" rel="up"/><link href="../../../../org/puremvc/as2/core/Model.html" title="Class org.puremvc.as2.core.Model" rel="prev"/><link href="../../../../org/puremvc/as2/interfaces/IController.html" title="Interface org.puremvc.as2.interfaces.IController" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Interface org.puremvc.as2.interfaces.IFacade</h1><div class="type_hierachy"><ul><li><a href="../../../../org/puremvc/as2/interfaces/INotifier.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotifier">org.puremvc.as2.interfaces.INotifier</a><ul><li><strong>org.puremvc.as2.interfaces.IFacade</strong></li></ul></li></ul></div><div class="type_description"><h2>Description</h2><p>
+ The interface definition for a PureMVC Facade.
+
+ <P>
+ The Facade Pattern suggests providing a single
+ class to act as a central point of communication 
+ for a subsystem. </P>
+ 
+ <P>
+ In PureMVC, the Facade acts as an interface between
+ the core MVC actors (Model, View, Controller) and
+ the rest of your application.</P>
+ 
+ </p><h4>See Also</h4><ul class="extra_info"><li><a href="../../../../org/puremvc/as2/interfaces/IModel.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IModel">IModel</a></li><li><a href="../../../../org/puremvc/as2/interfaces/IView.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IView">IView</a></li><li><a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">IController</a></li><li><a href="../../../../org/puremvc/as2/interfaces/ICommand.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.ICommand">ICommand</a></li><li><a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a></li></ul></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><a href="#hasCommand" title="function hasCommand(notificationName:String):Boolean">hasCommand()</a>, <a href="#hasMediator" title="function hasMediator(mediatorName:String):Boolean">hasMediator()</a>, <a href="#hasProxy" title="function hasProxy(proxyName:String):Boolean">hasProxy()</a>, <a href="#notifyObservers" title="function notifyObservers(note:INotification):Void">notifyObservers()</a>, <a href="#registerCommand" title="function registerCommand(noteName:String, commandClassRef:Function):Void">registerCommand()</a>, <a href="#registerMediator" title="function registerMediator(mediator:IMediator):Void">registerMediator()</a>, <a href="#registerProxy" title="function registerProxy(proxy:IProxy):Void">registerProxy()</a>, <a href="#removeCommand" title="function removeCommand(notificationName:String):Void">removeCommand()</a>, <a href="#removeMediator" title="function removeMediator(mediatorName:String):IMediator">removeMediator()</a>, <a href="#removeProxy" title="function removeProxy(proxyName:String):IProxy">removeProxy()</a>, <a href="#retrieveMediator" title="function retrieveMediator(mediatorName:String):IMediator">retrieveMediator()</a>, <a href="#retrieveProxy" title="function retrieveProxy(proxyName:String):IProxy">retrieveProxy()</a><h4>Inherited from <a href="../../../../org/puremvc/as2/interfaces/INotifier.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotifier">INotifier</a></h4><div class="extra_info"><a href="../../../../org/puremvc/as2/interfaces/INotifier.html#sendNotification" title="function sendNotification(notificationName:String, body:Object, type:String):Void">sendNotification()</a></div></div></div><div class="type_details"><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="notifyObservers"></a><h3>notifyObservers</h3><code class="method_synopsis">function <strong class="method_name">notifyObservers</strong>(note:<a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Notify <code>Observer</code>s of an <code>INotification</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>note</code></td><td>the <code>INotification</code> to have the <code>View</code> notify observers of.
+	 </td></tr></table></div></div><div class="method_details"><a name="registerProxy"></a><h3>registerProxy</h3><code class="method_synopsis">function <strong class="method_name">registerProxy</strong>(proxy:<a href="../../../../org/puremvc/as2/interfaces/IProxy.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IProxy">IProxy</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register an <code>IProxy</code> with the <code>Model</code> by name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxy</code></td><td>the <code>IProxy</code> to be registered with the <code>Model</code>.
+	 </td></tr></table></div></div><div class="method_details alt_row"><a name="retrieveProxy"></a><h3>retrieveProxy</h3><code class="method_synopsis">function <strong class="method_name">retrieveProxy</strong>(proxyName:<span class="unresolved_type_name">String</span>):<a href="../../../../org/puremvc/as2/interfaces/IProxy.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IProxy">IProxy</a></code><div class="method_info"><p>
+ Retrieve a <code>IProxy</code> from the <code>Model</code> by name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxyName</code></td><td>the name of the <code>IProxy</code> instance to be retrieved.
+ </td></tr></table><h4>Return</h4><p class="extra_info"> the <code>IProxy</code> previously regisetered by <code>proxyName</code> with the <code>Model</code>.
+	 </p></div></div><div class="method_details"><a name="removeProxy"></a><h3>removeProxy</h3><code class="method_synopsis">function <strong class="method_name">removeProxy</strong>(proxyName:<span class="unresolved_type_name">String</span>):<a href="../../../../org/puremvc/as2/interfaces/IProxy.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IProxy">IProxy</a></code><div class="method_info"><p>
+ Remove an <code>IProxy</code> instance from the <code>Model</code> by name.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxyName</code></td><td>the <code>IProxy</code> to remove from the <code>Model</code>.
+	 </td></tr></table></div></div><div class="method_details alt_row"><a name="hasProxy"></a><h3>hasProxy</h3><code class="method_synopsis">function <strong class="method_name">hasProxy</strong>(proxyName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Proxy is registered
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>proxyName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Proxy is currently registered with the given <code>proxyName</code>.
+	 </p></div></div><div class="method_details"><a name="registerCommand"></a><h3>registerCommand</h3><code class="method_synopsis">function <strong class="method_name">registerCommand</strong>(noteName:<span class="unresolved_type_name">String</span>, commandClassRef:<span class="unresolved_type_name">Function</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register an <code>ICommand</code> with the <code>Controller</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>noteName</code></td><td>the name of the <code>INotification</code> to associate the <code>ICommand</code> with.
+ </td></tr><tr><td><code>commandClassRef</code></td><td>the Class of the <code>ICommand</code>.
+	 </td></tr></table></div></div><div class="method_details alt_row"><a name="removeCommand"></a><h3>removeCommand</h3><code class="method_synopsis">function <strong class="method_name">removeCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Remove a previously registered <code>ICommand</code> to <code>INotification</code> mapping from the Controller.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
+	 </td></tr></table></div></div><div class="method_details"><a name="hasCommand"></a><h3>hasCommand</h3><code class="method_synopsis">function <strong class="method_name">hasCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Command is registered for a given Notification 
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Command is currently registered for the given <code>notificationName</code>.
+	 </p></div></div><div class="method_details alt_row"><a name="registerMediator"></a><h3>registerMediator</h3><code class="method_synopsis">function <strong class="method_name">registerMediator</strong>(mediator:<a href="../../../../org/puremvc/as2/interfaces/IMediator.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IMediator">IMediator</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register an <code>IMediator</code> instance with the <code>View</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediator</code></td><td>a reference to the <code>IMediator</code> instance
+	 </td></tr></table></div></div><div class="method_details"><a name="retrieveMediator"></a><h3>retrieveMediator</h3><code class="method_synopsis">function <strong class="method_name">retrieveMediator</strong>(mediatorName:<span class="unresolved_type_name">String</span>):<a href="../../../../org/puremvc/as2/interfaces/IMediator.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IMediator">IMediator</a></code><div class="method_info"><p>
+ Retrieve an <code>IMediator</code> instance from the <code>View</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediatorName</code></td><td>the name of the <code>IMediator</code> instance to retrievve
+ </td></tr></table><h4>Return</h4><p class="extra_info"> the <code>IMediator</code> previously registered with the given <code>mediatorName</code>.
+	 </p></div></div><div class="method_details alt_row"><a name="removeMediator"></a><h3>removeMediator</h3><code class="method_synopsis">function <strong class="method_name">removeMediator</strong>(mediatorName:<span class="unresolved_type_name">String</span>):<a href="../../../../org/puremvc/as2/interfaces/IMediator.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IMediator">IMediator</a></code><div class="method_info"><p>
+ Remove a <code>IMediator</code> instance from the <code>View</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediatorName</code></td><td>name of the <code>IMediator</code> instance to be removed.
+	 </td></tr></table></div></div><div class="method_details"><a name="hasMediator"></a><h3>hasMediator</h3><code class="method_synopsis">function <strong class="method_name">hasMediator</strong>(mediatorName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Mediator is registered or not
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>mediatorName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Mediator is registered with the given <code>mediatorName</code>.
+	 </p></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.interfaces" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="IFacade.as.html" title="Source code of org.puremvc.as2.interfaces.IFacade" class="button">Source</a></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

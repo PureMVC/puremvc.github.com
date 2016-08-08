@@ -1,0 +1,52 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>SimpleCommand.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span> 
+<span class="ActionScriptBracket/Brace">{</span>
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">Notifier</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A base &lt;code&gt;ICommand&lt;/code&gt; implementation.
+     * 
+     * &lt;P&gt;
+     * Your subclass should override the &lt;code&gt;execute&lt;/code&gt; 
+     * method where your business logic will handle the &lt;code&gt;INotification&lt;/code&gt;. &lt;/P&gt;
+     * 
+     * @see org.puremvc.as3.multicore.core.Controller Controller
+     * @see org.puremvc.as3.multicore.patterns.observer.Notification Notification
+     * @see org.puremvc.as3.multicore.patterns.command.MacroCommand MacroCommand
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">SimpleCommand</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Notifier</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">ICommand</span>, <span class="ActionScriptDefault_Text">INotifier</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Fulfill the use-case initiated by the given &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * In the Command Pattern, an application use-case typically
+         * begins with some user action, which results in an &lt;code&gt;INotification&lt;/code&gt; being broadcast, which 
+         * is handled by business logic in the &lt;code&gt;execute&lt;/code&gt; method of an
+         * &lt;code&gt;ICommand&lt;/code&gt;.&lt;/P&gt;
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to handle.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">execute</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+                                
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

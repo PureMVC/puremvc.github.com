@@ -1,0 +1,111 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>MainScreenMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex Application Skeleton 
+ Copyright (c) 2007 Daniele Ugoletti &lt;daniele.ugoletti@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">enum</span>.<span class="ActionScriptDefault_Text">ConfigKeyEnum</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">enum</span>.<span class="ActionScriptDefault_Text">LocaleKeyEnum</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Event</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">components</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A Mediator for interacting with the MainScreen component.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">MainScreenMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// Cannonical name of the Mediator
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;MainScreenMediator&quot;</span>;
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">configProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ConfigProxy</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">localeProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">LocaleProxy</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">MainScreenMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MainScreen</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// pass the viewComponent to the superclass where 
+</span>            <span class="ActionScriptComment">// it will be stored in the inherited viewComponent property
+</span>            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+            
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// retrieve the proxies
+</span>            <span class="ActionScriptDefault_Text">configProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ConfigProxy</span>;
+            <span class="ActionScriptDefault_Text">localeProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LocaleProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">LocaleProxy</span>;
+            
+            <span class="ActionScriptDefault_Text">mainScreen</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">MainScreen</span>.<span class="ActionScriptDefault_Text">CREATION_COMPLETE</span>, <span class="ActionScriptDefault_Text">handleCreationComplete</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+
+        <span class="ActionScriptASDoc">/**
+         * Cast the viewComponent to its actual type.
+         * 
+         * &lt;P&gt;
+         * This is a useful idiom for mediators. The
+         * PureMVC Mediator class defines a viewComponent
+         * property of type Object. &lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * Here, we cast the generic viewComponent to 
+         * its actual type in a protected mode. This 
+         * retains encapsulation, while allowing the instance
+         * (and subclassed instance) access to a 
+         * strongly typed reference with a meaningful
+         * name.&lt;/P&gt;
+         * 
+         * @return MainScreen the viewComponent cast to org.puremvc.as3.demos.flex.appskeleton.view.components.MainScreen
+         */</span>
+         
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">mainScreen</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">MainScreen</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">MainScreen</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/*********************************/</span>
+        <span class="ActionScriptComment">/* events handler                  */</span>
+        <span class="ActionScriptASDoc">/*********************************/</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleCreationComplete</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">evt</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">mainScreen</span>.<span class="ActionScriptDefault_Text">myText1</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">localeProxy</span>.<span class="ActionScriptDefault_Text">getText</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LocaleKeyEnum</span>.<span class="ActionScriptDefault_Text">HOW_TO_READ_CONFIG_VALUES</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">myHtmlText</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;simple value:&lt;/b&gt; configProxy.getValue( ConfigKeyEnum.KEY_NAME ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getValue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">OTHER_KEY_NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;long text value:&lt;/b&gt; configProxy.getValue( ConfigKeyEnum.OTHER_KEY_NAME ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getValue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">OTHER_KEY_NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;number value:&lt;/b&gt; configProxy.getNumber( ConfigKeyEnum.NUMBER_TEST ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getNumber</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">NUMBER_TEST</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;boolean value:&lt;/b&gt; configProxy.getBoolean( ConfigKeyEnum.BOOLEAN_TEST ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getBoolean</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">BOOLEAN_TEST</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;default value:&lt;/b&gt; configProxy.getValue( ConfigKeyEnum.TEST_DEFAULT_VALUE ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getValue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">TEST_DEFAULT_VALUE</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;value inside a group:&lt;/b&gt; configProxy.getValue( ConfigKeyEnum.GROUP_NAME + ConfigProxy.SEPARATOR + ConfigKeyEnum.KEY_INSIDE_GROUP ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getValue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">GROUP_NAME</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">ConfigProxy</span>.<span class="ActionScriptDefault_Text">SEPARATOR</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">KEY_INSIDE_GROUP</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;value inside neested group:&lt;/b&gt; configProxy.getValue( ConfigKeyEnum.GROUP_NAME + ConfigProxy.SEPARATOR + ConfigKeyEnum.SUBGROUP_NAME + ConfigProxy.SEPARATOR + ConfigKeyEnum.KEY_INSIDE_SUBGROUP  ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">configProxy</span>.<span class="ActionScriptDefault_Text">getValue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">GROUP_NAME</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">ConfigProxy</span>.<span class="ActionScriptDefault_Text">SEPARATOR</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">SUBGROUP_NAME</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">ConfigProxy</span>.<span class="ActionScriptDefault_Text">SEPARATOR</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">ConfigKeyEnum</span>.<span class="ActionScriptDefault_Text">KEY_INSIDE_SUBGROUP</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">mainScreen</span>.<span class="ActionScriptDefault_Text">myText2</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">myHtmlText</span>;
+            
+            <span class="ActionScriptDefault_Text">mainScreen</span>.<span class="ActionScriptDefault_Text">myText3</span>  <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">localeProxy</span>.<span class="ActionScriptDefault_Text">getText</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LocaleKeyEnum</span>.<span class="ActionScriptDefault_Text">HOW_TO_READ_LOCALE_TEXT</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">myHtmlLocaleText</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlLocaleText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;simple text resource:&lt;/b&gt; localeProxy.getText( LocaleKeyEnum.HELLO_WORLD ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">localeProxy</span>.<span class="ActionScriptDefault_Text">getText</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LocaleKeyEnum</span>.<span class="ActionScriptDefault_Text">HELLO_WORLD</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">myHtmlLocaleText</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptString">&apos;&lt;b&gt;long text resource:&lt;/b&gt; localeProxy.getText( LocaleKeyEnum.LONG_TEXT ) = &apos;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">localeProxy</span>.<span class="ActionScriptDefault_Text">getText</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">LocaleKeyEnum</span>.<span class="ActionScriptDefault_Text">LONG_TEXT</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&apos;&lt;br&gt;&apos;</span>;
+            <span class="ActionScriptDefault_Text">mainScreen</span>.<span class="ActionScriptDefault_Text">myText4</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">myHtmlLocaleText</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

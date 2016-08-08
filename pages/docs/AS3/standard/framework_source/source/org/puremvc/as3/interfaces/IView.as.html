@@ -1,0 +1,116 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IView.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptASDoc">/**
+     * The interface definition for a PureMVC View.
+     * 
+     * &lt;P&gt;
+     * In PureMVC, &lt;code&gt;IView&lt;/code&gt; implementors assume these responsibilities:&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * In PureMVC, the &lt;code&gt;View&lt;/code&gt; class assumes these responsibilities:
+     * &lt;UL&gt;
+     * &lt;LI&gt;Maintain a cache of &lt;code&gt;IMediator&lt;/code&gt; instances.&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for registering, retrieving, and removing &lt;code&gt;IMediators&lt;/code&gt;.&lt;/LI&gt;
+     * &lt;LI&gt;Managing the observer lists for each &lt;code&gt;INotification&lt;/code&gt; in the application.&lt;/LI&gt;
+     * &lt;LI&gt;Providing a method for attaching &lt;code&gt;IObservers&lt;/code&gt; to an &lt;code&gt;INotification&lt;/code&gt;&apos;s observer list.&lt;/LI&gt;
+     * &lt;LI&gt;Providing a method for broadcasting an &lt;code&gt;INotification&lt;/code&gt;.&lt;/LI&gt;
+     * &lt;LI&gt;Notifying the &lt;code&gt;IObservers&lt;/code&gt; of a given &lt;code&gt;INotification&lt;/code&gt; when it broadcast.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     * 
+     * @see org.puremvc.as3.interfaces.IMediator IMediator
+     * @see org.puremvc.as3.interfaces.IObserver IObserver
+     * @see org.puremvc.as3.interfaces.INotification INotification
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IView</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IObserver&lt;/code&gt; to be notified
+         * of &lt;code&gt;INotifications&lt;/code&gt; with a given name.
+         * 
+         * @param notificationName the name of the &lt;code&gt;INotifications&lt;/code&gt; to notify this &lt;code&gt;IObserver&lt;/code&gt; of
+         * @param observer the &lt;code&gt;IObserver&lt;/code&gt; to register
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IObserver</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Remove a group of observers from the observer list for a given Notification name.
+         * &lt;P&gt;
+         * @param notificationName which observer list to remove from 
+         * @param notifyContext removed the observers with this object as their notifyContext
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">notifyContext</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Notify the &lt;code&gt;IObservers&lt;/code&gt; for a particular &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * All previously attached &lt;code&gt;IObservers&lt;/code&gt; for this &lt;code&gt;INotification&lt;/code&gt;&apos;s
+         * list are notified and are passed a reference to the &lt;code&gt;INotification&lt;/code&gt; in 
+         * the order in which they were registered.&lt;/P&gt;
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to notify &lt;code&gt;IObservers&lt;/code&gt; of.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IMediator&lt;/code&gt; instance with the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Registers the &lt;code&gt;IMediator&lt;/code&gt; so that it can be retrieved by name,
+         * and further interrogates the &lt;code&gt;IMediator&lt;/code&gt; for its 
+         * &lt;code&gt;INotification&lt;/code&gt; interests.&lt;/P&gt;
+         * &lt;P&gt;
+         * If the &lt;code&gt;IMediator&lt;/code&gt; returns any &lt;code&gt;INotification&lt;/code&gt; 
+         * names to be notified about, an &lt;code&gt;Observer&lt;/code&gt; is created encapsulating 
+         * the &lt;code&gt;IMediator&lt;/code&gt; instance&apos;s &lt;code&gt;handleNotification&lt;/code&gt; method 
+         * and registering it as an &lt;code&gt;Observer&lt;/code&gt; for all &lt;code&gt;INotifications&lt;/code&gt; the 
+         * &lt;code&gt;IMediator&lt;/code&gt; is interested in.&lt;/p&gt;
+         * 
+         * @param mediatorName the name to associate with this &lt;code&gt;IMediator&lt;/code&gt; instance
+         * @param mediator a reference to the &lt;code&gt;IMediator&lt;/code&gt; instance
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Retrieve an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName the name of the &lt;code&gt;IMediator&lt;/code&gt; instance to retrieve.
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; instance previously registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName name of the &lt;code&gt;IMediator&lt;/code&gt; instance to be removed.
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; that was removed from the &lt;code&gt;View&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Check if a Mediator is registered or not
+         * 
+         * @param mediatorName
+         * @return whether a Mediator is registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>;
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+    
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.patterns.facade.FacadeTest - PureMVC Unit Tests</title><script src="../../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../../index-files";
+//--></script><link href="../../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.patterns.facade" rel="up"/><link href="../../../../../org/puremvc/as2/patterns/command/SimpleCommandTest.html" title="Class org.puremvc.as2.patterns.command.SimpleCommandTest" rel="prev"/><link href="../../../../../org/puremvc/as2/patterns/mediator/MockMediator.html" title="Class org.puremvc.as2.patterns.mediator.MockMediator" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Class org.puremvc.as2.patterns.facade.FacadeTest</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.patterns.facade.FacadeTest</strong></li></ul></div><div class="type_description"></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><a href="#testGetInstance" title="public function testGetInstance():Void">testGetInstance()</a>, <a href="#testHasCommand" title="public function testHasCommand():Void">testHasCommand()</a>, <a href="#testHasMediator" title="public function testHasMediator():Void">testHasMediator()</a>, <a href="#testHasProxy" title="public function testHasProxy():Void">testHasProxy()</a>, <a href="#testRegisterAndRemoveCommandAndSendNotification" title="public function testRegisterAndRemoveCommandAndSendNotification():Void">testRegisterAndRemoveCommandAndSendNotification()</a>, <a href="#testRegisterAndRemoveProxy" title="public function testRegisterAndRemoveProxy():Void">testRegisterAndRemoveProxy()</a>, <a href="#testRegisterAndRetrieveProxy" title="public function testRegisterAndRetrieveProxy():Void">testRegisterAndRetrieveProxy()</a>, <a href="#testRegisterCommandAndSendNotification" title="public function testRegisterCommandAndSendNotification():Void">testRegisterCommandAndSendNotification()</a>, <a href="#testRegisterRetrieveAndRemoveMediator" title="public function testRegisterRetrieveAndRemoveMediator():Void">testRegisterRetrieveAndRemoveMediator()</a></div></div><div class="type_details"><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="testGetInstance"></a><h3>testGetInstance</h3><code class="method_synopsis">public function <strong class="method_name">testGetInstance</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests the Facade Singleton Factory Method 
+	 </p></div></div><div class="method_details"><a name="testRegisterCommandAndSendNotification"></a><h3>testRegisterCommandAndSendNotification</h3><code class="method_synopsis">public function <strong class="method_name">testRegisterCommandAndSendNotification</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests Command registration and execution via the Facade.
+ 
+ <P>
+ This test gets the Singleton Facade instance 
+ and registers the FacadeTestCommand class 
+ to handle 'FacadeTest' Notifcations.<P>
+ 
+ <P>
+ It then sends a notification using the Facade. 
+ Success is determined by evaluating 
+ a property on an object placed in the body of
+ the Notification, which will be modified by the Command.</P>
+ 
+	 </p></div></div><div class="method_details alt_row"><a name="testRegisterAndRemoveCommandAndSendNotification"></a><h3>testRegisterAndRemoveCommandAndSendNotification</h3><code class="method_synopsis">public function <strong class="method_name">testRegisterAndRemoveCommandAndSendNotification</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests Command removal via the Facade.
+ 
+ <P>
+ This test gets the Singleton Facade instance 
+ and registers the FacadeTestCommand class 
+ to handle 'FacadeTest' Notifcations. Then it removes the command.<P>
+ 
+ <P>
+ It then sends a Notification using the Facade. 
+ Success is determined by evaluating 
+ a property on an object placed in the body of
+ the Notification, which will NOT be modified by the Command.</P>
+ 
+	 </p></div></div><div class="method_details"><a name="testRegisterAndRetrieveProxy"></a><h3>testRegisterAndRetrieveProxy</h3><code class="method_synopsis">public function <strong class="method_name">testRegisterAndRetrieveProxy</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests the regsitering and retrieving Model proxies via the Facade.
+ 
+ <P>
+ Tests <code>registerProxy</code> and <code>retrieveProxy</code> in the same test.
+ These methods cannot currently be tested separately
+ in any meaningful way other than to show that the
+ methods do not throw exception when called. </P>
+	 </p></div></div><div class="method_details alt_row"><a name="testRegisterAndRemoveProxy"></a><h3>testRegisterAndRemoveProxy</h3><code class="method_synopsis">public function <strong class="method_name">testRegisterAndRemoveProxy</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests the removing Proxies via the Facade.
+	 </p></div></div><div class="method_details"><a name="testRegisterRetrieveAndRemoveMediator"></a><h3>testRegisterRetrieveAndRemoveMediator</h3><code class="method_synopsis">public function <strong class="method_name">testRegisterRetrieveAndRemoveMediator</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests registering, retrieving and removing Mediators via the Facade.
+	 </p></div></div><div class="method_details alt_row"><a name="testHasProxy"></a><h3>testHasProxy</h3><code class="method_synopsis">public function <strong class="method_name">testHasProxy</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests the hasProxy Method
+	 </p></div></div><div class="method_details"><a name="testHasMediator"></a><h3>testHasMediator</h3><code class="method_synopsis">public function <strong class="method_name">testHasMediator</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests the hasMediator Method
+	 </p></div></div><div class="method_details alt_row"><a name="testHasCommand"></a><h3>testHasCommand</h3><code class="method_synopsis">public function <strong class="method_name">testHasCommand</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Test hasCommand method.
+	 </p></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.patterns.facade" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="FacadeTest.as.html" title="Source code of org.puremvc.as2.patterns.facade.FacadeTest" class="button">Source</a></li><li><a href="../../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

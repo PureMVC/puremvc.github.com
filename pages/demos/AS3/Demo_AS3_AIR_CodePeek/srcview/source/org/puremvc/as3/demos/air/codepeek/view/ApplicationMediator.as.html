@@ -1,0 +1,205 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+  CodePeek - Google Code Search for Adobe RIA Developers
+  Copyright(c) 2007-08 Cliff Hall &lt;clifford.hall@puremvc.org&gt;
+  Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">codepeek</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Event</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">codepeek</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">codepeek</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">components</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">codepeek</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">desktopcitizen</span>.<span class="ActionScriptDefault_Text">DesktopCitizenConstants</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Mediator for interacting with the top level Application.
+     * 
+     * &lt;P&gt;
+     * In addition to the ordinary responsibilities of a mediator
+     * the MXML application (in this case) built all the view components
+     * and so has a direct reference to them internally. Therefore
+     * we create and register the mediators for each view component
+     * with an associated mediator here.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * Then, ongoing responsibilities are: 
+     * &lt;UL&gt;
+     * &lt;LI&gt;listening for events from the viewComponent (the application)&lt;/LI&gt;
+     * &lt;LI&gt;sending notifications on behalf of or as a result of these 
+     * events or other notifications.&lt;/LI&gt;
+     * &lt;LI&gt;direct manipulating of the viewComponent by method invocation
+     * or property setting&lt;/LI&gt;
+     * &lt;/UL&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptComment">// Cannonical name of the Mediator
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;ApplicationMediator&apos;</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * On &lt;code&gt;applicationComplete&lt;/code&gt; in the &lt;code&gt;Application&lt;/code&gt;,
+         * the &lt;code&gt;ApplicationFacade&lt;/code&gt; is initialized and the 
+         * &lt;code&gt;ApplicationMediator&lt;/code&gt; is created and registered.&lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * The &lt;code&gt;ApplicationMediator&lt;/code&gt; constructor also registers the 
+         * Mediators for the view components created by the application.&lt;/P&gt;
+         * 
+         * @param object the viewComponent (the CodePeek instance in this case)
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// pass the viewComponent to the superclass where 
+</span>            <span class="ActionScriptComment">// it will be stored in the inherited viewComponent property
+</span>            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create and register Mediators for the Stage and
+</span>            <span class="ActionScriptComment">// components that were instantiated by the mxml application
+</span><span class="ActionScriptComment">//            facade.registerMediator( new StageMediator( app.stage ) );    
+</span>            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">AppControlBarMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">controlBar</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;    
+            
+            <span class="ActionScriptComment">// retrieve and cache a reference to frequently accessed proxys
+</span>            <span class="ActionScriptDefault_Text">searchesProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">SearchesProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">SearchesProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// set the available searchTypes ( as returned by the searchesProxy )
+</span>            <span class="ActionScriptComment">// as the dataprovider for the application&apos;s tree subcomponent
+</span>            <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">dataProvider</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">searchesProxy</span>.<span class="ActionScriptDefault_Text">searchTypes</span>;
+            
+            <span class="ActionScriptComment">// Listen for events from the view component 
+</span>            <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">CodePeek</span>.<span class="ActionScriptDefault_Text">TREE_ITEM_SELECTED</span>, <span class="ActionScriptDefault_Text">onTreeItemSelect</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * List all notifications this Mediator is interested in.
+         * &lt;P&gt;
+         * Automatically called by the framework when the mediator
+         * is registered with the view.&lt;/P&gt;
+         * 
+         * @return Array the list of Nofitication names
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">DesktopCitizenConstants</span>.<span class="ActionScriptDefault_Text">WINDOW_READY</span>,
+                     <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CODE_SEARCH_SUCCESS</span> 
+                   <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Handle all notifications this Mediator is interested in.
+         * &lt;P&gt;
+         * Called by the framework when a notification is sent that
+         * this mediator expressed an interest in when registered
+         * (see &lt;code&gt;listNotificationInterests&lt;/code&gt;.&lt;/P&gt;
+         * 
+         * @param INotification a notification 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                
+                <span class="ActionScriptComment">// Time to show the application window
+</span>                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">DesktopCitizenConstants</span>.<span class="ActionScriptDefault_Text">WINDOW_READY</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">showControls</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptComment">// The code search has returned success
+</span>                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">CODE_SEARCH_SUCCESS</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptComment">// Reset the tree, open the proper folder 
+</span>                    <span class="ActionScriptComment">// and select the proper item                
+</span>                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">dataProvider</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">searchesProxy</span>.<span class="ActionScriptDefault_Text">searchTypes</span>;
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">validateNow</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">details</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Array</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">searchType</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">details</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">]</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">search</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">details</span><span class="ActionScriptBracket/Brace">[</span>1<span class="ActionScriptBracket/Brace">]</span>;
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">browser</span>.<span class="ActionScriptDefault_Text">location</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">search</span>.@<span class="ActionScriptDefault_Text">url</span>;
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">searchType</span>;
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">expandItem</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span>, <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">search</span>;
+                    <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * An item has been selected in the tree.
+         * 
+         * &lt;P&gt;
+         * An event was dispatched from the application 
+         * and we are handling it here.&lt;/P&gt;
+         * &lt;P&gt;
+         * Depending upon whether a language (folder) or 
+         * specific search (document icon) was clicked, 
+         * send notification SEARCH_TYPE_SELECTED or
+         * SEARCH_SELECTED.&lt;/P&gt;
+         * &lt;P&gt;
+         * In both cases, we are sending data along with 
+         * the notification. Specifically, an anonymous 
+         * array containing the selected item in the tree 
+         * and its parent, if one exists.&lt;/P&gt;
+         * &lt;P&gt;
+         * That would be a search type or a specific 
+         * search.&lt;/P&gt;
+         * &lt;P&gt; 
+         * Note that &lt;code&gt;sendNotification&lt;/code&gt; is 
+         * inherited from &lt;code&gt;AbstractMediator&lt;/code&gt; 
+         * making it easier for all mediators to send 
+         * notifications.&lt;/P&gt;
+         * 
+         * @param event the event dispatched by the view component
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onTreeItemSelect</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span>.@<span class="ActionScriptDefault_Text">url</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">undefined</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>    
+                <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">SEARCH_TYPE_SELECTED</span>, <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">SEARCH_SELECTED</span>,<span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">getParentItem</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span> <span class="ActionScriptBracket/Brace">)</span>, <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">browser</span>.<span class="ActionScriptDefault_Text">location</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">tree</span>.<span class="ActionScriptDefault_Text">selectedItem</span>.@<span class="ActionScriptDefault_Text">url</span>;
+                
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Cast the viewComponent to its actual type.
+         * 
+         * &lt;P&gt;
+         * This is a useful idiom for mediators. The
+         * PureMVC Mediator class defines a viewComponent
+         * property of type Object. &lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * Here, we cast the generic viewComponent to 
+         * its actual type in a protected mode. This 
+         * retains encapsulation, while allowing the instance
+         * (and subclassed instance) access to a 
+         * strongly typed reference with a meaningful
+         * name.&lt;/P&gt;
+         * 
+         * @return app the viewComponent cast to org.puremvc.as3.demos.air.CodePeek
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">CodePeek</span><span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">CodePeek</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">// Cached reference to search proxy
+</span>        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">searchesProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">SearchesProxy</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

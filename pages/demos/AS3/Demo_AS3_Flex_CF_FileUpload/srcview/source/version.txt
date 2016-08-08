@@ -1,0 +1,15 @@
+PureMVC Flex/CF Demo - File Upload 
+By Simon Bailey <simon.bailey@puremvc.org>
+Copyright(c) 2007-08 Simon Bailey, Some rights reserved.
+--------------------------------------------------------------------------
+Release Date: 3/8/08
+    Platform: ActionScript 3  
+     Version: 1 
+    Revision: 2
+      Author: Simon Bailey <simon.bailey@puremvc.org>
+     License: Creative Commons Attribution 3.0 United States License
+-------------------------------------------------------------------------
+1.2 - Updated to PureMVC 2.0.1 - CLH
+1.1 - Migrated to PureMVC 2.0, moved source code to src folder - CLH
+1.0 - Works with PureMVC 1.7.1 - SB
+0.9 - Checked in initial folder structure and license - CLH

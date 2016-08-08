@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Demo_AS3_Flex_StopWatch</title>
+	<nodes>
+		<node label="lib-multicore">
+			<node label="PureMVC_AS3_MultiCore_1_0_5.swc" url="source/lib-multicore/PureMVC_AS3_MultiCore_1_0_5.swc"/>
+			<node label="Utility_AS3_MultiCore_StateMachine_1_0.swc" url="source/lib-multicore/Utility_AS3_MultiCore_StateMachine_1_0.swc"/>
+		</node>
+		<node label="lib-standard">
+			<node label="PureMVC_AS3_2_0_4.swc" url="source/lib-standard/PureMVC_AS3_2_0_4.swc"/>
+			<node label="Utility_AS3_StateMachine_1_0.swc" url="source/lib-standard/Utility_AS3_StateMachine_1_0.swc"/>
+		</node>
+		<node label="src-multicore" icon="packageIcon" expanded="true">
+			<node label="StopWatch.mxml" icon="mxmlIcon" url="source/src-multicore/StopWatch.mxml.html"/>
+		</node>
+		<node label="src-multicore.org.puremvc.as3.multicore.demos.flex.stopwatch" icon="packageIcon" expanded="true">
+			<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/ApplicationFacade.as.html"/>
+		</node>
+		<node label="src-multicore.org.puremvc.as3.multicore.demos.flex.stopwatch.controller" icon="packageIcon" expanded="true">
+			<node label="EnsureTimerCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/EnsureTimerCommand.as.html"/>
+			<node label="FreezeDisplayCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/FreezeDisplayCommand.as.html"/>
+			<node label="InjectFSMCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/InjectFSMCommand.as.html"/>
+			<node label="PrepModelCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/PrepModelCommand.as.html"/>
+			<node label="PrepViewCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/PrepViewCommand.as.html"/>
+			<node label="ResetDisplayCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/ResetDisplayCommand.as.html"/>
+			<node label="StartupCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/StartupCommand.as.html"/>
+			<node label="StopTimerCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/controller/StopTimerCommand.as.html"/>
+		</node>
+		<node label="src-multicore.org.puremvc.as3.multicore.demos.flex.stopwatch.proxy" icon="packageIcon" expanded="true">
+			<node label="StopWatchProxy.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/proxy/StopWatchProxy.as.html"/>
+		</node>
+		<node label="src-multicore.org.puremvc.as3.multicore.demos.flex.stopwatch.view" icon="packageIcon" expanded="true">
+			<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/flex/stopwatch/view/ApplicationMediator.as.html"/>
+		</node>
+		<node label="src-standard" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.flex.stopwatch" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.stopwatch.controller" icon="packageIcon" expanded="true">
+				<node label="EnsureTimerCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/EnsureTimerCommand.as.html"/>
+				<node label="FreezeDisplayCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/FreezeDisplayCommand.as.html"/>
+				<node label="InjectFSMCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/InjectFSMCommand.as.html"/>
+				<node label="PrepModelCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/PrepModelCommand.as.html"/>
+				<node label="PrepViewCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/PrepViewCommand.as.html"/>
+				<node label="ResetDisplayCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/ResetDisplayCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/StartupCommand.as.html"/>
+				<node label="StopTimerCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/controller/StopTimerCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.stopwatch.proxy" icon="packageIcon" expanded="true">
+				<node label="StopWatchProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/proxy/StopWatchProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.stopwatch.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/stopwatch/view/ApplicationMediator.as.html"/>
+			</node>
+			<node selected="true" label="StopWatch.mxml" icon="mxmlAppIcon" url="source/StopWatch.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

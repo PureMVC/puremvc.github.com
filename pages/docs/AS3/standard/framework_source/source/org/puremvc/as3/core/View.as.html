@@ -1,0 +1,281 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>View.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">core</span>
+<span class="ActionScriptBracket/Brace">{</span>
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">Observer</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A Singleton &lt;code&gt;IView&lt;/code&gt; implementation.
+     * 
+     * &lt;P&gt;
+     * In PureMVC, the &lt;code&gt;View&lt;/code&gt; class assumes these responsibilities:
+     * &lt;UL&gt;
+     * &lt;LI&gt;Maintain a cache of &lt;code&gt;IMediator&lt;/code&gt; instances.&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for registering, retrieving, and removing &lt;code&gt;IMediators&lt;/code&gt;.&lt;/LI&gt;
+     * &lt;LI&gt;Notifiying &lt;code&gt;IMediators&lt;/code&gt; when they are registered or removed.&lt;/LI&gt;
+     * &lt;LI&gt;Managing the observer lists for each &lt;code&gt;INotification&lt;/code&gt; in the application.&lt;/LI&gt;
+     * &lt;LI&gt;Providing a method for attaching &lt;code&gt;IObservers&lt;/code&gt; to an &lt;code&gt;INotification&lt;/code&gt;&apos;s observer list.&lt;/LI&gt;
+     * &lt;LI&gt;Providing a method for broadcasting an &lt;code&gt;INotification&lt;/code&gt;.&lt;/LI&gt;
+     * &lt;LI&gt;Notifying the &lt;code&gt;IObservers&lt;/code&gt; of a given &lt;code&gt;INotification&lt;/code&gt; when it broadcast.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     * 
+     * @see org.puremvc.as3.patterns.mediator.Mediator Mediator
+     * @see org.puremvc.as3.patterns.observer.Observer Observer
+     * @see org.puremvc.as3.patterns.observer.Notification Notification
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">View</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IView</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * This &lt;code&gt;IView&lt;/code&gt; implementation is a Singleton, 
+         * so you should not call the constructor 
+         * directly, but instead call the static Singleton 
+         * Factory method &lt;code&gt;View.getInstance()&lt;/code&gt;
+         * 
+         * @throws Error Error if Singleton instance has already been constructed
+         * 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">View</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">throw</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">SINGLETON_MSG</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>;
+            <span class="ActionScriptDefault_Text">mediatorMap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">observerMap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;    
+            <span class="ActionScriptDefault_Text">initializeView</span><span class="ActionScriptBracket/Brace">()</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Initialize the Singleton View instance.
+         * 
+         * &lt;P&gt;
+         * Called automatically by the constructor, this
+         * is your opportunity to initialize the Singleton
+         * instance in your subclass without overriding the
+         * constructor.&lt;/P&gt;
+         * 
+         * @return void
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeView</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+    
+        <span class="ActionScriptASDoc">/**
+         * View Singleton Factory method.
+         * 
+         * @return the Singleton instance of &lt;code&gt;View&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IView</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">View</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">instance</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+                
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IObserver&lt;/code&gt; to be notified
+         * of &lt;code&gt;INotifications&lt;/code&gt; with a given name.
+         * 
+         * @param notificationName the name of the &lt;code&gt;INotifications&lt;/code&gt; to notify this &lt;code&gt;IObserver&lt;/code&gt; of
+         * @param observer the &lt;code&gt;IObserver&lt;/code&gt; to register
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerObserver</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IObserver</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observers</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">observerMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptBracket/Brace">]</span>;
+            <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">observers</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">observers</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">observer</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">observerMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">observer</span> <span class="ActionScriptBracket/Brace">]</span>;    
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Notify the &lt;code&gt;IObservers&lt;/code&gt; for a particular &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * All previously attached &lt;code&gt;IObservers&lt;/code&gt; for this &lt;code&gt;INotification&lt;/code&gt;&apos;s
+         * list are notified and are passed a reference to the &lt;code&gt;INotification&lt;/code&gt; in 
+         * the order in which they were registered.&lt;/P&gt;
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to notify &lt;code&gt;IObservers&lt;/code&gt; of.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">observerMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">notification</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                
+                <span class="ActionScriptComment">// Get a reference to the observers list for this notification name
+</span>                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observers_ref</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">observerMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">notification</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Array</span>;
+
+                <span class="ActionScriptComment">// Copy observers from reference array to working array, 
+</span>                <span class="ActionScriptComment">// since the reference array may change during the notification loop
+</span>                   <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observers</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>; 
+                   <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IObserver</span>;
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptDefault_Text">observers_ref</span>.<span class="ActionScriptDefault_Text">length</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span> 
+                    <span class="ActionScriptDefault_Text">observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">observers_ref</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IObserver</span>;
+                    <span class="ActionScriptDefault_Text">observers</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">observer</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+                
+                <span class="ActionScriptComment">// Notify Observers from the working array                
+</span>                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">=</span> 0; <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptDefault_Text">observers</span>.<span class="ActionScriptDefault_Text">length</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">observers</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">i</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IObserver</span>;
+                    <span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">notifyObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove the observer for a given notifyContext from an observer list for a given Notification name.
+         * &lt;P&gt;
+         * @param notificationName which observer list to remove from 
+         * @param notifyContext remove the observer with this object as its notifyContext
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">notifyContext</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// the observer list for the notification under inspection
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observers</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">observerMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Array</span>;
+
+            <span class="ActionScriptComment">// find the observer for the notifyContext
+</span>            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptOperator">=</span>0; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">&lt;</span><span class="ActionScriptDefault_Text">observers</span>.<span class="ActionScriptDefault_Text">length</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span> <span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">observers</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">])</span>.<span class="ActionScriptDefault_Text">compareNotifyContext</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notifyContext</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptComment">// there can only be one Observer for a given notifyContext 
+</span>                    <span class="ActionScriptComment">// in any given Observer list, so remove it and break
+</span>                    <span class="ActionScriptDefault_Text">observers</span>.<span class="ActionScriptDefault_Text">splice</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">i</span>,1<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span>
+
+            <span class="ActionScriptComment">// Also, when a Notification&apos;s Observer list length falls to 
+</span>            <span class="ActionScriptComment">// zero, delete the notification key from the observer map
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">observers</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 0 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">delete</span> <span class="ActionScriptDefault_Text">observerMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptBracket/Brace">]</span>;        
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span> 
+
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IMediator&lt;/code&gt; instance with the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Registers the &lt;code&gt;IMediator&lt;/code&gt; so that it can be retrieved by name,
+         * and further interrogates the &lt;code&gt;IMediator&lt;/code&gt; for its 
+         * &lt;code&gt;INotification&lt;/code&gt; interests.&lt;/P&gt;
+         * &lt;P&gt;
+         * If the &lt;code&gt;IMediator&lt;/code&gt; returns any &lt;code&gt;INotification&lt;/code&gt; 
+         * names to be notified about, an &lt;code&gt;Observer&lt;/code&gt; is created encapsulating 
+         * the &lt;code&gt;IMediator&lt;/code&gt; instance&apos;s &lt;code&gt;handleNotification&lt;/code&gt; method 
+         * and registering it as an &lt;code&gt;Observer&lt;/code&gt; for all &lt;code&gt;INotifications&lt;/code&gt; the 
+         * &lt;code&gt;IMediator&lt;/code&gt; is interested in.&lt;/p&gt;
+         * 
+         * @param mediatorName the name to associate with this &lt;code&gt;IMediator&lt;/code&gt; instance
+         * @param mediator a reference to the &lt;code&gt;IMediator&lt;/code&gt; instance
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// do not allow re-registration (you must to removeMediator fist)
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">getMediatorName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptComment">// Register the Mediator for retrieval by name
+</span>            <span class="ActionScriptDefault_Text">mediatorMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">getMediatorName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">mediator</span>;
+            
+            <span class="ActionScriptComment">// Get Notification interests, if any.
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">interests</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span>;
+
+            <span class="ActionScriptComment">// Register Mediator as an observer for each of its notification interests
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">interests</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">&gt;</span> 0 <span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Create Observer referencing this mediator&apos;s handlNotification method
+</span>                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">handleNotification</span>, <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+                <span class="ActionScriptComment">// Register Mediator as Observer for its list of Notification interests
+</span>                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptOperator">=</span>0;  <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">&lt;</span><span class="ActionScriptDefault_Text">interests</span>.<span class="ActionScriptDefault_Text">length</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptDefault_Text">registerObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">interests</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>,  <span class="ActionScriptDefault_Text">observer</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>            
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptComment">// alert the mediator that it has been registered
+</span>            <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Retrieve an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName the name of the &lt;code&gt;IMediator&lt;/code&gt; instance to retrieve.
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; instance previously registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IMediator</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">mediatorMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+         * 
+         * @param mediatorName name of the &lt;code&gt;IMediator&lt;/code&gt; instance to be removed.
+         * @return the &lt;code&gt;IMediator&lt;/code&gt; that was removed from the &lt;code&gt;View&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IMediator</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Retrieve the named mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">mediatorMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// for every notification this mediator is interested in...
+</span>                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">interests</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptOperator">=</span>0; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">&lt;</span><span class="ActionScriptDefault_Text">interests</span>.<span class="ActionScriptDefault_Text">length</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span> <span class="ActionScriptBracket/Brace">)</span> 
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptComment">// remove the observer linking the mediator 
+</span>                    <span class="ActionScriptComment">// to the notification interest
+</span>                    <span class="ActionScriptDefault_Text">removeObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">interests</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>, <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>    
+                
+                <span class="ActionScriptComment">// remove the mediator from the map        
+</span>                <span class="ActionScriptReserved">delete</span> <span class="ActionScriptDefault_Text">mediatorMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">]</span>;
+    
+                <span class="ActionScriptComment">// alert the mediator that it has been removed
+</span>                <span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">onRemove</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">mediator</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Check if a Mediator is registered or not
+         * 
+         * @param mediatorName
+         * @return whether a Mediator is registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">mediatorMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">// Mapping of Mediator names to Mediator instances
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediatorMap</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span>;
+
+        <span class="ActionScriptComment">// Mapping of Notification names to Observer lists
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observerMap</span>    <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span>;
+        
+        <span class="ActionScriptComment">// Singleton instance
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">instance</span>    <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IView</span>;
+
+        <span class="ActionScriptComment">// Message Constants
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">SINGLETON_MSG</span>    <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;View Singleton already constructed!&quot;</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

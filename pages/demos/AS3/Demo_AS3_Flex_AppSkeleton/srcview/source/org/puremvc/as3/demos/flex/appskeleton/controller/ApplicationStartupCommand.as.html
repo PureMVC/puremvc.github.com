@@ -1,0 +1,62 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationStartupCommand.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex Application Skeleton 
+ Copyright (c) 2007 Daniele Ugoletti &lt;daniele.ugoletti@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">controller</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">SetDefaultConfigValuesCommand</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A MacroCommand executed when the application starts.
+     *
+       * @see org.puremvc.as3.demos.flex.appskeleton.controller.ModelPrepCommand ModelPrepCommand 
+       * @see org.puremvc.as3.demos.flex.appskeleton.controller.ViewPrepCommand ViewPrepCommand 
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationStartupCommand</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">MacroCommand</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Initialize the MacroCommand by adding its SubCommands.
+         * 
+         * &lt;P&gt;
+         * Since we built the UI using an MXML &lt;code&gt;Application&lt;/code&gt; tag, those
+         * components are created first. The top level &lt;code&gt;Application&lt;/code&gt;
+         * then initialized the &lt;code&gt;ApplicationFacade&lt;/code&gt;, which in turn initialized 
+         * the &lt;code&gt;Controller&lt;/code&gt;, registering Commands. Then the 
+         * &lt;code&gt;Application&lt;/code&gt; sent the &lt;code&gt;APP_STARTUP
+         * Notification&lt;/code&gt;, leading to this &lt;code&gt;MacroCommand&lt;/code&gt;&amp;apos;s execution.&lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * It is important for us to create and register Proxys with the Model 
+         * prior to creating and registering Mediators with the View, since 
+         * availability of Model data is often essential to the proper 
+         * initialization of the View.&lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * So, &lt;code&gt;ApplicationStartupCommand&lt;/code&gt; first executes 
+         * &lt;code&gt;ModelPrepCommand&lt;/code&gt; followed by &lt;code&gt;ViewPrepCommand&lt;/code&gt;&lt;/P&gt;
+         * 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeMacroCommand</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">addSubCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ModelPrepCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">addSubCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewPrepCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">addSubCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">SetDefaultConfigValuesCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

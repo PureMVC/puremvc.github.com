@@ -1,0 +1,17 @@
+PureMVC Demo for AS3 MultiCore / Flex - Modularity
+Copyright(c) 2008 Cliff Hall <clifford.hall@puremvc.org>
+Your reuse is governed by the Creative Commons Attribution 3.0 License
+--------------------------------------------------------------------------
+Release Date: 3/12/08
+    Platform: ActionScript 3 / Flex 
+     Version: 1 
+    Revision: 2
+      Author: Cliff Hall <clifford.hall@puremvc.org>
+     License: Creative Commons Attribution 3.0 United States License
+--------------------------------------------------------------------------
+
+1.2 - Updated to AS3 MultiCore 1.0.2
+
+1.1 - Updated to AS3 MultiCore 1.0.1
+
+1.0 - Initial release. Works with PureMVC MultiCore 1.0 / Flex 2.01, 3

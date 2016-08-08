@@ -1,0 +1,109 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>PrattlerJunctionMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 MultiCore Demo – Flex PipeWorks - Prattler Module
+ Copyright (c) 2008 Cliff Hall &lt;cliff.hall@puremvc.org&gt;
+
+ Parts originally from: 
+ PureMVC AS3 Demo – AIR RSS Headlines 
+ Copyright (c) 2007-08 Simon Bailey &lt;simon.bailey@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">modules</span>.<span class="ActionScriptDefault_Text">prattler</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">UIComponent</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">common</span>.<span class="ActionScriptDefault_Text">LoggingJunctionMediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">common</span>.<span class="ActionScriptDefault_Text">PipeAwareModule</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">common</span>.<span class="ActionScriptDefault_Text">UIQueryMessage</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">modules</span>.<span class="ActionScriptDefault_Text">PrattlerModule</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">pipeworks</span>.<span class="ActionScriptDefault_Text">modules</span>.<span class="ActionScriptDefault_Text">prattler</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeMessage</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>.<span class="ActionScriptDefault_Text">Junction</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">PrattlerJunctionMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">LoggingJunctionMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;PrattlerJunctionMediator&apos;</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Constructor.
+         * &lt;P&gt;
+         * Creates and registers its own STDIN pipe
+         * and adds this instance as a listener, 
+         * because the logger uses a TeeMerge and 
+         * new inputs are added to it rather than
+         * as separate pipes registered with the
+         * Junction.&lt;/P&gt;
+         */</span>         
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">PrattlerJunctionMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Junction</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * List Notification Interests.
+         * &lt;P&gt;
+         * Adds subclass interests to those of the JunctionMediator.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">interests</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">super</span>.<span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">interests</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(A</span><span class="ActionScriptDefault_Text">pplicationFacade</span>.<span class="ActionScriptDefault_Text">EXPORT_FEED_WINDOW</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">interests</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Handle Junction related Notifications for the PrattlerModule.
+         * &lt;P&gt;
+         * For the Prattler, this consists of exporting the
+         * FeedWindow in a PipeMessage to STDSHELL, as well as the
+         * ordinary JunctionMediator duties of accepting input
+         * and output pipes from the Shell.&lt;/P&gt;
+         * &lt;P&gt;
+         * Also send messages to the logger.&lt;/P&gt;
+         */</span>        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+            <span class="ActionScriptReserved">switch</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// Send the LogWindow UI Component 
+</span>                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">EXPORT_FEED_WINDOW</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">prattlerWindowMessage</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">UIQueryMessage</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">UIQueryMessage</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">UIQueryMessage</span>.<span class="ActionScriptDefault_Text">SET</span>, <span class="ActionScriptDefault_Text">PrattlerModule</span>.<span class="ActionScriptDefault_Text">FEED_WINDOW_UI</span>, <span class="ActionScriptDefault_Text">UIComponent</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">())</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">junction</span>.<span class="ActionScriptDefault_Text">sendMessage</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">PipeAwareModule</span>.<span class="ActionScriptDefault_Text">STDSHELL</span>, <span class="ActionScriptDefault_Text">prattlerWindowMessage</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+                
+                <span class="ActionScriptComment">// And let super handle the rest (ACCEPT_OUTPUT_PIPE, ACCEPT_INPUT_PIPE, SEND_TO_LOG)                                
+</span>                <span class="ActionScriptReserved">default</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptReserved">super</span>.<span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+                    
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        <span class="ActionScriptASDoc">/**
+         * Handle incoming pipe messages.
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handlePipeMessage</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">message</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">message</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">UIQueryMessage</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">//switch ( UIQueryMessage(message).name )
+</span>                <span class="ActionScriptComment">//{
+</span>                <span class="ActionScriptComment">//    default:
+</span>                <span class="ActionScriptComment">//        break;
+</span>                <span class="ActionScriptComment">//}
+</span>            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,85 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><pre><span class="lineno" id="1">     1  </span><span class="comment">/*
+<span class="lineno" id="2">     2  </span> PureMVC AS2 Port by Pedr Browne &lt;pedr.browne@puremvc.org&gt;
+<span class="lineno" id="3">     3  </span> PureMVC - Copyright(c) 2006-2008 Futurescale, Inc., Some rights reserved.
+<span class="lineno" id="4">     4  </span> Your reuse is governed by the Creative Commons Attribution 3.0 License
+<span class="lineno" id="5">     5  </span>*/</span>
+<span class="lineno" id="6">     6  </span><span class="key">import</span> org.puremvc.as2.interfaces.*;
+<span class="lineno" id="7">     7  </span>
+<span class="lineno" id="8">     8  </span><span class="comment doc">/**
+<span class="lineno" id="9">     9  </span> * The interface definition for a PureMVC Observer.
+<span class="lineno" id="10">    10  </span> *
+<span class="lineno" id="11">    11  </span> * &lt;P&gt;
+<span class="lineno" id="12">    12  </span> * In PureMVC, &lt;code&gt;IObserver&lt;/code&gt; implementors assume these responsibilities:
+<span class="lineno" id="13">    13  </span> * &lt;UL&gt;
+<span class="lineno" id="14">    14  </span> * &lt;LI&gt;Encapsulate the notification (callback) method of the interested object.&lt;/LI&gt;
+<span class="lineno" id="15">    15  </span> * &lt;LI&gt;Encapsulate the notification context (this) of the interested object.&lt;/LI&gt;
+<span class="lineno" id="16">    16  </span> * &lt;LI&gt;Provide methods for setting the interested object' notification method and context.&lt;/LI&gt;
+<span class="lineno" id="17">    17  </span> * &lt;LI&gt;Provide a method for notifying the interested object.&lt;/LI&gt;
+<span class="lineno" id="18">    18  </span> * &lt;/UL&gt;
+<span class="lineno" id="19">    19  </span> * 
+<span class="lineno" id="20">    20  </span> * &lt;P&gt;
+<span class="lineno" id="21">    21  </span> * PureMVC does not rely upon underlying event
+<span class="lineno" id="22">    22  </span> * models such as the one provided with Flash,
+<span class="lineno" id="23">    23  </span> * and ActionScript 3 does not have an inherent
+<span class="lineno" id="24">    24  </span> * event model.&lt;/P&gt;
+<span class="lineno" id="25">    25  </span> * 
+<span class="lineno" id="26">    26  </span> * &lt;P&gt;
+<span class="lineno" id="27">    27  </span> * The Observer Pattern as implemented within
+<span class="lineno" id="28">    28  </span> * PureMVC exists to support event driven communication
+<span class="lineno" id="29">    29  </span> * between the application and the actors of the
+<span class="lineno" id="30">    30  </span> * MVC triad.&lt;/P&gt;
+<span class="lineno" id="31">    31  </span> * 
+<span class="lineno" id="32">    32  </span> * &lt;P&gt; 
+<span class="lineno" id="33">    33  </span> * An Observer is an object that encapsulates information
+<span class="lineno" id="34">    34  </span> * about an interested object with a notification method that
+<span class="lineno" id="35">    35  </span> * should be called when an &lt;/code&gt;INotification&lt;/code&gt; is broadcast. The Observer then
+<span class="lineno" id="36">    36  </span> * acts as a proxy for notifying the interested object.
+<span class="lineno" id="37">    37  </span> * 
+<span class="lineno" id="38">    38  </span> * &lt;P&gt;
+<span class="lineno" id="39">    39  </span> * Observers can receive &lt;code&gt;Notification&lt;/code&gt;s by having their
+<span class="lineno" id="40">    40  </span> * &lt;code&gt;notifyObserver&lt;/code&gt; method invoked, passing
+<span class="lineno" id="41">    41  </span> * in an object implementing the &lt;code&gt;INotification&lt;/code&gt; interface, such
+<span class="lineno" id="42">    42  </span> * as a subclass of &lt;code&gt;Notification&lt;/code&gt;.&lt;/P&gt;
+<span class="lineno" id="43">    43  </span> * 
+<span class="lineno" id="44">    44  </span> * @see org.puremvc.as2.interfaces.IView IView
+<span class="lineno" id="45">    45  </span> * @see org.puremvc.as2.interfaces.INotification INotification
+<span class="lineno" id="46">    46  </span> */</span>
+<span class="lineno" id="47">    47  </span><span class="key">interface</span> org.puremvc.as2.interfaces.IObserver
+<span class="lineno" id="48">    48  </span>{
+<span class="lineno" id="49">    49  </span>
+<span class="lineno" id="50">    50  </span>	<span class="comment doc">/**
+<span class="lineno" id="51">    51  </span>	 * Set the notification method.
+<span class="lineno" id="52">    52  </span>	 * 
+<span class="lineno" id="53">    53  </span>	 * &lt;P&gt;
+<span class="lineno" id="54">    54  </span>	 * The notification method should take one parameter of type &lt;code&gt;INotification&lt;/code&gt;&lt;/P&gt;
+<span class="lineno" id="55">    55  </span>	 * 
+<span class="lineno" id="56">    56  </span>	 * @param notifyMethod the notification (callback) method of the interested object
+<span class="lineno" id="57">    57  </span>	 */</span>
+<span class="lineno" id="58">    58  </span>	<span class="key">function</span> setNotifyMethod( notifyMethod:Function ):Void;
+<span class="lineno" id="59">    59  </span>	
+<span class="lineno" id="60">    60  </span>	<span class="comment doc">/**
+<span class="lineno" id="61">    61  </span>	 * Set the notification context.
+<span class="lineno" id="62">    62  </span>	 * 
+<span class="lineno" id="63">    63  </span>	 * @param notifyContext the notification context (this) of the interested object
+<span class="lineno" id="64">    64  </span>	 */</span>
+<span class="lineno" id="65">    65  </span>	<span class="key">function</span> setNotifyContext( notifyContext:Object ):Void;
+<span class="lineno" id="66">    66  </span>	
+<span class="lineno" id="67">    67  </span>	<span class="comment doc">/**
+<span class="lineno" id="68">    68  </span>	 * Notify the interested object.
+<span class="lineno" id="69">    69  </span>	 * 
+<span class="lineno" id="70">    70  </span>	 * @param notification the &lt;code&gt;INotification&lt;/code&gt; to pass to the interested object's notification method
+<span class="lineno" id="71">    71  </span>	 */</span>
+<span class="lineno" id="72">    72  </span>	<span class="key">function</span> notifyObserver( notification:INotification ):Void;
+<span class="lineno" id="73">    73  </span>	
+<span class="lineno" id="74">    74  </span>	<span class="comment doc">/**
+<span class="lineno" id="75">    75  </span>	 * Compare the given object to the notificaiton context object.
+<span class="lineno" id="76">    76  </span>	 * 
+<span class="lineno" id="77">    77  </span>	 * @param object the object to compare.
+<span class="lineno" id="78">    78  </span>	 * @return boolean indicating if the notification context and the object are the same.
+<span class="lineno" id="79">    79  </span>	 */</span>
+<span class="lineno" id="80">    80  </span>	<span class="key">function</span> compareNotifyContext( object:Object ):Boolean;
+<span class="lineno" id="81">    81  </span>	
+<span class="lineno" id="82">    82  </span>}</pre><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.interfaces" class="button">Package</a></li><li><a href="IObserver.html" title="Detail of org.puremvc.as2.interfaces.IObserver API" class="button">Class</a></li><li><span class="button nav_current">Source</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

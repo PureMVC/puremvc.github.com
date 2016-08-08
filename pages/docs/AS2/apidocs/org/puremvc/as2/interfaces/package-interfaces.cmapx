@@ -1,0 +1,12 @@
+<map id="interface_diagram" name="interface_diagram">
+<area shape="rect" href="IFacade.html" title="org.puremvc.as2.interfaces.IFacade" alt="" coords="171,582,256,630"/>
+<area shape="rect" href="IController.html" title="org.puremvc.as2.interfaces.IController" alt="" coords="12,510,116,558"/>
+<area shape="rect" href="IProxy.html" title="org.puremvc.as2.interfaces.IProxy" alt="" coords="28,438,100,486"/>
+<area shape="rect" href="IModel.html" title="org.puremvc.as2.interfaces.IModel" alt="" coords="27,366,101,414"/>
+<area shape="rect" href="INotifier.html" title="org.puremvc.as2.interfaces.INotifier" alt="" coords="23,582,105,630"/>
+<area shape="rect" href="ICommand.html" title="org.puremvc.as2.interfaces.ICommand" alt="" coords="11,294,117,342"/>
+<area shape="rect" href="IView.html" title="org.puremvc.as2.interfaces.IView" alt="" coords="28,222,100,270"/>
+<area shape="rect" href="IObserver.html" title="org.puremvc.as2.interfaces.IObserver" alt="" coords="16,150,112,198"/>
+<area shape="rect" href="INotification.html" title="org.puremvc.as2.interfaces.INotification" alt="" coords="7,78,121,126"/>
+<area shape="rect" href="IMediator.html" title="org.puremvc.as2.interfaces.IMediator" alt="" coords="16,6,112,54"/>
+</map>

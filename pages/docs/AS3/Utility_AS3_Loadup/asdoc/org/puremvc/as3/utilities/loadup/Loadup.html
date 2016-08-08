@@ -1,0 +1,372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../../print.css" type="text/css" media="print">
+<meta content="Loadup,org.puremvc.as3.utilities.loadup.Loadup,ASSET_GROUP_LOAD_PROGRESS,ASSET_LOADED,ASSET_LOAD_FAILED,ASSET_LOAD_FAILED_IOERROR,ASSET_LOAD_FAILED_SECURITY,AUDIO_ASSET_TYPE,CALL_OUT_OF_SYNC_IGNORED,IMAGE_ASSET_TYPE,LOADING_COMPLETE,LOADING_FINISHED_INCOMPLETE,LOADING_PROGRESS,LOAD_RESOURCE_TIMED_OUT,NEW_ASSET_AVAILABLE,PREFIX_IF_AUTO_LRP_NAME,RETRYING_LOAD_RESOURCE,SWF_ASSET_TYPE,TEXT_ASSET_TYPE,URL_REFUSED_PROXY_NAME_ALREADY_EXISTS,VIDEO_ASSET_TYPE,WAITING_FOR_MORE_RESOURCES" name="keywords">
+<title>org.puremvc.as3.utilities.loadup.Loadup</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'Loadup - API Documentation';
+				var baseRef = '../../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../../all-classes.html')" href="../../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../all-classes.html')" href="../../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../index-list.html')" href="../../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../../index.html?org/puremvc/as3/utilities/loadup/Loadup.html&amp;org/puremvc/as3/utilities/loadup/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;Loadup</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class Loadup"); titleBar_setSubNav(true,false,false,false,false,false,false,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.puremvc.as3.utilities.loadup</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class Loadup</td>
+</tr>
+</table>
+<p></p>
+  The Loadup utility (LU) offers a solution to the problem of how to manage the 
+  loading of data resources, be that at application startup or at some other time in the 
+  duration of the application.  By resources, we mean data resources or resources that conform
+  to the resource model adopted by LU.  This is the essential LU facility, the kernel, implemented 
+  by the classes in the controller, interfaces and model packages.  These are independent of the
+  assetloader package, which is an optional sub-system.  This kernel is based around the 
+  LoadupMonitorProxy class.  See that class for the primary documentation of the LU kernel.
+  <p>
+  The assetloader sub-system offers a solution to the loading of external assets, for example
+  display assets.  It uses the LU kernel just as a client application would.  The general idea is
+  <ul><li>
+  there is a group of assets i.e. a set of urls</li>
+  <li>the group is to be loaded as one loadup task, using a LoadupMonitorProxy instance</li>
+  <li>each url implies a particular asset type</li>
+  <li>each asset type maps to a particular asset class and asset loader class</li>
+  <li>each asset is fronted by an AssetProxy; this proxy implements the LU kernel interface 
+  ILoadupProxy and has the asset loader class in a delegate role</li>
+  <li>the group of assets is fronted by an AssetGroupProxy.</li></ul>
+  <p>
+  One way to become familiar with this sub-system is as follows
+  <ul><li>
+  see the AssetTypeMap, AssetFactory and AssetLoaderFactory classes</li>
+  <li>see the AssetGroupProxy and AssetProxy classes</li>
+  <li>see the LoadupForAssets demo, as an example use.</li>
+  </ul></p>
+ <p></p>
+<br>
+<hr>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ASSET_GROUP_LOAD_PROGRESS">ASSET_GROUP_LOAD_PROGRESS</a> : String = "luAssetGroupLoadProgress"<div class="summaryTableDescription">[static]
+          Loadup asset loader: Notifications to Client App
+         </div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ASSET_LOADED">ASSET_LOADED</a> : String = "luAssetLoaded"<div class="summaryTableDescription">[static]
+          Loadup asset loader: Notifications to LU Core and available to Client App
+         </div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ASSET_LOAD_FAILED">ASSET_LOAD_FAILED</a> : String = "luAssetLoadFailed"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ASSET_LOAD_FAILED_IOERROR">ASSET_LOAD_FAILED_IOERROR</a> : String = "luAsetLoadFailedIOError"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ASSET_LOAD_FAILED_SECURITY">ASSET_LOAD_FAILED_SECURITY</a> : String = "luAsetLoadFailedSecurity"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#AUDIO_ASSET_TYPE">AUDIO_ASSET_TYPE</a> : String = "luAudioAssetType"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#CALL_OUT_OF_SYNC_IGNORED">CALL_OUT_OF_SYNC_IGNORED</a> : String = "luCallOutOfSyncIgnored"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#IMAGE_ASSET_TYPE">IMAGE_ASSET_TYPE</a> : String = "luImageAssetType"<div class="summaryTableDescription">[static]
+          Loadup asset loader: Asset Type constants
+         </div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOADING_COMPLETE">LOADING_COMPLETE</a> : String = "luLoadingComplete"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOADING_FINISHED_INCOMPLETE">LOADING_FINISHED_INCOMPLETE</a> : String = "luLoadingFinishedIncomplete"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOADING_PROGRESS">LOADING_PROGRESS</a> : String = "luLoadingProgress"<div class="summaryTableDescription">[static]
+          Loadup core: Notifications to Client App
+         </div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOAD_RESOURCE_TIMED_OUT">LOAD_RESOURCE_TIMED_OUT</a> : String = "luLoadResourceTimedOut"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#NEW_ASSET_AVAILABLE">NEW_ASSET_AVAILABLE</a> : String = "luNewAssetAvailable"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#PREFIX_IF_AUTO_LRP_NAME">PREFIX_IF_AUTO_LRP_NAME</a> : String = "luLR_"<div class="summaryTableDescription">[static]
+          See LoadupMonitorProxy class
+         </div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#RETRYING_LOAD_RESOURCE">RETRYING_LOAD_RESOURCE</a> : String = "luRetryingLoadResource"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#SWF_ASSET_TYPE">SWF_ASSET_TYPE</a> : String = "luSwfAssetType"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#TEXT_ASSET_TYPE">TEXT_ASSET_TYPE</a> : String = "luTextAssetType"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#URL_REFUSED_PROXY_NAME_ALREADY_EXISTS">URL_REFUSED_PROXY_NAME_ALREADY_EXISTS</a> : String = "luUrlRefusedProxyNameAlreadyExists"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#VIDEO_ASSET_TYPE">VIDEO_ASSET_TYPE</a> : String = "luVideoAssetType"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#WAITING_FOR_MORE_RESOURCES">WAITING_FOR_MORE_RESOURCES</a> : String = "luWaitingForMoreResources"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">Loadup</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="ASSET_GROUP_LOAD_PROGRESS"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ASSET_GROUP_LOAD_PROGRESS</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const ASSET_GROUP_LOAD_PROGRESS:String = "luAssetGroupLoadProgress"</code><p>
+          Loadup asset loader: Notifications to Client App
+         </p></div>
+<a name="ASSET_LOADED"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ASSET_LOADED</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const ASSET_LOADED:String = "luAssetLoaded"</code><p>
+          Loadup asset loader: Notifications to LU Core and available to Client App
+         </p></div>
+<a name="ASSET_LOAD_FAILED"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ASSET_LOAD_FAILED</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const ASSET_LOAD_FAILED:String = "luAssetLoadFailed"</code>
+</div>
+<a name="ASSET_LOAD_FAILED_IOERROR"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ASSET_LOAD_FAILED_IOERROR</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const ASSET_LOAD_FAILED_IOERROR:String = "luAsetLoadFailedIOError"</code>
+</div>
+<a name="ASSET_LOAD_FAILED_SECURITY"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ASSET_LOAD_FAILED_SECURITY</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const ASSET_LOAD_FAILED_SECURITY:String = "luAsetLoadFailedSecurity"</code>
+</div>
+<a name="AUDIO_ASSET_TYPE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">AUDIO_ASSET_TYPE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const AUDIO_ASSET_TYPE:String = "luAudioAssetType"</code>
+</div>
+<a name="CALL_OUT_OF_SYNC_IGNORED"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">CALL_OUT_OF_SYNC_IGNORED</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const CALL_OUT_OF_SYNC_IGNORED:String = "luCallOutOfSyncIgnored"</code>
+</div>
+<a name="IMAGE_ASSET_TYPE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">IMAGE_ASSET_TYPE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const IMAGE_ASSET_TYPE:String = "luImageAssetType"</code><p>
+          Loadup asset loader: Asset Type constants
+         </p></div>
+<a name="LOADING_COMPLETE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOADING_COMPLETE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOADING_COMPLETE:String = "luLoadingComplete"</code>
+</div>
+<a name="LOADING_FINISHED_INCOMPLETE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOADING_FINISHED_INCOMPLETE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOADING_FINISHED_INCOMPLETE:String = "luLoadingFinishedIncomplete"</code>
+</div>
+<a name="LOADING_PROGRESS"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOADING_PROGRESS</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOADING_PROGRESS:String = "luLoadingProgress"</code><p>
+          Loadup core: Notifications to Client App
+         </p></div>
+<a name="LOAD_RESOURCE_TIMED_OUT"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOAD_RESOURCE_TIMED_OUT</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOAD_RESOURCE_TIMED_OUT:String = "luLoadResourceTimedOut"</code>
+</div>
+<a name="NEW_ASSET_AVAILABLE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">NEW_ASSET_AVAILABLE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const NEW_ASSET_AVAILABLE:String = "luNewAssetAvailable"</code>
+</div>
+<a name="PREFIX_IF_AUTO_LRP_NAME"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">PREFIX_IF_AUTO_LRP_NAME</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const PREFIX_IF_AUTO_LRP_NAME:String = "luLR_"</code><p>
+          See LoadupMonitorProxy class
+         </p></div>
+<a name="RETRYING_LOAD_RESOURCE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RETRYING_LOAD_RESOURCE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const RETRYING_LOAD_RESOURCE:String = "luRetryingLoadResource"</code>
+</div>
+<a name="SWF_ASSET_TYPE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SWF_ASSET_TYPE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const SWF_ASSET_TYPE:String = "luSwfAssetType"</code>
+</div>
+<a name="TEXT_ASSET_TYPE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">TEXT_ASSET_TYPE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const TEXT_ASSET_TYPE:String = "luTextAssetType"</code>
+</div>
+<a name="URL_REFUSED_PROXY_NAME_ALREADY_EXISTS"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">URL_REFUSED_PROXY_NAME_ALREADY_EXISTS</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const URL_REFUSED_PROXY_NAME_ALREADY_EXISTS:String = "luUrlRefusedProxyNameAlreadyExists"</code>
+</div>
+<a name="VIDEO_ASSET_TYPE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">VIDEO_ASSET_TYPE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const VIDEO_ASSET_TYPE:String = "luVideoAssetType"</code>
+</div>
+<a name="WAITING_FOR_MORE_RESOURCES"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">WAITING_FOR_MORE_RESOURCES</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const WAITING_FOR_MORE_RESOURCES:String = "luWaitingForMoreResources"</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

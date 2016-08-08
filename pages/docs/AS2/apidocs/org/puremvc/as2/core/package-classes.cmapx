@@ -1,0 +1,8 @@
+<map id="class_diagram" name="class_diagram">
+<area shape="rect" href="ViewTest.html" title="org.puremvc.as2.core.ViewTest" alt="" coords="25,366,116,414"/>
+<area shape="rect" href="ControllerTest.html" title="org.puremvc.as2.core.ControllerTest" alt="" coords="7,294,135,342"/>
+<area shape="rect" href="ModelTest.html" title="org.puremvc.as2.core.ModelTest" alt="" coords="20,222,121,270"/>
+<area shape="rect" href="View.html" title="org.puremvc.as2.core.View" alt="" coords="35,150,107,198"/>
+<area shape="rect" href="Controller.html" title="org.puremvc.as2.core.Controller" alt="" coords="23,78,119,126"/>
+<area shape="rect" href="Model.html" title="org.puremvc.as2.core.Model" alt="" coords="35,6,107,54"/>
+</map>

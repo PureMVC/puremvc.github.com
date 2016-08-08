@@ -1,0 +1,317 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><pre><span class="lineno" id="1">     1  </span><span class="comment">/* 
+<span class="lineno" id="2">     2  </span> PureMVC AS2 Unit Tests Ported by James Knight &lt;james.knight@puremvc.org&gt;  
+<span class="lineno" id="3">     3  </span> PureMVC - Copyright(c) 2006, 2007 Futurescale, Inc., Some rights reserved. 
+<span class="lineno" id="4">     4  </span> Your reuse is governed by the Creative Commons Attribution 3.0 License 
+<span class="lineno" id="5">     5  </span> */</span>
+<span class="lineno" id="6">     6  </span><span class="key">import</span> org.puremvc.as2.core.View;
+<span class="lineno" id="7">     7  </span><span class="key">import</span> org.puremvc.as2.interfaces.IMediator;
+<span class="lineno" id="8">     8  </span><span class="key">import</span> org.puremvc.as2.interfaces.INotification;
+<span class="lineno" id="9">     9  </span><span class="key">import</span> org.puremvc.as2.interfaces.IView;
+<span class="lineno" id="10">    10  </span><span class="key">import</span> org.puremvc.as2.patterns.mediator.Mediator;
+<span class="lineno" id="11">    11  </span><span class="key">import</span> org.puremvc.as2.patterns.mediator.MockMediator;
+<span class="lineno" id="12">    12  </span><span class="key">import</span> org.puremvc.as2.patterns.observer.MockNotification;
+<span class="lineno" id="13">    13  </span><span class="key">import</span> org.puremvc.as2.patterns.observer.Notification;
+<span class="lineno" id="14">    14  </span><span class="key">import</span> org.puremvc.as2.patterns.observer.Observer;
+<span class="lineno" id="15">    15  </span>
+<span class="lineno" id="16">    16  </span><span class="key">class</span> org.puremvc.as2.core.ViewTest <span class="key">extends</span> com.asunit.framework.TestCase {
+<span class="lineno" id="17">    17  </span>
+<span class="lineno" id="18">    18  </span>	<span class="key">private</span> <span class="key">var</span> className:String = <span class="str_const">"org.puremvc.as2.core.ViewTest"</span>;
+<span class="lineno" id="19">    19  </span>
+<span class="lineno" id="20">    20  </span>	<span class="key">public</span> <span class="key">var</span> lastNotification:String;	
+<span class="lineno" id="21">    21  </span>	<span class="key">public</span> <span class="key">var</span> onRegisterCalled:Boolean;
+<span class="lineno" id="22">    22  </span>	<span class="key">public</span> <span class="key">var</span> onRemoveCalled:Boolean;
+<span class="lineno" id="23">    23  </span>
+<span class="lineno" id="24">    24  </span>	<span class="key">public</span> <span class="key">static</span> <span class="key">var</span> NOTE1:String = <span class="str_const">"Notification1"</span>;
+<span class="lineno" id="25">    25  </span>	<span class="key">public</span> <span class="key">static</span> <span class="key">var</span> NOTE2:String = <span class="str_const">"Notification2"</span>;
+<span class="lineno" id="26">    26  </span>	<span class="key">public</span> <span class="key">static</span> <span class="key">var</span> NOTE3:String = <span class="str_const">"Notification3"</span>;
+<span class="lineno" id="27">    27  </span>
+<span class="lineno" id="28">    28  </span>	<span class="key">public</span> <span class="key">function</span> setUp():Void {
+<span class="lineno" id="29">    29  </span>		onRegisterCalled = <span class="key">false</span>;
+<span class="lineno" id="30">    30  </span>		onRemoveCalled = <span class="key">false</span>;
+<span class="lineno" id="31">    31  </span>	}
+<span class="lineno" id="32">    32  </span>
+<span class="lineno" id="33">    33  </span>	<span class="key">public</span> <span class="key">function</span> tearDown():Void {
+<span class="lineno" id="34">    34  </span>		View.getInstance().removeMediator(MockMediator.NAME);
+<span class="lineno" id="35">    35  </span>		View.getInstance().removeMediator(<span class="str_const">"note3Mediator"</span>);
+<span class="lineno" id="36">    36  </span>		onRegisterCalled = <span class="key">false</span>;
+<span class="lineno" id="37">    37  </span>		onRemoveCalled = <span class="key">false</span>;
+<span class="lineno" id="38">    38  </span>	}
+<span class="lineno" id="39">    39  </span>
+<span class="lineno" id="40">    40  </span>	<span class="comment doc">/**
+<span class="lineno" id="41">    41  </span>	 * Tests the View Singleton Factory Method 
+<span class="lineno" id="42">    42  </span>	 */</span>
+<span class="lineno" id="43">    43  </span>	<span class="key">public</span> <span class="key">function</span> testGetInstance():Void {
+<span class="lineno" id="44">    44  </span>		
+<span class="lineno" id="45">    45  </span>		<span class="comment">// Test Factory Method</span>
+<span class="lineno" id="46">    46  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="47">    47  </span>		
+<span class="lineno" id="48">    48  </span>		<span class="comment">// test assertions</span>
+<span class="lineno" id="49">    49  </span>		assertTrue(<span class="str_const">"Expecting instance not null"</span>, view != <span class="key">null</span>);
+<span class="lineno" id="50">    50  </span>		assertTrue(<span class="str_const">"Expecting instance implements IView"</span>, view <span class="key">instanceof</span> IView);
+<span class="lineno" id="51">    51  </span>		
+<span class="lineno" id="52">    52  </span>		assertSame(<span class="str_const">"2 variables for View point to the same object in memory"</span>, view, View.getInstance());
+<span class="lineno" id="53">    53  </span>	}
+<span class="lineno" id="54">    54  </span>	
+<span class="lineno" id="55">    55  </span>	<span class="comment doc">/**
+<span class="lineno" id="56">    56  </span>	 * Tests registration and notification of Observers.
+<span class="lineno" id="57">    57  </span>	 * 
+<span class="lineno" id="58">    58  </span>	 * An Observer is created to callback the viewTestMethod of
+<span class="lineno" id="59">    59  </span>	 * this ViewTest instance. This Observer is registered with
+<span class="lineno" id="60">    60  </span>	 * the View to be notified of 'ViewTestEvent' events. Such
+<span class="lineno" id="61">    61  </span>	 * an event is created, and a value set on its payload. Then
+<span class="lineno" id="62">    62  </span>	 * the View is told to notify interested observers of this
+<span class="lineno" id="63">    63  </span>	 * Event. 
+<span class="lineno" id="64">    64  </span>	 * 
+<span class="lineno" id="65">    65  </span>	 * The View calls the Observer's notifyObserver method
+<span class="lineno" id="66">    66  </span>	 * which calls the viewTestMethod on this instance
+<span class="lineno" id="67">    67  </span>	 * of the ViewTest class. The viewTestMethod method will set 
+<span class="lineno" id="68">    68  </span>	 * an instance variable to the value passed in on the Event
+<span class="lineno" id="69">    69  </span>	 * payload. We evaluate the instance variable to be sure
+<span class="lineno" id="70">    70  </span>	 * it is the same as that passed out as the payload of the 
+<span class="lineno" id="71">    71  </span>	 * original 'ViewTestEvent'.
+<span class="lineno" id="72">    72  </span>	 * 
+<span class="lineno" id="73">    73  </span>	 */</span>
+<span class="lineno" id="74">    74  </span>	<span class="key">public</span> <span class="key">function</span> testRegisterAndNotifyObserver():Void {
+<span class="lineno" id="75">    75  </span>		
+<span class="lineno" id="76">    76  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="77">    77  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="78">    78  </span>		
+<span class="lineno" id="79">    79  </span>		<span class="comment">// Create observer, passing in notification method and context</span>
+<span class="lineno" id="80">    80  </span>		<span class="key">var</span> observer:Observer = <span class="key">new</span> Observer(viewTestMethod, <span class="key">this</span>);
+<span class="lineno" id="81">    81  </span>		
+<span class="lineno" id="82">    82  </span>		<span class="comment">// Register Observer's interest in a particular Notification with the View </span>
+<span class="lineno" id="83">    83  </span>		view.registerObserver(MockNotification.NAME, observer);
+<span class="lineno" id="84">    84  </span>		
+<span class="lineno" id="85">    85  </span>		<span class="comment">// Create a MockNotification, setting </span>
+<span class="lineno" id="86">    86  </span>		<span class="comment">// a body value, and tell the View to notify </span>
+<span class="lineno" id="87">    87  </span>		<span class="comment">// Observers. Since the Observer is this class </span>
+<span class="lineno" id="88">    88  </span>		<span class="comment">// and the notification method is viewTestMethod,</span>
+<span class="lineno" id="89">    89  </span>		<span class="comment">// successful notification will result in our local </span>
+<span class="lineno" id="90">    90  </span>		<span class="comment">// viewTestVar being set to the value we pass in </span>
+<span class="lineno" id="91">    91  </span>		<span class="comment">// on the note body.</span>
+<span class="lineno" id="92">    92  </span>		<span class="key">var</span> note:INotification = MockNotification.create(<span class="num_const">10</span>);
+<span class="lineno" id="93">    93  </span>		view.notifyObservers(note);
+<span class="lineno" id="94">    94  </span>	}
+<span class="lineno" id="95">    95  </span>
+<span class="lineno" id="96">    96  </span>	<span class="comment doc">/**
+<span class="lineno" id="97">    97  </span>	 * A utility method to test the notification of Observers by the view
+<span class="lineno" id="98">    98  </span>	 */</span>
+<span class="lineno" id="99">    99  </span>	<span class="key">private</span> <span class="key">function</span> viewTestMethod( note:INotification ):Void {
+<span class="lineno" id="100">   100  </span>		<span class="comment">// set the local viewTestVar to the number on the event payload</span>
+<span class="lineno" id="101">   101  </span>		<span class="comment">// test assertions  			</span>
+<span class="lineno" id="102">   102  </span>		assertTrue(<span class="str_const">"Expecting viewTestVar = 10"</span>, Number(note.getBody()) == <span class="num_const">10</span>);
+<span class="lineno" id="103">   103  </span>	}	
+<span class="lineno" id="104">   104  </span>	
+<span class="lineno" id="105">   105  </span>	<span class="comment doc">/**
+<span class="lineno" id="106">   106  </span>	 * Tests registering and retrieving a mediator with
+<span class="lineno" id="107">   107  </span>	 * the View.
+<span class="lineno" id="108">   108  </span>	 */</span>
+<span class="lineno" id="109">   109  </span>	<span class="key">public</span> <span class="key">function</span> testRegisterAndRetrieveMediator():Void {
+<span class="lineno" id="110">   110  </span>		
+<span class="lineno" id="111">   111  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="112">   112  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="113">   113  </span>
+<span class="lineno" id="114">   114  </span>		<span class="comment">// Create and register the test mediator</span>
+<span class="lineno" id="115">   115  </span>		<span class="key">var</span> mock:IMediator = IMediator(<span class="key">new</span> MockMediator(<span class="key">this</span>));
+<span class="lineno" id="116">   116  </span>		view.registerMediator(mock);
+<span class="lineno" id="117">   117  </span>		
+<span class="lineno" id="118">   118  </span>		<span class="comment">// Retrieve the component</span>
+<span class="lineno" id="119">   119  </span>		<span class="key">var</span> mediator:IMediator = IMediator(view.retrieveMediator(MockMediator.NAME));
+<span class="lineno" id="120">   120  </span>		
+<span class="lineno" id="121">   121  </span>		<span class="comment">// test assertions  			</span>
+<span class="lineno" id="122">   122  </span>		assertTrue(<span class="str_const">"Expecting retrieved Mediator is MockMediator"</span>, mediator == mock);
+<span class="lineno" id="123">   123  </span>	}
+<span class="lineno" id="124">   124  </span>
+<span class="lineno" id="125">   125  </span>	<span class="comment doc">/**
+<span class="lineno" id="126">   126  </span>	 * Tests the hasMediator Method
+<span class="lineno" id="127">   127  </span>	 */</span>
+<span class="lineno" id="128">   128  </span>	<span class="key">public</span> <span class="key">function</span> testHasMediator():Void {
+<span class="lineno" id="129">   129  </span>  			
+<span class="lineno" id="130">   130  </span>		<span class="comment">// register a Mediator</span>
+<span class="lineno" id="131">   131  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="132">   132  </span>			
+<span class="lineno" id="133">   133  </span>		<span class="comment">// Create and register the test mediator</span>
+<span class="lineno" id="134">   134  </span>		<span class="key">var</span> mediator:Mediator = <span class="key">new</span> Mediator(<span class="str_const">"hasMediatorTest"</span>, <span class="key">this</span>);
+<span class="lineno" id="135">   135  </span>		view.registerMediator(mediator);
+<span class="lineno" id="136">   136  </span>			
+<span class="lineno" id="137">   137  </span>		<span class="comment">// assert that the view.hasMediator method returns true</span>
+<span class="lineno" id="138">   138  </span>		<span class="comment">// for that mediator name</span>
+<span class="lineno" id="139">   139  </span>		assertTrue(<span class="str_const">"Expecting view.hasMediator('hasMediatorTest') == true"</span>, view.hasMediator(<span class="str_const">"hasMediatorTest"</span>) == <span class="key">true</span>);
+<span class="lineno" id="140">   140  </span>
+<span class="lineno" id="141">   141  </span>		view.removeMediator(<span class="str_const">"hasMediatorTest"</span>);
+<span class="lineno" id="142">   142  </span>			
+<span class="lineno" id="143">   143  </span>		<span class="comment">// assert that the view.hasMediator method returns false</span>
+<span class="lineno" id="144">   144  </span>		<span class="comment">// for that mediator name</span>
+<span class="lineno" id="145">   145  </span>		assertTrue(<span class="str_const">"Expecting view.hasMediator('hasMediatorTest') == false"</span>, view.hasMediator(<span class="str_const">"hasMediatorTest"</span>) == <span class="key">false</span>);
+<span class="lineno" id="146">   146  </span>	}
+<span class="lineno" id="147">   147  </span>
+<span class="lineno" id="148">   148  </span>	<span class="comment doc">/**
+<span class="lineno" id="149">   149  </span>	 * Tests registering and removing a mediator 
+<span class="lineno" id="150">   150  </span>	 */</span>
+<span class="lineno" id="151">   151  </span>	<span class="key">public</span> <span class="key">function</span> testRegisterAndRemoveMediator():Void {
+<span class="lineno" id="152">   152  </span>			
+<span class="lineno" id="153">   153  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="154">   154  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="155">   155  </span>
+<span class="lineno" id="156">   156  </span>		<span class="comment">// Create and register the test mediator</span>
+<span class="lineno" id="157">   157  </span>		<span class="key">var</span> mediator:IMediator = <span class="key">new</span> Mediator(<span class="str_const">"testing"</span>, <span class="key">this</span>);
+<span class="lineno" id="158">   158  </span>		view.registerMediator(mediator);
+<span class="lineno" id="159">   159  </span>			
+<span class="lineno" id="160">   160  </span>		<span class="comment">// Remove the component</span>
+<span class="lineno" id="161">   161  </span>		<span class="key">var</span> removedMediator:IMediator = IMediator(view.removeMediator(<span class="str_const">"testing"</span>));
+<span class="lineno" id="162">   162  </span>			
+<span class="lineno" id="163">   163  </span>		<span class="comment">// assert that we have removed the appropriate mediator</span>
+<span class="lineno" id="164">   164  </span>		assertTrue(<span class="str_const">"Expecting removedMediator.getMediatorName() == 'testing'"</span>, removedMediator.getMediatorName() == <span class="str_const">"testing"</span>);
+<span class="lineno" id="165">   165  </span>				
+<span class="lineno" id="166">   166  </span>		<span class="comment">// assert that the mediator is no longer retrievable</span>
+<span class="lineno" id="167">   167  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( 'testing' ) == null )"</span>, view.retrieveMediator(<span class="str_const">"testing"</span>) == <span class="key">null</span>);
+<span class="lineno" id="168">   168  </span>	}
+<span class="lineno" id="169">   169  </span>
+<span class="lineno" id="170">   170  </span>	<span class="comment doc">/**
+<span class="lineno" id="171">   171  </span>	 * Test that the View calls the onRegister and onRemove methods
+<span class="lineno" id="172">   172  </span>	 */</span>
+<span class="lineno" id="173">   173  </span>	<span class="key">public</span> <span class="key">function</span> testOnRegisterAndOnRemove():Void {
+<span class="lineno" id="174">   174  </span>			
+<span class="lineno" id="175">   175  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="176">   176  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="177">   177  </span>			
+<span class="lineno" id="178">   178  </span>		<span class="comment">// just check that our variables are set correctly before starting</span>
+<span class="lineno" id="179">   179  </span>		assertFalse(<span class="str_const">"prior to testing, onRegisterCalled should be false"</span>, onRegisterCalled);
+<span class="lineno" id="180">   180  </span>		assertFalse(<span class="str_const">"prior to testing, onRemoveCalled should be false"</span>, onRemoveCalled);
+<span class="lineno" id="181">   181  </span>			
+<span class="lineno" id="182">   182  </span>		<span class="comment">// Create and register the test mediator</span>
+<span class="lineno" id="183">   183  </span>		<span class="key">var</span> mediator:IMediator = <span class="key">new</span> MockMediator(<span class="key">this</span>);
+<span class="lineno" id="184">   184  </span>		view.registerMediator(mediator);
+<span class="lineno" id="185">   185  </span>
+<span class="lineno" id="186">   186  </span>		<span class="comment">// assert that onRegister was called, and the mediator responded by setting our boolean</span>
+<span class="lineno" id="187">   187  </span>		assertTrue(<span class="str_const">"Expecting onRegisterCalled == true"</span>, onRegisterCalled);
+<span class="lineno" id="188">   188  </span>			
+<span class="lineno" id="189">   189  </span>		<span class="comment">// Remove the component</span>
+<span class="lineno" id="190">   190  </span>		IMediator(view.removeMediator(MockMediator.NAME));
+<span class="lineno" id="191">   191  </span>			
+<span class="lineno" id="192">   192  </span>		<span class="comment">// assert that the mediator is no longer retrievable</span>
+<span class="lineno" id="193">   193  </span>		assertTrue(<span class="str_const">"Expecting onRemoveCalled == true"</span>, onRemoveCalled);
+<span class="lineno" id="194">   194  </span>	}
+<span class="lineno" id="195">   195  </span>
+<span class="lineno" id="196">   196  </span>	<span class="comment doc">/**
+<span class="lineno" id="197">   197  </span>	 * Tests successive register and remove of same mediator.
+<span class="lineno" id="198">   198  </span>	 */</span>
+<span class="lineno" id="199">   199  </span>	<span class="key">public</span> <span class="key">function</span> testSuccessiveRegisterAndRemoveMediator():Void {
+<span class="lineno" id="200">   200  </span>		
+<span class="lineno" id="201">   201  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="202">   202  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="203">   203  </span>
+<span class="lineno" id="204">   204  </span>		<span class="comment">// Create and register the test mediator, </span>
+<span class="lineno" id="205">   205  </span>		<span class="comment">// but not so we have a reference to it</span>
+<span class="lineno" id="206">   206  </span>		view.registerMediator(<span class="key">new</span> MockMediator(<span class="key">this</span>));
+<span class="lineno" id="207">   207  </span>		
+<span class="lineno" id="208">   208  </span>		<span class="comment">// test that we can retrieve it</span>
+<span class="lineno" id="209">   209  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( MockMediator.NAME ) is MockMediator"</span>, view.retrieveMediator(MockMediator.NAME) <span class="key">instanceof</span> MockMediator);
+<span class="lineno" id="210">   210  </span>
+<span class="lineno" id="211">   211  </span>		<span class="comment">// Remove the Mediator</span>
+<span class="lineno" id="212">   212  </span>		view.removeMediator(MockMediator.NAME);
+<span class="lineno" id="213">   213  </span>
+<span class="lineno" id="214">   214  </span>		<span class="comment">// test that retrieving it now returns null			</span>
+<span class="lineno" id="215">   215  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( MockMediator.NAME ) == null"</span>, view.retrieveMediator(MockMediator.NAME) == <span class="key">null</span>);
+<span class="lineno" id="216">   216  </span>
+<span class="lineno" id="217">   217  </span>		<span class="comment">// test that removing the mediator again once its gone doesn't cause crash 		</span>
+<span class="lineno" id="218">   218  </span>		assertTrue(<span class="str_const">"Expecting view.removeMediator( MockMediator.NAME ) doesn't crash"</span>, view.removeMediator(MockMediator.NAME) == <span class="key">null</span>);
+<span class="lineno" id="219">   219  </span>
+<span class="lineno" id="220">   220  </span>		<span class="comment">// Create and register another instance of the test mediator, </span>
+<span class="lineno" id="221">   221  </span>		view.registerMediator(<span class="key">new</span> MockMediator(<span class="key">this</span>));
+<span class="lineno" id="222">   222  </span>		
+<span class="lineno" id="223">   223  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( MockMediator.NAME ) is MockMediator"</span>, view.retrieveMediator(MockMediator.NAME) <span class="key">instanceof</span> MockMediator);
+<span class="lineno" id="224">   224  </span>
+<span class="lineno" id="225">   225  </span>		<span class="comment">// Remove the Mediator</span>
+<span class="lineno" id="226">   226  </span>		view.removeMediator(MockMediator.NAME);
+<span class="lineno" id="227">   227  </span>		
+<span class="lineno" id="228">   228  </span>		<span class="comment">// test that retrieving it now returns null			</span>
+<span class="lineno" id="229">   229  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( MockMediator.NAME ) == null"</span>, view.retrieveMediator(MockMediator.NAME) == <span class="key">null</span>);
+<span class="lineno" id="230">   230  </span>	}
+<span class="lineno" id="231">   231  </span>
+<span class="lineno" id="232">   232  </span>	
+<span class="lineno" id="233">   233  </span>	<span class="comment doc">/**
+<span class="lineno" id="234">   234  </span>	 * Tests registering a Mediator for 2 different notifications, removing the
+<span class="lineno" id="235">   235  </span>	 * Mediator from the View, and seeing that neither notification causes the
+<span class="lineno" id="236">   236  </span>	 * Mediator to be notified.
+<span class="lineno" id="237">   237  </span>	 */</span>
+<span class="lineno" id="238">   238  </span>	<span class="key">public</span> <span class="key">function</span> testRemoveMediatorAndSubsequentNotify():Void {
+<span class="lineno" id="239">   239  </span>		
+<span class="lineno" id="240">   240  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="241">   241  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="242">   242  </span>		
+<span class="lineno" id="243">   243  </span>		<span class="comment">// Create and register the test mediator to be removed.</span>
+<span class="lineno" id="244">   244  </span>		view.registerMediator(<span class="key">new</span> MockMediator(<span class="key">this</span>, [ViewTest.NOTE1, ViewTest.NOTE2]));
+<span class="lineno" id="245">   245  </span>		
+<span class="lineno" id="246">   246  </span>		<span class="comment">// test that notifications work</span>
+<span class="lineno" id="247">   247  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE1));
+<span class="lineno" id="248">   248  </span>		assertTrue(<span class="str_const">"Expecting lastNotification == NOTE1"</span>, lastNotification == NOTE1);
+<span class="lineno" id="249">   249  </span>
+<span class="lineno" id="250">   250  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE2));
+<span class="lineno" id="251">   251  </span>		assertTrue(<span class="str_const">"Expecting lastNotification == NOTE2"</span>, lastNotification == NOTE2);
+<span class="lineno" id="252">   252  </span>
+<span class="lineno" id="253">   253  </span>		<span class="comment">// Remove the Mediator</span>
+<span class="lineno" id="254">   254  </span>		view.removeMediator(MockMediator.NAME);
+<span class="lineno" id="255">   255  </span>
+<span class="lineno" id="256">   256  </span>		<span class="comment">// test that retrieving it now returns null			</span>
+<span class="lineno" id="257">   257  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( MockMediator.NAME ) == null"</span>, view.retrieveMediator(MockMediator.NAME) == <span class="key">null</span>);
+<span class="lineno" id="258">   258  </span>
+<span class="lineno" id="259">   259  </span>		<span class="comment">// test that notifications no longer work</span>
+<span class="lineno" id="260">   260  </span>		lastNotification = <span class="key">null</span>;
+<span class="lineno" id="261">   261  </span>		
+<span class="lineno" id="262">   262  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE1));
+<span class="lineno" id="263">   263  </span>		assertTrue(<span class="str_const">"Expecting lastNotification != NOTE1"</span>, lastNotification != NOTE1);
+<span class="lineno" id="264">   264  </span>
+<span class="lineno" id="265">   265  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE2));
+<span class="lineno" id="266">   266  </span>		assertTrue(<span class="str_const">"Expecting lastNotification != NOTE2"</span>, lastNotification != NOTE2);
+<span class="lineno" id="267">   267  </span>	}
+<span class="lineno" id="268">   268  </span>
+<span class="lineno" id="269">   269  </span>	<span class="comment doc">/**
+<span class="lineno" id="270">   270  </span>	 * Tests registering one of two registered Mediators and seeing
+<span class="lineno" id="271">   271  </span>	 * that the remaining one still responds.
+<span class="lineno" id="272">   272  </span>	 */</span>
+<span class="lineno" id="273">   273  </span>	<span class="key">public</span> <span class="key">function</span> testRemoveOneOfTwoMediatorsAndSubsequentNotify():Void {
+<span class="lineno" id="274">   274  </span>		
+<span class="lineno" id="275">   275  </span>		<span class="comment">// Get the Singleton View instance</span>
+<span class="lineno" id="276">   276  </span>		<span class="key">var</span> view:IView = View.getInstance();
+<span class="lineno" id="277">   277  </span>		
+<span class="lineno" id="278">   278  </span>		<span class="comment">// Create and register that responds to notifications 1 and 2</span>
+<span class="lineno" id="279">   279  </span>		view.registerMediator(<span class="key">new</span> MockMediator(<span class="key">this</span>, [ViewTest.NOTE1, ViewTest.NOTE2]));
+<span class="lineno" id="280">   280  </span>		
+<span class="lineno" id="281">   281  </span>		<span class="comment">// Create and register that responds to notification 3</span>
+<span class="lineno" id="282">   282  </span>		view.registerMediator(<span class="key">new</span> MockMediator(<span class="key">this</span>, [ViewTest.NOTE3], <span class="str_const">"note3Mediator"</span>));
+<span class="lineno" id="283">   283  </span>		
+<span class="lineno" id="284">   284  </span>		<span class="comment">// test that all notifications work</span>
+<span class="lineno" id="285">   285  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE1));
+<span class="lineno" id="286">   286  </span>		assertTrue(<span class="str_const">"Expecting lastNotification == NOTE1"</span>, lastNotification == NOTE1);
+<span class="lineno" id="287">   287  </span>
+<span class="lineno" id="288">   288  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE2));
+<span class="lineno" id="289">   289  </span>		assertTrue(<span class="str_const">"Expecting lastNotification == NOTE2"</span>, lastNotification == NOTE2);
+<span class="lineno" id="290">   290  </span>
+<span class="lineno" id="291">   291  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE3));
+<span class="lineno" id="292">   292  </span>		assertTrue(<span class="str_const">"Expecting lastNotification == NOTE3"</span>, lastNotification == NOTE3);
+<span class="lineno" id="293">   293  </span>				
+<span class="lineno" id="294">   294  </span>		<span class="comment">// Remove the Mediator that responds to 1 and 2</span>
+<span class="lineno" id="295">   295  </span>		view.removeMediator(MockMediator.NAME);
+<span class="lineno" id="296">   296  </span>
+<span class="lineno" id="297">   297  </span>		<span class="comment">// test that retrieving it now returns null			</span>
+<span class="lineno" id="298">   298  </span>		assertTrue(<span class="str_const">"Expecting view.retrieveMediator( MockMediator.NAME ) == null"</span>, view.retrieveMediator(MockMediator.NAME) == <span class="key">null</span>);
+<span class="lineno" id="299">   299  </span>
+<span class="lineno" id="300">   300  </span>		<span class="comment">// test that notifications no longer work</span>
+<span class="lineno" id="301">   301  </span>		<span class="comment">// for notifications 1 and 2, but still work for 3</span>
+<span class="lineno" id="302">   302  </span>		lastNotification = <span class="key">null</span>;
+<span class="lineno" id="303">   303  </span>		
+<span class="lineno" id="304">   304  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE1));
+<span class="lineno" id="305">   305  </span>		assertTrue(<span class="str_const">"Expecting lastNotification != NOTE1"</span>, lastNotification != NOTE1);
+<span class="lineno" id="306">   306  </span>
+<span class="lineno" id="307">   307  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE2));
+<span class="lineno" id="308">   308  </span>		assertTrue(<span class="str_const">"Expecting lastNotification != NOTE2"</span>, lastNotification != NOTE2);
+<span class="lineno" id="309">   309  </span>
+<span class="lineno" id="310">   310  </span>		view.notifyObservers(<span class="key">new</span> Notification(NOTE3));
+<span class="lineno" id="311">   311  </span>		assertTrue(<span class="str_const">"Expecting lastNotification == NOTE3"</span>, lastNotification == NOTE3);
+<span class="lineno" id="312">   312  </span>	}
+<span class="lineno" id="313">   313  </span>}
+<span class="lineno" id="314">   314  </span></pre><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.core" class="button">Package</a></li><li><a href="ViewTest.html" title="Detail of org.puremvc.as2.core.ViewTest API" class="button">Class</a></li><li><span class="button nav_current">Source</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

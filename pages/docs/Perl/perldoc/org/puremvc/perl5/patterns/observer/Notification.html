@@ -1,0 +1,152 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Notification</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>Implementation of the pureMVC <code>Notification</code> pattern.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <a href="../observer/Observer.html">Observer</a> pattern as implemented within PureMVC exists to support event-driven communication between the application and the actors of the MVC triad.</p>
+<p>Generally, <a href="../mediator/Mediator.html">Mediator</a> or <a href="../proxy/Proxy.html">Proxy</a> implementors broadcast <code>Notification</code>s to trigger <a href="../command/SimpleCommand.html">commands</a> or to communicate with other <a href="../mediator/Mediator.html">mediators</a>.</p>
+<p><a href="../proxy/Proxy.html">Proxy</a> and <a href="../command/SimpleCommand.html">Command</a> instances communicate with each other and <a href="../mediator/Mediator.html">mediators</a> by broadcasting <code>Notification</code>s.</p>
+<p>PureMVC <code>Notification</code>s follow a 'Publish/Subscribe' pattern. PureMVC classes need not be related to each other in a parent/child relationship in order to communicate with one another using <code>Notification</code>s.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong></dt>
+
+<dd>
+<p><a href="#new"><code>sub new( $notification_name, $body, $type );</code></a></p>
+<p>Constructor.</p>
+<p>You usually do not call <code>Notification</code> directly but use <a href="../facade/Facade.html">Facade</a> <code>sendNotification</code> method to create and send a <code>Notification</code>:</p>
+<pre>
+  <span class="comment"># Code usually found in a Notifier subclass</span>
+  
+  <span class="comment"># Create and send a notification called "SayHelloWorld" with no body nor type data passed </span>
+  <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">sendNotification</span><span class="operator">(</span><span class="string">"SayHelloWorld"</span><span class="operator">);</span>
+</pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the constructed <code>Notification</code> instance.</p>
+</li>
+<li>
+<p><code>$body - *</code></p>
+<p>Body or (business data) of the <code>Notification</code>. Can be any object or scalar. - Optional</p>
+</li>
+<li>
+<p><code>$type - *</code></p>
+<p>Type of the <code>Notification</code>. This data can be useful to distinguish several types of the same <code>Notification</code>. Usually is a string but could be any other object or scalar. - Optional</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getname" class="item">getName</a></strong></dt>
+
+<dd>
+<p><a href="#getname"><code>sub getName();</code></a></p>
+<p><code>Notification</code> name getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>String</code> - The name of the <code>Notification</code>.</p>
+</dd>
+<dt><strong><a name="setbody" class="item">setBody</a></strong></dt>
+
+<dd>
+<p><a href="#setbody"><code>sub setBody( $body );</code></a></p>
+<p><code>Notification</code> body setter.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$body - *</code></p>
+<p>Body or (business data) of the <code>Notification</code>. Can be any object or scalar. - Optional</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getbody" class="item">getBody</a></strong></dt>
+
+<dd>
+<p><a href="#getbody"><code>getBody()</code></a></p>
+<p><code>Notification</code> body getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>*</code> - The body of the <code>Notification</code>, scalar or object.</p>
+</dd>
+<dt><strong><a name="settype" class="item">setType</a></strong></dt>
+
+<dd>
+<p><a href="#settype"><code>sub setType( $type );</code></a></p>
+<p><code>Notification</code> type setter.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$type - *</code></p>
+<p>Type of the <code>Notification</code>. This data can be useful to distinguish several types of the same <code>Notification</code>. Usually is a string but could be any other object or scalar. - Optional</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="gettype" class="item">getType</a></strong></dt>
+
+<dd>
+<p><a href="#gettype"><code>sub getType();</code></a></p>
+<p><code>Notification</code> type getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>*</code> - The type of the <code>Notification</code>, scalar or object.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../core/Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="../../core/View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../../core/Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

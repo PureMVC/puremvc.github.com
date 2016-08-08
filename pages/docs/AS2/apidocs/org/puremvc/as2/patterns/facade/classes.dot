@@ -1,0 +1,15 @@
+strict digraph class_diagram {
+  rankdir=LR;
+  TypeFacadeTest[
+    label="FacadeTest",
+    URL="FacadeTest.html",
+    tooltip="org.puremvc.as2.patterns.facade.FacadeTest",
+    shape="record"
+  ];
+  TypeFacade[
+    label="Facade",
+    URL="Facade.html",
+    tooltip="org.puremvc.as2.patterns.facade.Facade",
+    shape="record"
+  ];
+}

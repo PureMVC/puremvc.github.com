@@ -1,0 +1,286 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>FacadeTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurecale, Inc., Some rights reserved.
+ Your reuse is governed by Creative Commons Attribution 2.5 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>
+<span class="ActionScriptBracket/Brace">{</span>
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptDefault_Text">Sprite</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+     
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptOperator">*</span>;
+     
+    <span class="ActionScriptASDoc">/**
+     * Test the PureMVC Facade class.
+     *
+       * @see org.puremvc.as3.patterns.facade.FacadeTestVO FacadeTestVO
+       * @see org.puremvc.as3.patterns.facade.FacadeTestCommand FacadeTestCommand
+     */</span>
+     <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">FacadeTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> <span class="ActionScriptBracket/Brace">{</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+      
+        <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testGetInstance&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterCommandAndSendNotification&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRemoveCommandAndSendNotification&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRetrieveProxy&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRemoveProxy&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+             <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterRetrieveAndRemoveMediator&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+             <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testHasProxy&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+             <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testHasMediator&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+             <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testHasCommand&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the Facade Singleton Factory Method 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testGetInstance</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Test Factory Method
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance not null&quot;</span>, <span class="ActionScriptDefault_Text">facade</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance implements IFacade&quot;</span>, <span class="ActionScriptDefault_Text">facade</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests Command registration and execution via the Facade.
+           * 
+           * &lt;P&gt;
+           * This test gets the Singleton Facade instance 
+           * and registers the FacadeTestCommand class 
+           * to handle &apos;FacadeTest&apos; Notifcations.&lt;P&gt;
+           * 
+           * &lt;P&gt;
+           * It then sends a notification using the Facade. 
+           * Success is determined by evaluating 
+           * a property on an object placed in the body of
+           * the Notification, which will be modified by the Command.&lt;/P&gt;
+           * 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterCommandAndSendNotification</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create the Facade, register the FacadeTestCommand to 
+</span>               <span class="ActionScriptComment">// handle &apos;FacadeTest&apos; notifications
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;FacadeTestNote&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">FacadeTestCommand</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+
+            <span class="ActionScriptComment">// Send notification. The Command associated with the event
+</span>            <span class="ActionScriptComment">// (FacadeTestCommand) will be invoked, and will multiply 
+</span>            <span class="ActionScriptComment">// the vo.input value by 2 and set the result on vo.result
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTestVO</span><span class="ActionScriptBracket/Brace">(</span> 32 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;FacadeTestNote&apos;</span>, <span class="ActionScriptDefault_Text">vo</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result == 64&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">==</span> 64 <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests Command removal via the Facade.
+           * 
+           * &lt;P&gt;
+           * This test gets the Singleton Facade instance 
+           * and registers the FacadeTestCommand class 
+           * to handle &apos;FacadeTest&apos; Notifcations. Then it removes the command.&lt;P&gt;
+           * 
+           * &lt;P&gt;
+           * It then sends a Notification using the Facade. 
+           * Success is determined by evaluating 
+           * a property on an object placed in the body of
+           * the Notification, which will NOT be modified by the Command.&lt;/P&gt;
+           * 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRemoveCommandAndSendNotification</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Create the Facade, register the FacadeTestCommand to 
+</span>               <span class="ActionScriptComment">// handle &apos;FacadeTest&apos; events
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;FacadeTestNote&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">FacadeTestCommand</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;FacadeTestNote&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+
+            <span class="ActionScriptComment">// Send notification. The Command associated with the event
+</span>            <span class="ActionScriptComment">// (FacadeTestCommand) will NOT be invoked, and will NOT multiply 
+</span>            <span class="ActionScriptComment">// the vo.input value by 2 
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FacadeTestVO</span><span class="ActionScriptBracket/Brace">(</span> 32 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;FacadeTestNote&apos;</span>, <span class="ActionScriptDefault_Text">vo</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting vo.result != 64&quot;</span>, <span class="ActionScriptDefault_Text">vo</span>.<span class="ActionScriptDefault_Text">result</span> <span class="ActionScriptOperator">!=</span> 64 <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests the regsitering and retrieving Model proxies via the Facade.
+           * 
+           * &lt;P&gt;
+           * Tests &lt;code&gt;registerProxy&lt;/code&gt; and &lt;code&gt;retrieveProxy&lt;/code&gt; in the same test.
+           * These methods cannot currently be tested separately
+           * in any meaningful way other than to show that the
+           * methods do not throw exception when called. &lt;/P&gt;
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRetrieveProxy</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a proxy and retrieve it.
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;colors&apos;</span>, <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;red&apos;</span>, <span class="ActionScriptString">&apos;green&apos;</span>, <span class="ActionScriptString">&apos;blue&apos;</span><span class="ActionScriptBracket/Brace">])</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Proxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;colors&apos;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting proxy is IProxy&quot;</span>, <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IProxy</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// retrieve data from proxy
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">getData</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Array</span>;
+            
+            <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertNotNull</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data not null&quot;</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data is Array&quot;</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data.length == 3&quot;</span>, <span class="ActionScriptDefault_Text">data</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">==</span> 3 <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data[0] == &apos;red&apos;&quot;</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">]</span>  <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;red&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data[1] == &apos;green&apos;&quot;</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">[</span>1<span class="ActionScriptBracket/Brace">]</span>  <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;green&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting data[2] == &apos;blue&apos;&quot;</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">[</span>2<span class="ActionScriptBracket/Brace">]</span>  <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;blue&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the removing Proxies via the Facade.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRemoveProxy</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a proxy, remove it, then try to retrieve it
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;sizes&apos;</span>, <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;7&apos;</span>, <span class="ActionScriptString">&apos;13&apos;</span>, <span class="ActionScriptString">&apos;21&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// remove the proxy
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">removedProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">removeProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;sizes&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// assert that we removed the appropriate proxy
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting removedProxy.getProxyName() == &apos;sizes&apos;&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">removedProxy</span>.<span class="ActionScriptDefault_Text">getProxyName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;sizes&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// make sure we can no longer retrieve the proxy from the model
+</span>            <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;sizes&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertNull</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting proxy is null&quot;</span>, <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+           
+          <span class="ActionScriptASDoc">/**
+           * Tests registering, retrieving and removing Mediators via the Facade.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterRetrieveAndRemoveMediator</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a mediator, remove it, then try to retrieve it
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Mediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Mediator</span>.<span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Sprite</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// retrieve the mediator
+</span>               <span class="ActionScriptDefault_Text">assertNotNull</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting mediator is not null&quot;</span>, <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Mediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// remove the mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">removedMediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Mediator</span>.<span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// assert that we have removed the appropriate mediator
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting removedMediator.getMediatorName() == Mediator.NAME&quot;</span>, 
+                        <span class="ActionScriptDefault_Text">removedMediator</span>.<span class="ActionScriptDefault_Text">getMediatorName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">Mediator</span>.<span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+            <span class="ActionScriptComment">// assert that the mediator is no longer retrievable
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting facade.retrieveMediator( Mediator.NAME ) == null )&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Mediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+                                      
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests the hasProxy Method
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testHasProxy</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a Proxy
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;hasProxyTest&apos;</span>, <span class="ActionScriptBracket/Brace">[</span>1,2,3<span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// assert that the model.hasProxy method returns true
+</span>               <span class="ActionScriptComment">// for that proxy name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting facade.hasProxy(&apos;hasProxyTest&apos;) == true&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasProxyTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests the hasMediator Method
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testHasMediator</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a Mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Mediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;facadeHasMediatorTest&apos;</span>, <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Sprite</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// assert that the facade.hasMediator method returns true
+</span>               <span class="ActionScriptComment">// for that mediator name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting facade.hasMediator(&apos;facadeHasMediatorTest&apos;) == true&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;facadeHasMediatorTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+                           
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;facadeHasMediatorTest&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// assert that the facade.hasMediator method returns false
+</span>               <span class="ActionScriptComment">// for that mediator name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting facade.hasMediator(&apos;facadeHasMediatorTest&apos;) == false&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;facadeHasMediatorTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Test hasCommand method.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testHasCommand</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register the ControllerTestCommand to handle &apos;hasCommandTest&apos; notes
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;facadeHasCommandTest&apos;</span>, <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">FacadeTestCommand</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test that hasCommand returns true for hasCommandTest notifications 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting facade.hasCommand(&apos;facadeHasCommandTest&apos;) == true&quot;</span>, <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;facadeHasCommandTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Remove the Command from the Controller
+</span>               <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;facadeHasCommandTest&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// test that hasCommand returns false for hasCommandTest notifications 
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting facade.hasCommand(&apos;facadeHasCommandTest&apos;) == false&quot;</span>, <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;facadeHasCommandTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+
+      <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

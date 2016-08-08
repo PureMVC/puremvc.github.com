@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Demo_AS3_Flex_EmployeeAdmin</title>
+	<nodes>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.flex.employeeadmin" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.employeeadmin.controller" icon="packageIcon" expanded="true">
+				<node label="AddRoleResultCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/controller/AddRoleResultCommand.as.html"/>
+				<node label="DeleteUserCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/controller/DeleteUserCommand.as.html"/>
+				<node label="PrepModelCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/controller/PrepModelCommand.as.html"/>
+				<node label="PrepViewCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/controller/PrepViewCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.employeeadmin.model" icon="packageIcon" expanded="true">
+				<node label="RoleProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/model/RoleProxy.as.html"/>
+				<node label="UserProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/model/UserProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.employeeadmin.model.enum" icon="packageIcon" expanded="true">
+				<node label="DeptEnum.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/model/enum/DeptEnum.as.html"/>
+				<node label="RoleEnum.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/model/enum/RoleEnum.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.employeeadmin.model.vo" icon="packageIcon" expanded="true">
+				<node label="RoleVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/model/vo/RoleVO.as.html"/>
+				<node label="UserVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/model/vo/UserVO.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.employeeadmin.view" icon="packageIcon" expanded="true">
+				<node label="RolePanelMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/view/RolePanelMediator.as.html"/>
+				<node label="UserFormMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/view/UserFormMediator.as.html"/>
+				<node label="UserListMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/view/UserListMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.employeeadmin.view.components" icon="packageIcon" expanded="true">
+				<node label="RolePanel.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/view/components/RolePanel.mxml.html"/>
+				<node label="UserForm.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/view/components/UserForm.mxml.html"/>
+				<node label="UserList.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/employeeadmin/view/components/UserList.mxml.html"/>
+			</node>
+			<node selected="true" label="EmployeeAdmin.mxml" icon="mxmlAppIcon" url="source/EmployeeAdmin.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

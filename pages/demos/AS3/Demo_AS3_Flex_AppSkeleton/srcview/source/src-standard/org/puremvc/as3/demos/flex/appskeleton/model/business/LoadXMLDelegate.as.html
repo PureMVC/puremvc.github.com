@@ -1,0 +1,47 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>LoadXMLDelegate.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex Application Skeleton 
+ Copyright (c) 2007 Daniele Ugoletti &lt;daniele.ugoletti@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">appskeleton</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">business</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">AsyncToken</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">ResultEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">IResponder</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">http</span>.<span class="ActionScriptDefault_Text">HTTPService</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">LoadXMLDelegate</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">responder</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IResponder</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">service</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">HTTPService</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">LoadXMLDelegate</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">responder</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IResponder</span>, <span class="ActionScriptDefault_Text">url</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span><span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// constructor will store a reference to the service we&apos;re going to call
+</span>            <span class="ActionScriptDefault_Text">service</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">HTTPService</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">resultFormat</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;xml&apos;</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">url</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">url</span>;
+            
+            <span class="ActionScriptComment">// and store a reference to the proxy that created this delegate
+</span>            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">responder</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">responder</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">load</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// call the service
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">token</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AsyncToken</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">send</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptComment">// notify this responder when the service call completes
+</span>            <span class="ActionScriptDefault_Text">token</span>.<span class="ActionScriptDefault_Text">addResponder</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">responder</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

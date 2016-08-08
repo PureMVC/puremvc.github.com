@@ -1,0 +1,69 @@
+PureMVC AS3/MultiCore Utility – Pipes
+Copyright (c) 2008 Cliff Hall<cliff.hall@puremvc.org>
+Your reuse is governed by the Creative Commons Attribution 3.0 License
+--------------------------------------------------------------------------
+Release Date: 10/02/08
+    Platform: ActionScript 3  
+     Version: 1 
+    Revision: 1
+      Author:Cliff Hall <cliff.hall@puremvc.org>
+     License: Creative Commons Attribution 3.0 United States License
+--------------------------------------------------------------------------
+1.1 - Added disconnectFitting method to TeeSplit.
+
+1.0 - Added IPipeAware interface and JunctionMediator, both previously
+      in the PipeWorks demo.
+	  
+0.9 - Queue: sort-by-priority now works and switching between SORT
+      and FIFO mode operation is tested.
+	  
+0.8 - IPipeFitting defines and all concrete fittings now implement a 
+      disconnect method, which disconnects and returns the fitting connected 
+      to the output.  TeeSplit is special because it has multiple connected
+      outputs, so the disconnect methods must be called multiple times to 
+      disconnect them all. They are disconnected in LIFO order. The disconnected
+      fitting is returned so that if you are splicing into a pipeline, you 
+      have a reference to both sides of the splice to reconnect around your
+      new fitting. Also fixed bug in Junction.hasPipe(). Added sendMessage
+      method to Junction, allowing you to send a message on a previously
+      registered output pipe.
+            
+0.7 - Message: refactored out of pipes/plumbing into pipes/messages folder. 
+      Message type changed to String. Added QueueControlMessage and 
+      FilterControlMessage, subclasses of Message that simplify creation of 
+      control Messages, and show how to create your own subclass of message 
+      for custom purposes. They expose constants for type names and use an 
+      internal URI scheme to manage message namespace. Filter and Queue: 
+      modified to use new control message names. Queue: Added support for 
+      toggling sort-by-priority/fifo behavior. FilterControlMessage has its
+      own getters and setters for name, filter and params properties. Filter:
+      now accepts a filter function just like it accepts parameters, and
+      so does not need to be sublcassed to work.
+      
+0.6 - Message: Allow null header. Queue control flush messages only require
+      a type, so thats the minimum requirement. Queue, Message, Filter: 
+      Message.TYPE_NORMAL becomes Message.NORMAL and Message.TYPE_CONTROL 
+      is no longer used. Instead, simply set the message type to Queue.FLUSH
+      or Filter.PARAMS.
+      
+0.5 - TeeMerge: Return Boolean from connectInput.
+
+0.4 - PipeListener: fixed 'apply parameter must be an array'.
+
+0.3 - Exposed the PipeListener class, which was previously an 'inner class'
+      defined and used only inside Junction. It's useful for unit testing,
+      though, and for simple pipeline scenarios, you may not prefer to use
+      the Junction class and just set a listener on the end of the pipe
+      yourself. 
+
+0.2 - Checked in API Docs for the utility, updating a bunch of the inline
+      code comments. Also, added the functionality for Filter instances
+      to have instance names and to receive their parameters via control
+      messages. 
+      
+0.1 - Checked in initial classes and license/version files. Most of the
+      functionality is expected to work at this point, though there are
+      as yet no unit tests or demos. Also, this has been through the 
+      refactor ringer prior to checkin, so I don't expect a lot of churn
+      in package/class names. - CLH
+

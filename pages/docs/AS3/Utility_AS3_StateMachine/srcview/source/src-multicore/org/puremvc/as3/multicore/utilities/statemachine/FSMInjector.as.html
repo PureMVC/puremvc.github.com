@@ -1,0 +1,124 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>FSMInjector.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+  PureMVC AS3 Utility - StateMachine
+  Copyright (c) 2008 Neil Manuell, Cliff Hall
+  Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+ <span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">statemachine</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">Notifier</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * Creates and registers a StateMachine described in XML.
+     * 
+     * &lt;P&gt;
+     * This allows reconfiguration of the StateMachine 
+     * without changing any code, as well as making it 
+     * easier than creating all the &lt;code&gt;State&lt;/code&gt; 
+     * instances and registering them with the 
+     * &lt;code&gt;StateMachine&lt;/code&gt; at startup time.
+     * 
+     * @ see State
+     * @ see StateMachine
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">FSMInjector</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Notifier</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Constructor.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">FSMInjector</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">fsm</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">fsm</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">fsm</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Inject the &lt;code&gt;StateMachine&lt;/code&gt; into the PureMVC apparatus.
+         * &lt;P&gt;
+         * Creates the &lt;code&gt;StateMachine&lt;/code&gt; instance, registers all the states
+         * and registers the &lt;code&gt;StateMachine&lt;/code&gt; with the &lt;code&gt;IFacade&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">inject</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Create the StateMachine
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">stateMachine</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StateMachine</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">StateMachine</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptComment">// Register all the states with the StateMachine
+</span>            <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">state</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">states</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span> 
+                <span class="ActionScriptDefault_Text">stateMachine</span>.<span class="ActionScriptDefault_Text">registerState</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">state</span>, <span class="ActionScriptDefault_Text">isInitial</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">state</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>                
+            
+            <span class="ActionScriptComment">// Register the StateMachine with the facade
+</span>            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">stateMachine</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the state definitions.
+         * &lt;P&gt;
+         * Creates and returns the array of State objects 
+         * from the FSM on first call, subsequently returns
+         * the existing array.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">stateList</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">stateList</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">stateDefs</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">fsm</span>..<span class="ActionScriptDefault_Text">state</span>;
+                <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">&lt;</span><span class="ActionScriptDefault_Text">stateDefs</span>.<span class="ActionScriptDefault_Text">length</span><span class="ActionScriptBracket/Brace">()</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptBracket/Brace">{</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">stateDef</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">stateDefs</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">state</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">createState</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">stateDef</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">stateList</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">state</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptBracket/Brace">}</span> 
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">stateList</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Creates a &lt;code&gt;State&lt;/code&gt; instance from its XML definition.
+          */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createState</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">stateDef</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Create State object
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">name</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">stateDef</span>.@<span class="ActionScriptDefault_Text">name</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">exiting</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">stateDef</span>.@<span class="ActionScriptDefault_Text">exiting</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">entering</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">stateDef</span>.@<span class="ActionScriptDefault_Text">entering</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">changed</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">stateDef</span>.@<span class="ActionScriptDefault_Text">changed</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">state</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">State</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">name</span>, <span class="ActionScriptDefault_Text">entering</span>, <span class="ActionScriptDefault_Text">exiting</span>, <span class="ActionScriptDefault_Text">changed</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create transitions
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">transitions</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XMLList</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">stateDef</span>..<span class="ActionScriptDefault_Text">transition</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">XMLList</span>;
+            <span class="ActionScriptReserved">for</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">&lt;</span><span class="ActionScriptDefault_Text">transitions</span>.<span class="ActionScriptDefault_Text">length</span><span class="ActionScriptBracket/Brace">()</span>; <span class="ActionScriptDefault_Text">i</span><span class="ActionScriptOperator">++</span><span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">transDef</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">transitions</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">i</span><span class="ActionScriptBracket/Brace">]</span>;
+                <span class="ActionScriptDefault_Text">state</span>.<span class="ActionScriptDefault_Text">defineTrans</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">String</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">transDef</span>.@<span class="ActionScriptDefault_Text">action</span><span class="ActionScriptBracket/Brace">)</span>, <span class="ActionScriptDefault_Text">String</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">transDef</span>.@<span class="ActionScriptDefault_Text">target</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">state</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Is the given state the initial state?
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">isInitial</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">stateName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">initial</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">XML</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">fsm</span>.@<span class="ActionScriptDefault_Text">initial</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">stateName</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">initial</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// The XML FSM definition
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">fsm</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span>;
+        
+        <span class="ActionScriptComment">// The List of State objects
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">stateList</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

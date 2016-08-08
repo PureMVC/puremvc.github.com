@@ -1,0 +1,73 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.core.Controller - PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.core" rel="up"/><link href="../../../../org/puremvc/as2/core/View.html" title="Class org.puremvc.as2.core.View" rel="prev"/><link href="../../../../org/puremvc/as2/core/Model.html" title="Class org.puremvc.as2.core.Model" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Class org.puremvc.as2.core.Controller</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.core.Controller</strong></li></ul></div><div class="interfaces"><h2>Implemented Interfaces</h2><code><a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">IController</a></code> </div><div class="type_description"><h2>Description</h2><p>
+ A Singleton <code>IController</code> implementation.
+ 
+ <P>
+ In PureMVC, the <code>Controller</code> class follows the
+ 'Command and Controller' strategy, and assumes these 
+ responsibilities:
+ <UL>
+ <LI> Remembering which <code>ICommand</code>s 
+ are intended to handle which <code>INotifications</code>.</LI>
+ <LI> Registering itself as an <code>IObserver</code> with
+ the <code>View</code> for each <code>INotification</code> 
+ that it has an <code>ICommand</code> mapping for.</LI>
+ <LI> Executing a cached instance of the proper <code>ICommand</code>
+ to handle a given <code>INotification</code> when notified by the 
+ <code>View</code>.</LI>
+ <LI> Calling the <code>ICommand</code>'s <code>execute</code>
+ method, passing in the <code>INotification</code>.</LI> 
+ </UL>
+ 
+ <P>
+ Your application must register <code>ICommands</code> with the 
+ Controller.
+ <P>
+ The simplest way is to subclass </code>Facade</code>, 
+ and use its <code>initializeController</code> method to add your 
+ registrations. 
+ 
+ </p><h4>See Also</h4><ul class="extra_info"><li><span class="unresolved_type_name">org.puremvc.as2.core.view.View</span></li><li><a href="../../../../org/puremvc/as2/patterns/observer/Observer.html" class="class_name" title="Class org.puremvc.as2.patterns.observer.Observer">Observer</a></li><li><a href="../../../../org/puremvc/as2/patterns/observer/Notification.html" class="class_name" title="Class org.puremvc.as2.patterns.observer.Notification">Notification</a></li><li><a href="../../../../org/puremvc/as2/patterns/command/SimpleCommand.html" class="class_name" title="Class org.puremvc.as2.patterns.command.SimpleCommand">SimpleCommand</a></li><li><a href="../../../../org/puremvc/as2/patterns/command/MacroCommand.html" class="class_name" title="Class org.puremvc.as2.patterns.command.MacroCommand">MacroCommand</a></li></ul></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><div><code>new <a href="#Controller" title="public function Controller()">Controller()</a></code></div><a href="#executeCommand" title="public function executeCommand(note:INotification):Void">executeCommand()</a>, <a href="#getInstance" title="static public function getInstance():IController">getInstance()</a>, <a href="#hasCommand" title="public function hasCommand(notificationName:String):Boolean">hasCommand()</a>, <a href="#registerCommand" title="public function registerCommand(notificationName:String, commandClassRef:Function):Void">registerCommand()</a>, <a href="#removeCommand" title="public function removeCommand(notificationName:String):Void">removeCommand()</a></div></div><div class="type_details"><div class="constructor_detail_list"><h2>Constructor Detail</h2><div class="method_details"><a name="Controller"></a><h3>Controller</h3><code class="method_synopsis">public function <strong class="method_name">Controller</strong>()</code><div class="method_info"><p>
+ Constructor. 
+ 
+ <P>
+ This <code>IController</code> implementation is a Singleton, 
+ so you should not call the constructor 
+ directly, but instead call the static Singleton 
+ Factory method <code>Controller.getInstance()</code>
+ 
+ </p><h4>Throws</h4><table class="exceptions extra_info" summary=""><tr><td><span class="unresolved_type_name">Error</span></td><td>Error if Singleton instance has already been constructed
+ 
+     </td></tr></table></div></div></div><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="getInstance"></a><h3>getInstance</h3><code class="method_synopsis">static public function <strong class="method_name">getInstance</strong>():<a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">IController</a></code><div class="method_info"><p>
+ <code>Controller</code> Singleton Factory method.
+ 
+ </p><h4>Return</h4><p class="extra_info"> the Singleton instance of <code>Controller</code>
+     </p></div></div><div class="method_details"><a name="executeCommand"></a><h3>executeCommand</h3><code class="method_synopsis">public function <strong class="method_name">executeCommand</strong>(note:<a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ If an <code>ICommand</code> has previously been registered 
+ to handle a the given <code>INotification</code>, then it is executed.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>note</code></td><td>an <code>INotification</code>
+     </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../org/puremvc/as2/interfaces/IController.html#executeCommand" title="function executeCommand(notification:INotification):Void">executeCommand()</a> in <a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">org.puremvc.as2.interfaces.IController</a></p></div></div><div class="method_details alt_row"><a name="registerCommand"></a><h3>registerCommand</h3><code class="method_synopsis">public function <strong class="method_name">registerCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>, commandClassRef:<span class="unresolved_type_name">Function</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register a particular <code>ICommand</code> class as the handler 
+ for a particular <code>INotification</code>.
+ 
+ <P>
+ If an <code>ICommand</code> has already been registered to 
+ handle <code>INotification</code>s with this name, it is no longer
+ used, the new <code>ICommand</code> is used instead.</P>
+
+ The Observer for the new ICommand is only created if this the 
+ first time an ICommand has been regisered for this Notification name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code>
+ </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../org/puremvc/as2/interfaces/IController.html#registerCommand" title="function registerCommand(notificationName:String, commandClassRef:Function):Void">registerCommand()</a> in <a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">org.puremvc.as2.interfaces.IController</a></p></div></div><div class="method_details"><a name="hasCommand"></a><h3>hasCommand</h3><code class="method_synopsis">public function <strong class="method_name">hasCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Command is registered for a given Notification 
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Command is currently registered for the given <code>notificationName</code>.
+     </p><h4>Specified By</h4><p class="extra_info"><a href="../../../../org/puremvc/as2/interfaces/IController.html#hasCommand" title="function hasCommand(notificationName:String):Boolean">hasCommand()</a> in <a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">org.puremvc.as2.interfaces.IController</a></p></div></div><div class="method_details alt_row"><a name="removeCommand"></a><h3>removeCommand</h3><code class="method_synopsis">public function <strong class="method_name">removeCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Remove a previously registered <code>ICommand</code> to <code>INotification</code> mapping.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
+     </td></tr></table><h4>Specified By</h4><p class="extra_info"><a href="../../../../org/puremvc/as2/interfaces/IController.html#removeCommand" title="function removeCommand(notificationName:String):Void">removeCommand()</a> in <a href="../../../../org/puremvc/as2/interfaces/IController.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IController">org.puremvc.as2.interfaces.IController</a></p></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.core" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="Controller.as.html" title="Source code of org.puremvc.as2.core.Controller" class="button">Source</a></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

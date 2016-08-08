@@ -1,0 +1,121 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>PipeListenerTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3/MultiCore Pipes Utility Unit Tests
+ Copyright (c) 2008 Cliff Hall&lt;cliff.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">plumbing</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeFitting</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IPipeMessage</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">pipes</span>.<span class="ActionScriptDefault_Text">messages</span>.<span class="ActionScriptDefault_Text">Message</span>;
+    
+     <span class="ActionScriptASDoc">/**
+     * Test the PipeListener class.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">PipeListenerTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+          
+           <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">PipeListenerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> 
+         <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> 
+         <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListenerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testConnectingToAPipe&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListenerTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testReceiveMessageViaPipeListener&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Test connecting a pipe listener to a pipe. 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testConnectingToAPipe</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptComment">// create pipe and listener
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">PipeListener</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// connect the listener to the pipe
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">success</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting successfully connected listener to pipe&quot;</span>, <span class="ActionScriptDefault_Text">success</span> <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Test receiving a message from a pipe using a PipeListener.
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testReceiveMessageViaPipeListener</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+          <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// create a message
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">messageToSend</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Message</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Message</span>.<span class="ActionScriptDefault_Text">NORMAL</span>, 
+                                                             <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptDefault_Text">testProp</span><span class="ActionScriptOperator">:</span><span class="ActionScriptString">&apos;testval&apos;</span> <span class="ActionScriptBracket/Brace">}</span>,
+                                                             <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">XML</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptOperator">&lt;</span><span class="ActionScriptDefault_Text">testMessage</span> <span class="ActionScriptDefault_Text">testAtt</span><span class="ActionScriptOperator">=</span>&apos;<span class="ActionScriptDefault_Text">Hello</span>&apos;<span class="ActionScriptOperator">/&gt;</span><span class="ActionScriptBracket/Brace">)</span>,
+                                                             <span class="ActionScriptDefault_Text">Message</span>.<span class="ActionScriptDefault_Text">PRIORITY_HIGH</span> <span class="ActionScriptBracket/Brace">)</span>;
+              <span class="ActionScriptComment">// create pipe and listener
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">pipe</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeFitting</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Pipe</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">PipeListener</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">PipeListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span>,<span class="ActionScriptDefault_Text">callBackMethod</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// connect the listener to the pipe and write the message
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">connected</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe</span>.<span class="ActionScriptDefault_Text">connect</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">listener</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">written</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">pipe</span>.<span class="ActionScriptDefault_Text">write</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">messageToSend</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>            <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting pipe is Pipe&quot;</span>, <span class="ActionScriptDefault_Text">pipe</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Pipe</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting connected listener to pipe&quot;</span>, <span class="ActionScriptDefault_Text">connected</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting wrote message to pipe&quot;</span>, <span class="ActionScriptDefault_Text">written</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting messageReceived is Message&quot;</span>, <span class="ActionScriptDefault_Text">messageReceived</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">Message</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting messageReceived.getType() == Message.NORMAL&quot;</span>, <span class="ActionScriptDefault_Text">messageReceived</span>.<span class="ActionScriptDefault_Text">getType</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">Message</span>.<span class="ActionScriptDefault_Text">NORMAL</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting messageReceived.getHeader().testProp == &apos;testval&apos;&quot;</span>, <span class="ActionScriptDefault_Text">messageReceived</span>.<span class="ActionScriptDefault_Text">getHeader</span><span class="ActionScriptBracket/Brace">()</span>.<span class="ActionScriptDefault_Text">testProp</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;testval&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting messageReceived.getBody().@testAtt == &apos;Hello&apos;&quot;</span>,  <span class="ActionScriptDefault_Text">messageReceived</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span>.@<span class="ActionScriptDefault_Text">testAtt</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;Hello&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting messageReceived.getPriority() == Message.PRIORITY_HIGH&quot;</span>,  <span class="ActionScriptDefault_Text">messageReceived</span>.<span class="ActionScriptDefault_Text">getPriority</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">Message</span>.<span class="ActionScriptDefault_Text">PRIORITY_HIGH</span><span class="ActionScriptBracket/Brace">)</span>;
+              
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+        <span class="ActionScriptASDoc">/**
+         * Recipient of message.
+         * &lt;P&gt;
+         * Used by &lt;code&gt;callBackMedhod&lt;/code&gt; as a place to store
+         * the recieved message.&lt;/P&gt;
+         */</span>             
+           <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">messageReceived</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span>;
+           
+           <span class="ActionScriptASDoc">/**
+            * Callback given to &lt;code&gt;PipeListener&lt;/code&gt; for incoming message.
+            * &lt;P&gt;
+            * Used by &lt;code&gt;testReceiveMessageViaPipeListener&lt;/code&gt; 
+            * to get the output of pipe back into this  test to see 
+            * that a message passes through the pipe.&lt;/P&gt;
+            */</span>
+           <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">callBackMethod</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">message</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IPipeMessage</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+           <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">messageReceived</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">message</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

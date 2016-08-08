@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>PureMVC AppSkeleton Flex Demo</title>
+	<nodes>
+		<node label="lib-multicore">
+			<node label="PureMVC_AS3_MultiCore_1_0_5.swc" url="source/lib-multicore/PureMVC_AS3_MultiCore_1_0_5.swc"/>
+		</node>
+		<node label="lib-standard">
+			<node label="PureMVC_AS3_2_0_4.swc" url="source/lib-standard/PureMVC_AS3_2_0_4.swc"/>
+		</node>
+		<node label="src-multicore" icon="classpathIcon" expanded="true">
+			<node label="assets">
+				<node label="icons">
+					<node label="error.png" icon="imageIcon" url="source/assets/icons/error.png.html"/>
+					<node label="Thumbs.db" url="source/assets/icons/Thumbs.db"/>
+				</node>
+				<node label="config.xml" url="source/assets/config.xml.txt"/>
+				<node label="en.xml" url="source/assets/en.xml.txt"/>
+				<node label="main.css" icon="cssIcon" url="source/assets/main.css.html"/>
+				<node label="splash.png" icon="imageIcon" url="source/assets/splash.png.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.controller" icon="packageIcon" expanded="true">
+				<node label="ApplicationStartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/controller/ApplicationStartupCommand.as.html"/>
+				<node label="ModelPrepCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/controller/ModelPrepCommand.as.html"/>
+				<node label="SetDefaultConfigValuesCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/controller/SetDefaultConfigValuesCommand.as.html"/>
+				<node label="ViewPrepCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/controller/ViewPrepCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.model" icon="packageIcon" expanded="true">
+				<node label="ConfigProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/ConfigProxy.as.html"/>
+				<node label="LocaleProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/LocaleProxy.as.html"/>
+				<node label="StartupMonitorProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/StartupMonitorProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.model.business" icon="packageIcon" expanded="true">
+				<node label="LoadXMLDelegate.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/business/LoadXMLDelegate.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.model.enum" icon="packageIcon" expanded="true">
+				<node label="ConfigKeyEnum.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/enum/ConfigKeyEnum.as.html"/>
+				<node label="LocaleKeyEnum.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/enum/LocaleKeyEnum.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.model.helpers" icon="packageIcon" expanded="true">
+				<node label="XmlResource.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/helpers/XmlResource.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.model.vo" icon="packageIcon" expanded="true">
+				<node label="ResourceVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/model/vo/ResourceVO.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/view/ApplicationMediator.as.html"/>
+				<node label="MainScreenMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/view/MainScreenMediator.as.html"/>
+				<node label="SplashScreenMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/view/SplashScreenMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.appskeleton.view.components" icon="packageIcon" expanded="true">
+				<node label="MainScreen.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/view/components/MainScreen.mxml.html"/>
+				<node label="SplashScreen.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/appskeleton/view/components/SplashScreen.mxml.html"/>
+			</node>
+			<node selected="true" label="AppSkeleton.mxml" icon="mxmlAppIcon" url="source/AppSkeleton.mxml.html"/>
+		</node>
+		<node label="src-standard" icon="packageIcon" expanded="true">
+			<node label="AppSkeleton.mxml" icon="mxmlIcon" url="source/src-standard/AppSkeleton.mxml.html"/>
+		</node>
+		<node label="src-standard.assets">
+			<node label="icons">
+				<node label="error.png" icon="imageIcon" url="source/src-standard/assets/icons/error.png.html"/>
+			</node>
+			<node label="config.xml" url="source/src-standard/assets/config.xml.txt"/>
+			<node label="en.xml" url="source/src-standard/assets/en.xml.txt"/>
+			<node label="main.css" icon="cssIcon" url="source/src-standard/assets/main.css.html"/>
+			<node label="splash.png" icon="imageIcon" url="source/src-standard/assets/splash.png.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton" icon="packageIcon" expanded="true">
+			<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/ApplicationFacade.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.controller" icon="packageIcon" expanded="true">
+			<node label="ApplicationStartupCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/controller/ApplicationStartupCommand.as.html"/>
+			<node label="ModelPrepCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/controller/ModelPrepCommand.as.html"/>
+			<node label="SetDefaultConfigValuesCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/controller/SetDefaultConfigValuesCommand.as.html"/>
+			<node label="ViewPrepCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/controller/ViewPrepCommand.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.model" icon="packageIcon" expanded="true">
+			<node label="ConfigProxy.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/ConfigProxy.as.html"/>
+			<node label="LocaleProxy.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/LocaleProxy.as.html"/>
+			<node label="StartupMonitorProxy.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/StartupMonitorProxy.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.model.business" icon="packageIcon" expanded="true">
+			<node label="LoadXMLDelegate.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/business/LoadXMLDelegate.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.model.enum" icon="packageIcon" expanded="true">
+			<node label="ConfigKeyEnum.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/enum/ConfigKeyEnum.as.html"/>
+			<node label="LocaleKeyEnum.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/enum/LocaleKeyEnum.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.model.helpers" icon="packageIcon" expanded="true">
+			<node label="XmlResource.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/helpers/XmlResource.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.model.vo" icon="packageIcon" expanded="true">
+			<node label="ResourceVO.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/model/vo/ResourceVO.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.view" icon="packageIcon" expanded="true">
+			<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/view/ApplicationMediator.as.html"/>
+			<node label="MainScreenMediator.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/view/MainScreenMediator.as.html"/>
+			<node label="SplashScreenMediator.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/view/SplashScreenMediator.as.html"/>
+		</node>
+		<node label="src-standard.org.puremvc.as3.demos.flex.appskeleton.view.components" icon="packageIcon" expanded="true">
+			<node label="MainScreen.mxml" icon="mxmlIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/view/components/MainScreen.mxml.html"/>
+			<node label="SplashScreen.mxml" icon="mxmlIcon" url="source/src-standard/org/puremvc/as3/demos/flex/appskeleton/view/components/SplashScreen.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

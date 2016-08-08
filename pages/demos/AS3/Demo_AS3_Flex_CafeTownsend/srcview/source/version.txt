@@ -1,0 +1,27 @@
+PureMVC AS3 Demo - Flex CafeTownsend
+Copyright (c) 2007-08 Michael Ramirez <michael.ramirez@puremvc.org>
+Parts Copyright (c) 2005-07 Adobe Systems, Inc. 
+Your reuse is governed by the Creative Commons Attribution 3.0 License
+--------------------------------------------------------------------------
+Release Date: 3/8/08
+    Platform: ActionScript 3  
+     Version: 1 
+    Revision: 3
+      Author: Cliff Hall <clifford.hall@puremvc.org>
+     License: Creative Commons Attribution 3.0 United States License
+--------------------------------------------------------------------------
+1.3 - PureMVC 2.0.1 - CLH
+
+1.2 - Works with Flex 3 beta 3
+      Refactored to fit best practice PureMVC package stucture. 
+      Can now be contrasted with the original Cairngorm-friendly packaging 
+      of previous versions. ( See tags/CafeTownsend_1_1, still in repository).
+      - CLH
+      
+1.1 - Works with PureMVC 2.0
+      Refactored package space from com.futurescale to org.puremvc.
+      Migrated to PureMVC for AS3 2.0
+      - CLH
+      
+1.0 - Initial release.
+      - MR

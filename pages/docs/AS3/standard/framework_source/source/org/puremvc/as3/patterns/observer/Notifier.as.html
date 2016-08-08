@@ -1,0 +1,65 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Notifier.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">Facade</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Base &lt;code&gt;INotifier&lt;/code&gt; implementation.
+     * 
+     * &lt;P&gt;
+     * &lt;code&gt;MacroCommand, Command, Mediator&lt;/code&gt; and &lt;code&gt;Proxy&lt;/code&gt; 
+     * all have a need to send &lt;code&gt;Notifications&lt;/code&gt;. &lt;P&gt;
+     * &lt;P&gt;
+     * The &lt;code&gt;INotifier&lt;/code&gt; interface provides a common method called
+     * &lt;code&gt;sendNotification&lt;/code&gt; that relieves implementation code of 
+     * the necessity to actually construct &lt;code&gt;Notifications&lt;/code&gt;.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * The &lt;code&gt;Notifier&lt;/code&gt; class, which all of the above mentioned classes
+     * extend, provides an initialized reference to the &lt;code&gt;Facade&lt;/code&gt;
+     * Singleton, which is required for the convienience method
+     * for sending &lt;code&gt;Notifications&lt;/code&gt;, but also eases implementation as these
+     * classes have frequent &lt;code&gt;Facade&lt;/code&gt; interactions and usually require
+     * access to the facade anyway.&lt;/P&gt;
+     * 
+     * @see org.puremvc.as3.patterns.facade.Facade Facade
+     * @see org.puremvc.as3.patterns.mediator.Mediator Mediator
+     * @see org.puremvc.as3.patterns.proxy.Proxy Proxy
+     * @see org.puremvc.as3.patterns.command.SimpleCommand SimpleCommand
+     * @see org.puremvc.as3.patterns.command.MacroCommand MacroCommand
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Notifier</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">INotifier</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Create and send an &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * Keeps us from having to construct new INotification 
+         * instances in our implementation code.
+         * @param notificationName the name of the notiification to send
+         * @param body the body of the notification (optional)
+         * @param type the type of the notification (optional)
+         */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">body</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">type</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span>, <span class="ActionScriptDefault_Text">body</span>, <span class="ActionScriptDefault_Text">type</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// Local reference to the Facade Singleton
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">facade</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFacade</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Facade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

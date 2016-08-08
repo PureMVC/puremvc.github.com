@@ -1,0 +1,11 @@
+Test::Simple, basic utilities for writing tests, 
+by Michael G Schwern <schwern@pobox.com>.
+
+Included here the simple way, no installation necessary. 
+You do need Perl 5.6
+
+* Full distribution - available http://search.cpan.org/~mschwern/Test-Simple-0.98/lib/Test/More.pm
+
+* License info - http://www.cpan.org/misc/cpan-faq.html#How_is_Perl_licensed
+
+* More Info - http://test-more.googlecode.com/

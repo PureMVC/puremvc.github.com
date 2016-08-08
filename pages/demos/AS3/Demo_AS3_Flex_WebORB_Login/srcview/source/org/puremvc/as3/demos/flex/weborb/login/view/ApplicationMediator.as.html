@@ -1,0 +1,139 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/* 
+ PureMVC Flex/WebORB Demo – Login 
+ Copyright (c) 2007 Jens Krause &lt;jens.krause@puremvc.org&gt; &lt;www.websector.de&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">weborb</span>.<span class="ActionScriptDefault_Text">login</span>.<span class="ActionScriptDefault_Text">view</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">Container</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">weborb</span>.<span class="ActionScriptDefault_Text">login</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">ApplicationProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">weborb</span>.<span class="ActionScriptDefault_Text">login</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">LoginProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IMediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Mediator for interacting with the top level Application.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;ApplicationMediator&apos;</span>;
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_appProxy</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_loginProxy</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">LoginProxy</span>;
+                    
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * @param object the viewComponent
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Login</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// register the needed mediators for its child components
+</span>            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">LoginPanelMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">login</span><span class="ActionScriptBracket/Brace">))</span>;
+            <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">LoggedInBoxMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">loggedIn</span><span class="ActionScriptBracket/Brace">))</span>;
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// local reference to the proxies
+</span>            <span class="ActionScriptDefault_Text">_appProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(A</span><span class="ActionScriptDefault_Text">pplicationProxy</span>.<span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>;
+            <span class="ActionScriptDefault_Text">_loginProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">LoginProxy</span>.<span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">LoginProxy</span>;        
+            <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// initialize the view state            
+</span>            <span class="ActionScriptDefault_Text">_appProxy</span>.<span class="ActionScriptDefault_Text">viewState</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_STATE</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * List all notifications this Mediator is interested in.
+         * 
+         * @return Array the list of Nofitication names
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span>     
+                        <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">VIEW_STATE_CHANGED</span>
+                    <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Handle all notifications this Mediator is interested in.
+         * 
+         * @param INotification a notification 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">())</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">VIEW_STATE_CHANGED</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">changeViewState</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptReserved">default</span><span class="ActionScriptOperator">:</span>
+
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>    
+
+        <span class="ActionScriptASDoc">/**
+         * Handles the applications view state based on the workflow state defined in Application Proxy
+         */</span>    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">changeViewState</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">child</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Container</span>;
+            
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_appProxy</span>.<span class="ActionScriptDefault_Text">viewState</span><span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_STATE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">child</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">login</span>;
+                <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_ERROR_STATE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">showError</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptDefault_Text">child</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">login</span>;
+                <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGGED_IN_STATE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">child</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">loggedIn</span>;
+                <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptReserved">default</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">child</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">login</span>;
+            <span class="ActionScriptBracket/Brace">}</span>            
+            
+            <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">appView</span>.<span class="ActionScriptDefault_Text">selectedChild</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">child</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Shows an error effect on app
+         * @param message
+         */</span>        
+       <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">showError</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+       <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">faultEffect</span>.<span class="ActionScriptDefault_Text">end</span><span class="ActionScriptBracket/Brace">()</span>;
+               <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">faultEffect</span>.<span class="ActionScriptDefault_Text">play</span><span class="ActionScriptBracket/Brace">()</span>;               
+               <span class="ActionScriptComment">//
+</span>            <span class="ActionScriptComment">// set the view state back to the login state
+</span>            <span class="ActionScriptDefault_Text">_appProxy</span>.<span class="ActionScriptDefault_Text">viewState</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ApplicationProxy</span>.<span class="ActionScriptDefault_Text">LOGIN_STATE</span>;
+
+       <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Cast the viewComponent to its actual type.
+         * 
+         * @return app the viewComponent cast to Login
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Login</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Login</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,182 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IndexCardProxy.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC Flex/Rails Demo – Index Cards 
+ Copyright (c) 2008 Jim Robson &lt;jim.robson@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">rails</span>.<span class="ActionScriptDefault_Text">indexcards</span>.<span class="ActionScriptDefault_Text">model</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">IResponder</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">AsyncToken</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">http</span>.<span class="ActionScriptDefault_Text">HTTPService</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">rpc</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">FaultEvent</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">collections</span>.<span class="ActionScriptDefault_Text">ArrayCollection</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">Proxy</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">rails</span>.<span class="ActionScriptDefault_Text">indexcards</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">rails</span>.<span class="ActionScriptDefault_Text">indexcards</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">utils</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">IndexCardProxy</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Proxy</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IProxy</span>, <span class="ActionScriptDefault_Text">IResponder</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;IndexCardProxy&quot;</span>;
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">IndexCardProxy</span><span class="ActionScriptBracket/Brace">()</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">rubberBandProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">RubberBandProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">RubberBandProxy</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">indexCardCollection</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ArrayCollection</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_indexCardCollection</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">indexCardId</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_indexCardId</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">indexCardId</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">id</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_indexCardId</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">id</span>;
+            <span class="ActionScriptDefault_Text">_indexCardIndex</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">CollectionUtils</span>.<span class="ActionScriptDefault_Text">getIndexById</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_indexCardCollection</span>,<span class="ActionScriptDefault_Text">_indexCardId</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">rubberBandId</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_indexCardCollection</span>.<span class="ActionScriptDefault_Text">getItemAt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_indexCardIndex</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">id</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">indexCardIndex</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_indexCardIndex</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">rubberBandCollection</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ArrayCollection</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">rubberBandCollection</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">subjectCollection</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ArrayCollection</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">subjectCollection</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">rubberBandId</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">rubberBandId</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">rubberBandIndex</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">rubberBandIndex</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">subjectId</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">subjectId</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">subjectIndex</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span>.<span class="ActionScriptDefault_Text">subjectIndex</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setIdFromIndex</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">index</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">indexCardId</span> <span class="ActionScriptOperator">=</span>  <span class="ActionScriptDefault_Text">_indexCardCollection</span>.<span class="ActionScriptDefault_Text">getItemAt</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">index</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">id</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">int</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">loadIndexCards</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">_currentUrl</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_LIST</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">service</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">HTTPService</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">HTTPService</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">url</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_currentUrl</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">token</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AsyncToken</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">send</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">token</span>.<span class="ActionScriptDefault_Text">addResponder</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">updateIndexCard</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">card</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">buildDataObject</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">true</span>, <span class="ActionScriptDefault_Text">card</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">_currentUrl</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_UPDATE</span>;
+            <span class="ActionScriptDefault_Text">postRequest</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">createIndexCard</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">card</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">buildDataObject</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">false</span>, <span class="ActionScriptDefault_Text">card</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">_currentUrl</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_CREATE</span>;
+            <span class="ActionScriptDefault_Text">postRequest</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">deleteIndexCard</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">id</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Object</span>;
+            <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;id&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">id</span>;
+            <span class="ActionScriptDefault_Text">_currentUrl</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_DELETE</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">service</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">HTTPService</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">HTTPService</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">url</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_currentUrl</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">method</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;POST&quot;</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">token</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AsyncToken</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">send</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">token</span>.<span class="ActionScriptDefault_Text">addResponder</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">result</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>    
+            <span class="ActionScriptReserved">switch</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">_currentUrl</span><span class="ActionScriptBracket/Brace">){</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_LIST</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">_indexCardCollection</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Translator</span>.<span class="ActionScriptDefault_Text">indexCardList</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">data</span>.<span class="ActionScriptDefault_Text">message</span>.<span class="ActionScriptDefault_Text">body</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(A</span><span class="ActionScriptDefault_Text">pplicationFacade</span>.<span class="ActionScriptDefault_Text">INDEX_CARDS_LOADED</span>, <span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_CREATE</span><span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_UPDATE</span><span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">URL</span>.<span class="ActionScriptDefault_Text">INDEX_CARD_DELETE</span><span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">default</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">loadIndexCards</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">fault</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">info</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">fault</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FaultEvent</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">info</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">FaultEvent</span>;
+            <span class="ActionScripttrace">trace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&quot;Fault invoked in IndexCardProxy:&quot;</span><span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScripttrace">trace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">fault</span>.<span class="ActionScriptDefault_Text">fault</span>.<span class="ActionScriptDefault_Text">faultString</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">buildDataObject</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">isUpdate</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>, <span class="ActionScriptDefault_Text">card</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Object</span>;
+            <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">isUpdate</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;id&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">card</span>.<span class="ActionScriptDefault_Text">indexCardId</span>;
+            <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;card[rubber_band_id]&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">card</span>.<span class="ActionScriptDefault_Text">rubberBandId</span>;
+            <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;card[front_side]&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">card</span>.<span class="ActionScriptDefault_Text">frontSide</span>;
+            <span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptString">&apos;card[back_side]&apos;</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">card</span>.<span class="ActionScriptDefault_Text">backSide</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">dataObj</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">postRequest</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">service</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">HTTPService</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">HTTPService</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">url</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">_currentUrl</span>;
+            <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">method</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;POST&quot;</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">token</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AsyncToken</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">service</span>.<span class="ActionScriptDefault_Text">send</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dataObj</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">token</span>.<span class="ActionScriptDefault_Text">addResponder</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rubberBandProxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">RubberBandProxy</span>;
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_currentUrl</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_indexCardId</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_indexCardIndex</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_indexCardCollection</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ArrayCollection</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ArrayCollection</span><span class="ActionScriptBracket/Brace">()</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

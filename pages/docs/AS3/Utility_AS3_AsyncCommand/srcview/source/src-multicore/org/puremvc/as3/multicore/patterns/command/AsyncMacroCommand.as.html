@@ -1,0 +1,182 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>AsyncMacroCommand.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore Utility for AS3 - AsyncCommand
+ Copyright(c) 2008 Duncan Hall &lt;duncan.hall@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">command</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IAsyncCommand</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">ICommand</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotifier</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptDefault_Text">Notifier</span>;     
+
+    <span class="ActionScriptASDoc">/**
+     * A base &lt;code&gt;ICommand&lt;/code&gt; implementation that executes other 
+     * &lt;code&gt;ICommand&lt;/code&gt;s asynchronously.
+     *  
+     * &lt;P&gt;
+     * An &lt;code&gt;AsyncMacroCommand&lt;/code&gt; maintains a list of
+     * &lt;code&gt;ICommand&lt;/code&gt; Class references called &lt;i&gt;SubCommands&lt;/i&gt;.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * When &lt;code&gt;execute&lt;/code&gt; is called, the &lt;code&gt;AsyncMacroCommand&lt;/code&gt;
+     * caches a reference to the &lt;code&gt;INotification&lt;/code&gt; and calls 
+     * &lt;code&gt;nextCommand&lt;/code&gt;.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * If there are still &lt;i&gt;SubCommands&lt;/i&gt;&apos;s to be executed, 
+     * the &lt;code&gt;nextCommand&lt;/code&gt; method instantiates and calls &lt;code&gt;execute&lt;/code&gt; 
+     * on each of its &lt;i&gt;SubCommands&lt;/i&gt; in turn. Each &lt;i&gt;SubCommand&lt;/i&gt; will be passed 
+     * a reference to the original &lt;code&gt;INotification&lt;/code&gt; that was passed to the 
+     * &lt;code&gt;AsyncMacroCommand&lt;/code&gt;&apos;s &lt;code&gt;execute&lt;/code&gt; method. If the
+     * &lt;i&gt;SubCommand&lt;/i&gt; to execute is an &lt;code&gt;IAsyncCommand&lt;/code&gt;, the 
+     * next &lt;i&gt;SubCommand&lt;/i&gt; will not be executed until the previous 
+     * &lt;code&gt;IAsyncCommand&lt;/code&gt; has called its &lt;i&gt;commandComplete&lt;/i&gt; method.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * Unlike &lt;code&gt;AsyncCommand&lt;/code&gt; and &lt;code&gt;SimpleCommand&lt;/code&gt;, your subclass
+     * should not override &lt;code&gt;execute&lt;/code&gt;, but instead, should 
+     * override the &lt;code&gt;initializeAsyncMacroCommand&lt;/code&gt; method, 
+     * calling &lt;code&gt;addSubCommand&lt;/code&gt; once for each &lt;i&gt;SubCommand&lt;/i&gt;
+     * to be executed.&lt;/P&gt;
+     * 
+     * @see org.puremvc.as3.multicore.patterns.command.AsyncCommand AsyncCommand
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">AsyncMacroCommand</span>    <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Notifier</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IAsyncCommand</span>, <span class="ActionScriptDefault_Text">INotifier</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * You should not need to define a constructor, 
+         * instead, override the &lt;code&gt;initializeAsyncMacroCommand&lt;/code&gt;
+         * method.&lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * If your subclass does define a constructor, be 
+         * sure to call &lt;code&gt;super()&lt;/code&gt;.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">AsyncMacroCommand</span><span class="ActionScriptBracket/Brace">()</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">subCommands</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">initializeAsyncMacroCommand</span><span class="ActionScriptBracket/Brace">()</span>;            
+        <span class="ActionScriptBracket/Brace">}</span>
+    
+        
+        <span class="ActionScriptASDoc">/**
+         * Initialize the &lt;code&gt;AsyncMacroCommand&lt;/code&gt;.
+         * 
+         * &lt;P&gt;
+         * In your subclass, override this method to 
+         * initialize the &lt;code&gt;AsyncMacroCommand&lt;/code&gt;&apos;s &lt;i&gt;SubCommand&lt;/i&gt;  
+         * list with &lt;code&gt;ICommand&lt;/code&gt; class references.
+         * &lt;/P&gt;
+         * 
+         * &lt;listing&gt;
+         *        // Initialize MyMacroCommand
+         *        override protected function initializeAsyncMacroCommand() : void
+         *        {
+         *            addSubCommand( com.me.myapp.controller.FirstCommand );
+         *            addSubCommand( com.me.myapp.controller.SecondCommand );
+         *            addSubCommand( com.me.myapp.controller.ThirdCommand );
+         *        }
+         * &lt;/listing&gt;
+         * 
+         * &lt;P&gt;
+         * Note that &lt;i&gt;SubCommand&lt;/i&gt;s may be any &lt;code&gt;ICommand&lt;/code&gt; implementor,
+         * &lt;code&gt;AsyncMacroCommand&lt;/code&gt;s, &lt;code&gt;AsyncCommand&lt;/code&gt;s, 
+         * &lt;code&gt;MacroCommand&lt;/code&gt;s or &lt;code&gt;SimpleCommands&lt;/code&gt; are all acceptable.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeAsyncMacroCommand</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{}</span>
+
+
+
+        <span class="ActionScriptASDoc">/**
+         * Add a &lt;i&gt;SubCommand&lt;/i&gt;.
+         * &lt;P&gt;
+         * The &lt;i&gt;SubCommands&lt;/i&gt; will be called in First In/First Out (FIFO)
+         * order.&lt;/P&gt;
+         * 
+         * @param commandClassRef a reference to the &lt;code&gt;Class&lt;/code&gt; of the &lt;code&gt;ICommand&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addSubCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">commandClassRef</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Class</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">subCommands</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">commandClassRef</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>        
+                
+
+
+        <span class="ActionScriptASDoc">/**
+         * Registers the callback for a parent &lt;code&gt;AsyncMacroCommand&lt;/code&gt;.  
+         * 
+         * @param value    The &lt;code&gt;AsyncMacroCommand&lt;/code&gt; method to call on completion
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setOnComplete</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">value</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptDefault_Text">onComplete</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">value</span>; <span class="ActionScriptBracket/Brace">}</span>        
+
+
+                                
+        <span class="ActionScriptASDoc">/** 
+         * Starts execution of this &lt;code&gt;AsyncMacroCommand&lt;/code&gt;&apos;s &lt;i&gt;SubCommands&lt;/i&gt;.
+         * 
+         * &lt;P&gt;
+         * The &lt;i&gt;SubCommands&lt;/i&gt; will be called in First In/First Out (FIFO) order.
+         * &lt;/P&gt; 
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; object to be passsed to each &lt;i&gt;SubCommand&lt;/i&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">final</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">execute</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">note</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">notification</span>;
+            <span class="ActionScriptDefault_Text">nextCommand</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+                    
+                    
+        <span class="ActionScriptASDoc">/** 
+         * Execute this &lt;code&gt;AsyncMacroCommand&lt;/code&gt;&apos;s next &lt;i&gt;SubCommand&lt;/i&gt;.
+         * 
+         * &lt;P&gt;
+         * If the next &lt;i&gt;SubCommand&lt;/i&gt; is asynchronous, a callback is registered for
+         * the command completion, else the next command is run.&lt;/P&gt;  
+         */</span>                    
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">nextCommand</span> <span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">subCommands</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">&gt;</span> 0<span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">commandClassRef</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Class</span>    <span class="ActionScriptOperator">=</span>    <span class="ActionScriptDefault_Text">subCommands</span>.<span class="ActionScriptDefault_Text">shift</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">commandInstance</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>    <span class="ActionScriptOperator">=</span>    <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">commandClassRef</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">isAsync</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>            <span class="ActionScriptOperator">=</span>    <span class="ActionScriptDefault_Text">commandInstance</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IAsyncCommand</span>;
+                
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">isAsync</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">IAsyncCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">commandInstance</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">setOnComplete</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">nextCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">ICommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">commandInstance</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">initializeNotifier</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">ICommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">commandInstance</span> <span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">execute</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">isAsync</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">nextCommand</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">else</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">onComplete</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">onComplete</span><span class="ActionScriptBracket/Brace">()</span>;
+                
+                <span class="ActionScriptDefault_Text">note</span>         <span class="ActionScriptOperator">=</span>    <span class="ActionScriptReserved">null</span>;
+                <span class="ActionScriptDefault_Text">onComplete</span>    <span class="ActionScriptOperator">=</span>    <span class="ActionScriptReserved">null</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>                             
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">subCommands</span>        <span class="ActionScriptOperator">:</span>    <span class="ActionScriptDefault_Text">Array</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span>            <span class="ActionScriptOperator">:</span>    <span class="ActionScriptDefault_Text">INotification</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">onComplete</span>        <span class="ActionScriptOperator">:</span>    <span class="ActionScriptDefault_Text">Function</span>;
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

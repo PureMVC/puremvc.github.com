@@ -1,0 +1,159 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Observer</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::patterns::observer::Observer</code></p>
+<p>Implementation of the pureMVC <code>Observer</code> pattern.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>An <code>Observer</code> is an object that encapsulates information about an interested object with a method that should be called when a particular <a href="../observer/Notification.html">notification</a> is broadcast.</p>
+<p>In PureMVC, the <code>Observer</code> class assumes these responsibilities:</p>
+<ul>
+<li>
+<p>Encapsulate the <a href="../observer/Notification.html">notification</a> (callback) method of the interested object.</p>
+</li>
+<li>
+<p>Encapsulate the <a href="../observer/Notification.html">notification</a> context of the interested object.</p>
+</li>
+<li>
+<p>Provide methods for setting the <a href="../observer/Notification.html">notification</a> method and context.</p>
+</li>
+<li>
+<p>Provide a method for notifying the interested object.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong></dt>
+
+<dd>
+<p><a href="#new"><code>sub new( $notify_method, $notify_context );</code></a></p>
+<p>Constructor.</p>
+<p><code>$notify_method</code> notification method on <code>$notify_context</code> interested object should take one parameter of type <a href="../observer/Notification.html">Notification</a>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notify_method - String</code></p>
+<p>Method <strong>name</strong> inside <code>$notify_context</code> object which is called when notifying <code>$notify_context</code>.</p>
+</li>
+<li>
+<p><code>$notify_context - *</code></p>
+<p>Object interested in being notified.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="notifyobserver" class="item">notifyObserver</a></strong></dt>
+
+<dd>
+<p><a href="#notifyobserver"><code>sub notifyObserver( $notification );</code></a></p>
+<p>Notifies the interested object.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification - org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>The <a href="../observer/Notification.html">notification</a> to pass to the interested object's notification method.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="setnotifymethod" class="item">setNotifyMethod</a></strong></dt>
+
+<dd>
+<p><a href="#setnotifymethod"><code>sub setNotifyMethod( $notify_method );</code></a></p>
+<p><a href="../observer/Notification.html">Notification</a> method setter.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notify_method - String</code></p>
+<p>Method <strong>name</strong> inside <code>context</code> object which is called when notifying <code>context</code> object.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getnotifymethod" class="item">getNotifyMethod</a></strong></dt>
+
+<dd>
+<p><a href="#getnotifymethod"><code>sub getNotifyMethod();</code></a></p>
+<p><a href="../observer/Notification.html">Notification</a> method getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>String</code> - Method <strong>name</strong> inside <code>context</code> object which is called when notifying <code>context</code> object.</p>
+</dd>
+<dt><strong><a name="setnotifycontext" class="item">setNotifyContext</a></strong></dt>
+
+<dd>
+<p><a href="#setnotifycontext"><code>sub setNotifyContext( $notify_context );</code></a></p>
+<p><a href="../observer/Notification.html">Notification</a> <code>context</code> setter.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notify_context - *</code></p>
+<p>Object interested in being notified.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="getnotifycontext" class="item">getNotifyContext</a></strong></dt>
+
+<dd>
+<p><a href="#getnotifycontext"><code>sub getNotifyContext();</code></a></p>
+<p><a href="../observer/Notification.html">Notification</a> <code>context</code> getter.</p>
+<p><strong>Returns</strong></p>
+<p><code>*</code> - Object interested in being notified.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../core/Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="../../core/View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../../core/Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+
+</body>
+
+</html>

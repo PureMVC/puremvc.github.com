@@ -1,0 +1,26 @@
+<map id="G" name="G">
+<area shape="rect" id="node9" href="$_i_observer_8hpp.html" title="../../Interfaces/IObserver.hpp" alt="" coords="2594,83,2778,112"/>
+<area shape="rect" id="node13" href="$_pure_m_v_c_8hpp.html" title="../PureMVC.hpp" alt="" coords="2064,160,2179,189"/>
+<area shape="rect" id="node24" href="$_i_notification_8hpp.html" title="Interfaces/INotification.hpp" alt="" coords="1538,547,1711,576"/>
+<area shape="rect" id="node15" href="$_i_notifier_8hpp.html" title="Interfaces/INotifier.hpp" alt="" coords="402,547,551,576"/>
+<area shape="rect" id="node19" href="$_i_proxy_8hpp.html" title="Interfaces/IProxy.hpp" alt="" coords="1679,392,1823,421"/>
+<area shape="rect" id="node29" href="$_i_command_8hpp.html" title="Interfaces/ICommand.hpp" alt="" coords="970,469,1138,499"/>
+<area shape="rect" id="node34" href="$_i_controller_8hpp.html" title="Interfaces/IController.hpp" alt="" coords="1415,392,1580,421"/>
+<area shape="rect" id="node40" href="$_i_aggregate_8hpp.html" title="IAggregate.hpp" alt="" coords="3496,547,3606,576"/>
+<area shape="rect" id="node47" href="$_i_iterator_8hpp.html" title="IIterator.hpp" alt="" coords="3839,624,3930,653"/>
+<area shape="rect" id="node50" href="$_i_model_8hpp.html" title="Interfaces/IModel.hpp" alt="" coords="2050,315,2194,344"/>
+<area shape="rect" id="node56" href="$_i_mediator_8hpp.html" title="Interfaces/IMediator.hpp" alt="" coords="2034,469,2194,499"/>
+<area shape="rect" id="node62" href="$_i_facade_8hpp.html" title="Interfaces/IFacade.hpp" alt="" coords="348,392,500,421"/>
+<area shape="rect" id="node69" href="$_i_view_8hpp.html" title="Interfaces/IView.hpp" alt="" coords="3482,315,3620,344"/>
+<area shape="rect" id="node79" href="$_notification_8hpp.html" title="Patterns/Observer/Notification.hpp" alt="" coords="1127,315,1346,344"/>
+<area shape="rect" id="node84" href="$_notifier_8hpp.html" title="Patterns/Observer/Notifier.hpp" alt="" coords="327,315,522,344"/>
+<area shape="rect" id="node91" href="$_simple_command_8hpp.html" title="Patterns/Command/SimpleCommand.hpp" alt="" coords="698,237,959,267"/>
+<area shape="rect" id="node97" href="$_macro_command_8hpp.html" title="Patterns/Command/MacroCommand.hpp" alt="" coords="75,237,334,267"/>
+<area shape="rect" id="node105" href="$_proxy_8hpp.html" title="Patterns/Proxy/Proxy.hpp" alt="" coords="983,237,1154,267"/>
+<area shape="rect" id="node111" href="$_mediator_8hpp.html" title="Patterns/Mediator/Mediator.hpp" alt="" coords="420,237,623,267"/>
+<area shape="rect" id="node117" href="$_facade_8hpp.html" title="Patterns/Facade/Facade.hpp" alt="" coords="1816,237,2006,267"/>
+<area shape="rect" id="node134" href="$_iterator_8hpp.html" title="Patterns/Iterator/Iterator.hpp" alt="" coords="2684,315,2868,344"/>
+<area shape="rect" id="node144" href="$_model_8hpp.html" title="Core/Model.hpp" alt="" coords="2343,237,2455,267"/>
+<area shape="rect" id="node156" href="$_view_8hpp.html" title="Core/View.hpp" alt="" coords="3124,237,3231,267"/>
+<area shape="rect" id="node173" href="$_controller_8hpp.html" title="Core/Controller.hpp" alt="" coords="2619,237,2752,267"/>
+</map>

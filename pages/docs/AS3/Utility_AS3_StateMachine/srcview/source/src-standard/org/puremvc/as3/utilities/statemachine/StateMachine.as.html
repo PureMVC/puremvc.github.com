@@ -1,0 +1,201 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>StateMachine.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+  PureMVC AS3 Utility - StateMachine
+  Copyright (c) 2008 Neil Manuell, Cliff Hall
+  Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">statemachine</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A Finite State Machine implimentation.
+     * &lt;P&gt;
+     * Handles regisistration and removal of state definitions, 
+     * which include optional entry and exit commands for each 
+     * state.&lt;/P&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">StateMachine</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;StateMachine&quot;</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Action Notification name. 
+         */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">ACTION</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/notes/action&quot;</span> ;
+
+        <span class="ActionScriptASDoc">/**
+         *  Changed Notification name  
+         */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CHANGED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptString">&quot;/notes/changed&quot;</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         *  Cancel Notification name  
+         */</span> 
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">CANCEL</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/notes/cancel&quot;</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Constructor.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">StateMachine</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">initial</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">transitionTo</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">initial</span>, <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Registers the entry and exit commands for a given state.
+         * 
+         * @param state the state to which to register the above commands
+         * @param initial boolean telling if this is the initial state of the system
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerState</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">state</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span>, <span class="ActionScriptDefault_Text">initial</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">false</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">state</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptOperator">||</span> <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">state</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">state</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">state</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">initial</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">initial</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">state</span>; 
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Remove a state mapping. 
+         * &lt;P&gt;
+         * Removes the entry and exit commands for a given state 
+         * as well as the state mapping itself.&lt;/P&gt;
+         * 
+         * @param state
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeState</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">stateName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">state</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">stateName</span> <span class="ActionScriptBracket/Brace">]</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">state</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">stateName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Transitions to the given state from the current state.
+         * &lt;P&gt;
+         * Sends the &lt;code&gt;exiting&lt;/code&gt; notification for the current state 
+         * followed by the &lt;code&gt;entering&lt;/code&gt; notification for the new state.
+         * Once finally transitioned to the new state, the &lt;code&gt;changed&lt;/code&gt; 
+         * notification for the new state is sent.&lt;/P&gt;
+         * &lt;P&gt;
+         * If a data parameter is provided, it is included as the body of all
+         * three state-specific transition notes.&lt;/P&gt;
+         * &lt;P&gt;
+         * Finally, when all the state-specific transition notes have been
+         * sent, a &lt;code&gt;StateMachine.CHANGED&lt;/code&gt; note is sent, with the
+         * new &lt;code&gt;State&lt;/code&gt; object as the &lt;code&gt;body&lt;/code&gt; and the name of the 
+         * new state in the &lt;code&gt;type&lt;/code&gt;.
+         * 
+         * @param nextState the next State to transition to.
+         * @param data is the optional Object that was sent in the &lt;code&gt;StateMachine.ACTION&lt;/code&gt; notification body
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">transitionTo</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">nextState</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Going nowhere?
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">nextState</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">return</span>;
+            
+            <span class="ActionScriptComment">// Clear the cancel flag
+</span>            <span class="ActionScriptDefault_Text">canceled</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+                
+            <span class="ActionScriptComment">// Exit the current State 
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">currentState</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">currentState</span>.<span class="ActionScriptDefault_Text">exiting</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">currentState</span>.<span class="ActionScriptDefault_Text">exiting</span>, <span class="ActionScriptDefault_Text">data</span>, <span class="ActionScriptDefault_Text">nextState</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Check to see whether the transition has been canceled
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">canceled</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">canceled</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+                <span class="ActionScriptReserved">return</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptComment">// Enter the next State 
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">nextState</span>.<span class="ActionScriptDefault_Text">entering</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">nextState</span>.<span class="ActionScriptDefault_Text">entering</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">currentState</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">nextState</span>;
+            
+            <span class="ActionScriptComment">// Send the notification configured to be sent when this specific state becomes current 
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">nextState</span>.<span class="ActionScriptDefault_Text">changed</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">currentState</span>.<span class="ActionScriptDefault_Text">changed</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Notify the app generally that the state changed and what the new state is 
+</span>            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">CHANGED</span>, <span class="ActionScriptDefault_Text">currentState</span>, <span class="ActionScriptDefault_Text">currentState</span>.<span class="ActionScriptDefault_Text">name</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Notification interests for the StateMachine.
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span>     <span class="ActionScriptDefault_Text">ACTION</span>,
+                        <span class="ActionScriptDefault_Text">CANCEL</span>    <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Handle notifications the &lt;code&gt;StateMachine&lt;/code&gt; is interested in.
+         * &lt;P&gt;
+         * &lt;code&gt;StateMachine.ACTION&lt;/code&gt;: Triggers the transition to a new state.&lt;BR&gt;
+         * &lt;code&gt;StateMachine.CANCEL&lt;/code&gt;: Cancels the transition if sent in response to the exiting note for the current state.&lt;BR&gt;
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">switch</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">ACTION</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">action</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getType</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">target</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">currentState</span>.<span class="ActionScriptDefault_Text">getTarget</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">action</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">newState</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptBracket/Brace">]</span>;
+                    <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">newState</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">transitionTo</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">newState</span>, <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>;  
+                    <span class="ActionScriptReserved">break</span>;
+                    
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">CANCEL</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">canceled</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+                    <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the current state.
+         *  
+         * @return a State defining the machine&apos;s current state
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">currentState</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">State</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Set the current state.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">set</span> <span class="ActionScriptDefault_Text">currentState</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">state</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">state</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Map of States objects by name.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">states</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptBracket/Brace">()</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * The initial state of the FSM.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">initial</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">State</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * The transition has been canceled.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">canceled</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>;
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

@@ -1,0 +1,405 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>PureMVC Unit Tests</title><script src="../../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../../index-files";
+//--></script><link href="../../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../../overview-summary.html" title="Overview" rel="top"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><pre><span class="lineno" id="1">     1  </span><span class="comment">/*
+<span class="lineno" id="2">     2  </span>PureMVC AS2 Port by Pedr Browne &lt;pedr.browne@puremvc.org&gt;
+<span class="lineno" id="3">     3  </span>PureMVC - Copyright(c) 2006-2008 Futurescale, Inc., Some rights reserved.
+<span class="lineno" id="4">     4  </span>Your reuse is governed by the Creative Commons Attribution 3.0 License
+<span class="lineno" id="5">     5  </span> */</span>
+<span class="lineno" id="6">     6  </span><span class="key">import</span> org.puremvc.as2.core.*;
+<span class="lineno" id="7">     7  </span><span class="key">import</span> org.puremvc.as2.interfaces.*;
+<span class="lineno" id="8">     8  </span><span class="key">import</span> org.puremvc.as2.patterns.observer.Notification;
+<span class="lineno" id="9">     9  </span>
+<span class="lineno" id="10">    10  </span><span class="comment doc">/**
+<span class="lineno" id="11">    11  </span> * A base Singleton &lt;code&gt;IFacade&lt;/code&gt; implementation.
+<span class="lineno" id="12">    12  </span> * 
+<span class="lineno" id="13">    13  </span> * &lt;P&gt;
+<span class="lineno" id="14">    14  </span> * In PureMVC, the &lt;code&gt;Facade&lt;/code&gt; class assumes these 
+<span class="lineno" id="15">    15  </span> * responsibilities:
+<span class="lineno" id="16">    16  </span> * &lt;UL&gt;
+<span class="lineno" id="17">    17  </span> * &lt;LI&gt;Initializing the &lt;code&gt;Model&lt;/code&gt;, &lt;code&gt;View&lt;/code&gt;
+<span class="lineno" id="18">    18  </span> * and &lt;code&gt;Controller&lt;/code&gt; Singletons.&lt;/LI&gt; 
+<span class="lineno" id="19">    19  </span> * &lt;LI&gt;Providing all the methods defined by the &lt;code&gt;IModel, 
+<span class="lineno" id="20">    20  </span> * IView, &amp; IController&lt;/code&gt; interfaces.&lt;/LI&gt;
+<span class="lineno" id="21">    21  </span> * &lt;LI&gt;Providing the ability to override the specific &lt;code&gt;Model&lt;/code&gt;,
+<span class="lineno" id="22">    22  </span> * &lt;code&gt;View&lt;/code&gt; and &lt;code&gt;Controller&lt;/code&gt; Singletons created.&lt;/LI&gt; 
+<span class="lineno" id="23">    23  </span> * &lt;LI&gt;Providing a single point of contact to the application for 
+<span class="lineno" id="24">    24  </span> * registering &lt;code&gt;Commands&lt;/code&gt; and notifying &lt;code&gt;Observers&lt;/code&gt;&lt;/LI&gt;
+<span class="lineno" id="25">    25  </span> * &lt;/UL&gt;
+<span class="lineno" id="26">    26  </span> * &lt;P&gt;
+<span class="lineno" id="27">    27  </span> * Example usage:
+<span class="lineno" id="28">    28  </span> * &lt;listing&gt;
+<span class="lineno" id="29">    29  </span> *	import org.puremvc.as2.patterns.facade.&amp;lowast;;
+<span class="lineno" id="30">    30  </span> * 
+<span class="lineno" id="31">    31  </span> *	import com.me.myapp.model.~~;
+<span class="lineno" id="32">    32  </span> *	import com.me.myapp.view.~~;
+<span class="lineno" id="33">    33  </span> *	import com.me.myapp.controller.~~;
+<span class="lineno" id="34">    34  </span> * 
+<span class="lineno" id="35">    35  </span> *	public class MyFacade extends Facade
+<span class="lineno" id="36">    36  </span> *	{
+<span class="lineno" id="37">    37  </span> *		// Notification constants. The Facade is the ideal
+<span class="lineno" id="38">    38  </span> *		// location for these constants, since any part
+<span class="lineno" id="39">    39  </span> *		// of the application participating in PureMVC 
+<span class="lineno" id="40">    40  </span> *		// Observer Notification will know the Facade.
+<span class="lineno" id="41">    41  </span> *		public static const GO_COMMAND:String = "go";
+<span class="lineno" id="42">    42  </span> * 		
+<span class="lineno" id="43">    43  </span> *		// Override Singleton Factory method 
+<span class="lineno" id="44">    44  </span> *		public static function getInstance() : MyFacade {
+<span class="lineno" id="45">    45  </span> *			if (instance == null) instance = new MyFacade();
+<span class="lineno" id="46">    46  </span> *			return instance as MyFacade;
+<span class="lineno" id="47">    47  </span> *		}
+<span class="lineno" id="48">    48  </span> * 		
+<span class="lineno" id="49">    49  </span> *		// optional initialization hook for Facade
+<span class="lineno" id="50">    50  </span> *		override public function initializeFacade() : Void {
+<span class="lineno" id="51">    51  </span> *			super.initializeFacade();
+<span class="lineno" id="52">    52  </span> *			// do any special subclass initialization here
+<span class="lineno" id="53">    53  </span> *		}
+<span class="lineno" id="54">    54  </span> *	
+<span class="lineno" id="55">    55  </span> *		// optional initialization hook for Controller
+<span class="lineno" id="56">    56  </span> *		override public function initializeController() : Void {
+<span class="lineno" id="57">    57  </span> *			// call super to use the PureMVC Controller Singleton. 
+<span class="lineno" id="58">    58  </span> *			super.initializeController();
+<span class="lineno" id="59">    59  </span> * 
+<span class="lineno" id="60">    60  </span> *			// Otherwise, if you're implmenting your own
+<span class="lineno" id="61">    61  </span> *			// IController, then instead do:
+<span class="lineno" id="62">    62  </span> *			// if ( controller != null ) return;
+<span class="lineno" id="63">    63  </span> *			// controller = MyAppController.getInstance();
+<span class="lineno" id="64">    64  </span> * 		
+<span class="lineno" id="65">    65  </span> *			// do any special subclass initialization here
+<span class="lineno" id="66">    66  </span> *			// such as registering Commands
+<span class="lineno" id="67">    67  </span> *			registerCommand( GO_COMMAND, com.me.myapp.controller.GoCommand )
+<span class="lineno" id="68">    68  </span> *		}
+<span class="lineno" id="69">    69  </span> *	
+<span class="lineno" id="70">    70  </span> *		// optional initialization hook for Model
+<span class="lineno" id="71">    71  </span> *		override public function initializeModel() : Void {
+<span class="lineno" id="72">    72  </span> *			// call super to use the PureMVC Model Singleton. 
+<span class="lineno" id="73">    73  </span> *			super.initializeModel();
+<span class="lineno" id="74">    74  </span> * 
+<span class="lineno" id="75">    75  </span> *			// Otherwise, if you're implmenting your own
+<span class="lineno" id="76">    76  </span> *			// IModel, then instead do:
+<span class="lineno" id="77">    77  </span> *			// if ( model != null ) return;
+<span class="lineno" id="78">    78  </span> *			// model = MyAppModel.getInstance();
+<span class="lineno" id="79">    79  </span> * 		
+<span class="lineno" id="80">    80  </span> *			// do any special subclass initialization here
+<span class="lineno" id="81">    81  </span> *			// such as creating and registering Model proxys
+<span class="lineno" id="82">    82  </span> *			// that don't require a facade reference at
+<span class="lineno" id="83">    83  </span> *			// construction time, such as fixed type lists
+<span class="lineno" id="84">    84  </span> *			// that never need to send Notifications.
+<span class="lineno" id="85">    85  </span> *			regsiterProxy( new USStateNamesProxy() );
+<span class="lineno" id="86">    86  </span> * 			
+<span class="lineno" id="87">    87  </span> *			// CAREFUL: Can't reference Facade instance in constructor 
+<span class="lineno" id="88">    88  </span> *			// of new Proxys from here, since this step is part of
+<span class="lineno" id="89">    89  </span> *			// Facade construction!  Usually, Proxys needing to send 
+<span class="lineno" id="90">    90  </span> *			// notifications are registered elsewhere in the app 
+<span class="lineno" id="91">    91  </span> *			// for this reason.
+<span class="lineno" id="92">    92  </span> *		}
+<span class="lineno" id="93">    93  </span> *	
+<span class="lineno" id="94">    94  </span> *		// optional initialization hook for View
+<span class="lineno" id="95">    95  </span> *		override public function initializeView() : Void {
+<span class="lineno" id="96">    96  </span> *			// call super to use the PureMVC View Singleton. 
+<span class="lineno" id="97">    97  </span> *			super.initializeView();
+<span class="lineno" id="98">    98  </span> * 
+<span class="lineno" id="99">    99  </span> *			// Otherwise, if you're implmenting your own
+<span class="lineno" id="100">   100  </span> *			// IView, then instead do:
+<span class="lineno" id="101">   101  </span> *			// if ( view != null ) return;
+<span class="lineno" id="102">   102  </span> *			// view = MyAppView.getInstance();
+<span class="lineno" id="103">   103  </span> * 		
+<span class="lineno" id="104">   104  </span> *			// do any special subclass initialization here
+<span class="lineno" id="105">   105  </span> *			// such as creating and registering Mediators
+<span class="lineno" id="106">   106  </span> *			// that do not need a Facade reference at construction
+<span class="lineno" id="107">   107  </span> *			// time.
+<span class="lineno" id="108">   108  </span> *			registerMediator( new LoginMediator() ); 
+<span class="lineno" id="109">   109  </span> * 
+<span class="lineno" id="110">   110  </span> *			// CAREFUL: Can't reference Facade instance in constructor 
+<span class="lineno" id="111">   111  </span> *			// of new Mediators from here, since this is a step
+<span class="lineno" id="112">   112  </span> *			// in Facade construction! Usually, all Mediators need 
+<span class="lineno" id="113">   113  </span> *			// receive notifications, and are registered elsewhere in 
+<span class="lineno" id="114">   114  </span> *			// the app for this reason.
+<span class="lineno" id="115">   115  </span> *		}
+<span class="lineno" id="116">   116  </span> *	}
+<span class="lineno" id="117">   117  </span> * &lt;/listing&gt;
+<span class="lineno" id="118">   118  </span> * 
+<span class="lineno" id="119">   119  </span> * @see org.puremvc.as2.core.model.Model Model
+<span class="lineno" id="120">   120  </span> * @see org.puremvc.as2.core.view.View View
+<span class="lineno" id="121">   121  </span> * @see org.puremvc.as2.core.controller.Controller Controller
+<span class="lineno" id="122">   122  </span> * @see org.puremvc.as2.patterns.observer.Notification Notification
+<span class="lineno" id="123">   123  </span> * @see org.puremvc.as2.patterns.mediator.Mediator Mediator
+<span class="lineno" id="124">   124  </span> * @see org.puremvc.as2.patterns.proxy.Proxy Proxy
+<span class="lineno" id="125">   125  </span> * @see org.puremvc.as2.patterns.command.SimpleCommand SimpleCommand
+<span class="lineno" id="126">   126  </span> * @see org.puremvc.as2.patterns.command.MacroCommand MacroCommand
+<span class="lineno" id="127">   127  </span> */</span>
+<span class="lineno" id="128">   128  </span><span class="key">class</span> org.puremvc.as2.patterns.facade.Facade <span class="key">implements</span> IFacade
+<span class="lineno" id="129">   129  </span>{
+<span class="lineno" id="130">   130  </span>	
+<span class="lineno" id="131">   131  </span>	<span class="comment doc">/**
+<span class="lineno" id="132">   132  </span>	 * Constructor. 
+<span class="lineno" id="133">   133  </span>	 * 
+<span class="lineno" id="134">   134  </span>	 * &lt;P&gt;
+<span class="lineno" id="135">   135  </span>	 * This &lt;code&gt;IFacade&lt;/code&gt; implementation is a Singleton, 
+<span class="lineno" id="136">   136  </span>	 * so you should not call the constructor 
+<span class="lineno" id="137">   137  </span>	 * directly, but instead call the static Singleton 
+<span class="lineno" id="138">   138  </span>	 * Factory method &lt;code&gt;Facade.getInstance()&lt;/code&gt;
+<span class="lineno" id="139">   139  </span>	 * 
+<span class="lineno" id="140">   140  </span>	 * @throws Error Error if Singleton instance has already been constructed
+<span class="lineno" id="141">   141  </span>	 * 
+<span class="lineno" id="142">   142  </span>	 */</span>
+<span class="lineno" id="143">   143  </span>	<span class="key">public</span> <span class="key">function</span> Facade( ) {
+<span class="lineno" id="144">   144  </span>		<span class="key">if</span> (instance != <span class="key">null</span>) <span class="key">throw</span> Error(SINGLETON_MSG);
+<span class="lineno" id="145">   145  </span>		instance = <span class="key">this</span>;
+<span class="lineno" id="146">   146  </span>		initializeFacade();	
+<span class="lineno" id="147">   147  </span>	}
+<span class="lineno" id="148">   148  </span>
+<span class="lineno" id="149">   149  </span>	<span class="comment doc">/**
+<span class="lineno" id="150">   150  </span>	 * Initialize the Singleton &lt;code&gt;Facade&lt;/code&gt; instance.
+<span class="lineno" id="151">   151  </span>	 * 
+<span class="lineno" id="152">   152  </span>	 * &lt;P&gt;
+<span class="lineno" id="153">   153  </span>	 * Called automatically by the constructor. Override in your
+<span class="lineno" id="154">   154  </span>	 * subclass to do any subclass specific initializations. Be
+<span class="lineno" id="155">   155  </span>	 * sure to call &lt;code&gt;super.initializeFacade()&lt;/code&gt;, though.&lt;/P&gt;
+<span class="lineno" id="156">   156  </span>	 */</span>
+<span class="lineno" id="157">   157  </span>	<span class="key">private</span> <span class="key">function</span> initializeFacade(  ) : Void {
+<span class="lineno" id="158">   158  </span>		initializeModel();
+<span class="lineno" id="159">   159  </span>		initializeController();
+<span class="lineno" id="160">   160  </span>		initializeView();
+<span class="lineno" id="161">   161  </span>	}
+<span class="lineno" id="162">   162  </span>
+<span class="lineno" id="163">   163  </span>	<span class="comment doc">/**
+<span class="lineno" id="164">   164  </span>	 * Facade Singleton Factory method
+<span class="lineno" id="165">   165  </span>	 * 
+<span class="lineno" id="166">   166  </span>	 * @return the Singleton instance of the Facade
+<span class="lineno" id="167">   167  </span>	 */</span>
+<span class="lineno" id="168">   168  </span>	<span class="key">public</span> <span class="key">static</span> <span class="key">function</span> getInstance() : IFacade {
+<span class="lineno" id="169">   169  </span>		<span class="key">if</span> (instance == <span class="key">null</span>) instance = <span class="key">new</span> Facade( );
+<span class="lineno" id="170">   170  </span>		<span class="key">return</span> instance;
+<span class="lineno" id="171">   171  </span>	}
+<span class="lineno" id="172">   172  </span>
+<span class="lineno" id="173">   173  </span>	<span class="comment doc">/**
+<span class="lineno" id="174">   174  </span>	 * Initialize the &lt;code&gt;Controller&lt;/code&gt;.
+<span class="lineno" id="175">   175  </span>	 * 
+<span class="lineno" id="176">   176  </span>	 * &lt;P&gt;
+<span class="lineno" id="177">   177  </span>	 * Called by the &lt;code&gt;initializeFacade&lt;/code&gt; method.
+<span class="lineno" id="178">   178  </span>	 * Override this method in your subclass of &lt;code&gt;Facade&lt;/code&gt; 
+<span class="lineno" id="179">   179  </span>	 * if one or both of the following are true:
+<span class="lineno" id="180">   180  </span>	 * &lt;UL&gt;
+<span class="lineno" id="181">   181  </span>	 * &lt;LI&gt; You wish to initialize a different &lt;code&gt;IController&lt;/code&gt;.&lt;/LI&gt;
+<span class="lineno" id="182">   182  </span>	 * &lt;LI&gt; You have &lt;code&gt;Commands&lt;/code&gt; to register with the &lt;code&gt;Controller&lt;/code&gt; at startup.&lt;/code&gt;. &lt;/LI&gt;		  
+<span class="lineno" id="183">   183  </span>	 * &lt;/UL&gt;
+<span class="lineno" id="184">   184  </span>	 * If you don't want to initialize a different &lt;code&gt;IController&lt;/code&gt;, 
+<span class="lineno" id="185">   185  </span>	 * call &lt;code&gt;super.initializeController()&lt;/code&gt; at the beginning of your
+<span class="lineno" id="186">   186  </span>	 * method, then register &lt;code&gt;Command&lt;/code&gt;s.
+<span class="lineno" id="187">   187  </span>	 * &lt;/P&gt;
+<span class="lineno" id="188">   188  </span>	 */</span>
+<span class="lineno" id="189">   189  </span>	<span class="key">private</span> <span class="key">function</span> initializeController( ) : Void {
+<span class="lineno" id="190">   190  </span>		<span class="key">if</span> ( controller != <span class="key">null</span> ) <span class="key">return</span>;
+<span class="lineno" id="191">   191  </span>		controller = Controller.getInstance();
+<span class="lineno" id="192">   192  </span>	}
+<span class="lineno" id="193">   193  </span>
+<span class="lineno" id="194">   194  </span>	<span class="comment doc">/**
+<span class="lineno" id="195">   195  </span>	 * Initialize the &lt;code&gt;Model&lt;/code&gt;.
+<span class="lineno" id="196">   196  </span>	 * 
+<span class="lineno" id="197">   197  </span>	 * &lt;P&gt;
+<span class="lineno" id="198">   198  </span>	 * Called by the &lt;code&gt;initializeFacade&lt;/code&gt; method.
+<span class="lineno" id="199">   199  </span>	 * Override this method in your subclass of &lt;code&gt;Facade&lt;/code&gt; 
+<span class="lineno" id="200">   200  </span>	 * if one or both of the following are true:
+<span class="lineno" id="201">   201  </span>	 * &lt;UL&gt;
+<span class="lineno" id="202">   202  </span>	 * &lt;LI&gt; You wish to initialize a different &lt;code&gt;IModel&lt;/code&gt;.&lt;/LI&gt;
+<span class="lineno" id="203">   203  </span>	 * &lt;LI&gt; You have &lt;code&gt;Proxy&lt;/code&gt;s to register with the Model that do not 
+<span class="lineno" id="204">   204  </span>	 * retrieve a reference to the Facade at construction time.&lt;/code&gt;&lt;/LI&gt; 
+<span class="lineno" id="205">   205  </span>	 * &lt;/UL&gt;
+<span class="lineno" id="206">   206  </span>	 * If you don't want to initialize a different &lt;code&gt;IModel&lt;/code&gt;, 
+<span class="lineno" id="207">   207  </span>	 * call &lt;code&gt;super.initializeModel()&lt;/code&gt; at the beginning of your
+<span class="lineno" id="208">   208  </span>	 * method, then register &lt;code&gt;Proxy&lt;/code&gt;s.
+<span class="lineno" id="209">   209  </span>	 * &lt;P&gt;
+<span class="lineno" id="210">   210  </span>	 * Note: This method is &lt;i&gt;rarely&lt;/i&gt; overridden; in practice you are more
+<span class="lineno" id="211">   211  </span>	 * likely to use a &lt;code&gt;Command&lt;/code&gt; to create and register &lt;code&gt;Proxy&lt;/code&gt;s
+<span class="lineno" id="212">   212  </span>	 * with the &lt;code&gt;Model&lt;/code&gt;, since &lt;code&gt;Proxy&lt;/code&gt;s with mutable data will likely
+<span class="lineno" id="213">   213  </span>	 * need to send &lt;code&gt;INotification&lt;/code&gt;s and thus will likely want to fetch a reference to 
+<span class="lineno" id="214">   214  </span>	 * the &lt;code&gt;Facade&lt;/code&gt; during their construction. 
+<span class="lineno" id="215">   215  </span>	 * &lt;/P&gt;
+<span class="lineno" id="216">   216  </span>	 */</span>
+<span class="lineno" id="217">   217  </span>	<span class="key">private</span> <span class="key">function</span> initializeModel( ) : Void {
+<span class="lineno" id="218">   218  </span>		<span class="key">if</span> ( model != <span class="key">null</span> ) <span class="key">return</span>;
+<span class="lineno" id="219">   219  </span>		model = Model.getInstance();
+<span class="lineno" id="220">   220  </span>	}
+<span class="lineno" id="221">   221  </span>	
+<span class="lineno" id="222">   222  </span>	<span class="comment doc">/**
+<span class="lineno" id="223">   223  </span>	 * Initialize the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="224">   224  </span>	 * 
+<span class="lineno" id="225">   225  </span>	 * &lt;P&gt;
+<span class="lineno" id="226">   226  </span>	 * Called by the &lt;code&gt;initializeFacade&lt;/code&gt; method.
+<span class="lineno" id="227">   227  </span>	 * Override this method in your subclass of &lt;code&gt;Facade&lt;/code&gt; 
+<span class="lineno" id="228">   228  </span>	 * if one or both of the following are true:
+<span class="lineno" id="229">   229  </span>	 * &lt;UL&gt;
+<span class="lineno" id="230">   230  </span>	 * &lt;LI&gt; You wish to initialize a different &lt;code&gt;IView&lt;/code&gt;.&lt;/LI&gt;
+<span class="lineno" id="231">   231  </span>	 * &lt;LI&gt; You have &lt;code&gt;Observers&lt;/code&gt; to register with the &lt;code&gt;View&lt;/code&gt;&lt;/LI&gt;
+<span class="lineno" id="232">   232  </span>	 * &lt;/UL&gt;
+<span class="lineno" id="233">   233  </span>	 * If you don't want to initialize a different &lt;code&gt;IView&lt;/code&gt;, 
+<span class="lineno" id="234">   234  </span>	 * call &lt;code&gt;super.initializeView()&lt;/code&gt; at the beginning of your
+<span class="lineno" id="235">   235  </span>	 * method, then register &lt;code&gt;IMediator&lt;/code&gt; instances.
+<span class="lineno" id="236">   236  </span>	 * &lt;P&gt;
+<span class="lineno" id="237">   237  </span>	 * Note: This method is &lt;i&gt;rarely&lt;/i&gt; overridden; in practice you are more
+<span class="lineno" id="238">   238  </span>	 * likely to use a &lt;code&gt;Command&lt;/code&gt; to create and register &lt;code&gt;Mediator&lt;/code&gt;s
+<span class="lineno" id="239">   239  </span>	 * with the &lt;code&gt;View&lt;/code&gt;, since &lt;code&gt;IMediator&lt;/code&gt; instances will need to send 
+<span class="lineno" id="240">   240  </span>	 * &lt;code&gt;INotification&lt;/code&gt;s and thus will likely want to fetch a reference 
+<span class="lineno" id="241">   241  </span>	 * to the &lt;code&gt;Facade&lt;/code&gt; during their construction. 
+<span class="lineno" id="242">   242  </span>	 * &lt;/P&gt;
+<span class="lineno" id="243">   243  </span>	 */</span>
+<span class="lineno" id="244">   244  </span>	<span class="key">private</span> <span class="key">function</span> initializeView( ) : Void {
+<span class="lineno" id="245">   245  </span>		<span class="key">if</span> ( view != <span class="key">null</span> ) <span class="key">return</span>;
+<span class="lineno" id="246">   246  </span>		view = View.getInstance();
+<span class="lineno" id="247">   247  </span>	}
+<span class="lineno" id="248">   248  </span>
+<span class="lineno" id="249">   249  </span>	<span class="comment doc">/**
+<span class="lineno" id="250">   250  </span>	 * Notify &lt;code&gt;Observer&lt;/code&gt;s.
+<span class="lineno" id="251">   251  </span>	 * 
+<span class="lineno" id="252">   252  </span>	 * @param notification the &lt;code&gt;INotification&lt;/code&gt; to have the &lt;code&gt;View&lt;/code&gt; notify &lt;code&gt;Observers&lt;/code&gt; of.
+<span class="lineno" id="253">   253  </span>	 */</span>
+<span class="lineno" id="254">   254  </span>	<span class="key">public</span> <span class="key">function</span> notifyObservers ( notification:INotification ) : Void {
+<span class="lineno" id="255">   255  </span>		<span class="key">if</span> ( view != <span class="key">null</span> ) view.notifyObservers( notification );
+<span class="lineno" id="256">   256  </span>	}
+<span class="lineno" id="257">   257  </span>
+<span class="lineno" id="258">   258  </span>	<span class="comment doc">/**
+<span class="lineno" id="259">   259  </span>	 * Register an &lt;code&gt;ICommand&lt;/code&gt; with the &lt;code&gt;Controller&lt;/code&gt; by Notification name.
+<span class="lineno" id="260">   260  </span>	 * 
+<span class="lineno" id="261">   261  </span>	 * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt; to associate the &lt;code&gt;ICommand&lt;/code&gt; with
+<span class="lineno" id="262">   262  </span>	 * @param commandClassRef the Class of the &lt;code&gt;ICommand&lt;/code&gt;.
+<span class="lineno" id="263">   263  </span>	 *
+<span class="lineno" id="264">   264  </span>	 */</span>
+<span class="lineno" id="265">   265  </span>	<span class="key">public</span> <span class="key">function</span> registerCommand( notificationName:String, commandClassRef:Function ) : Void {
+<span class="lineno" id="266">   266  </span>		controller.registerCommand( notificationName, commandClassRef);
+<span class="lineno" id="267">   267  </span>	}
+<span class="lineno" id="268">   268  </span>
+<span class="lineno" id="269">   269  </span>	<span class="comment doc">/**
+<span class="lineno" id="270">   270  </span>	 * Remove a previously registered &lt;code&gt;ICommand&lt;/code&gt; to &lt;code&gt;INotification&lt;/code&gt; mapping from the Controller.
+<span class="lineno" id="271">   271  </span>	 * 
+<span class="lineno" id="272">   272  </span>	 * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt; to remove the &lt;code&gt;ICommand&lt;/code&gt; mapping for
+<span class="lineno" id="273">   273  </span>	 */</span>
+<span class="lineno" id="274">   274  </span>	<span class="key">public</span> <span class="key">function</span> removeCommand( notificationName:String ):Void {
+<span class="lineno" id="275">   275  </span>		controller.removeCommand( notificationName );
+<span class="lineno" id="276">   276  </span>	}
+<span class="lineno" id="277">   277  </span>
+<span class="lineno" id="278">   278  </span>	<span class="comment doc">/**
+<span class="lineno" id="279">   279  </span>	 * Check if a Command is registered for a given Notification 
+<span class="lineno" id="280">   280  </span>	 * 
+<span class="lineno" id="281">   281  </span>	 * @param notificationName
+<span class="lineno" id="282">   282  </span>	 * @return whether a Command is currently registered for the given &lt;code&gt;notificationName&lt;/code&gt;.
+<span class="lineno" id="283">   283  </span>	 */</span>
+<span class="lineno" id="284">   284  </span>	<span class="key">public</span> <span class="key">function</span> hasCommand( notificationName:String ) : Boolean
+<span class="lineno" id="285">   285  </span>	{
+<span class="lineno" id="286">   286  </span>		<span class="key">return</span> controller.hasCommand(notificationName);
+<span class="lineno" id="287">   287  </span>	}
+<span class="lineno" id="288">   288  </span>	
+<span class="lineno" id="289">   289  </span>	<span class="comment doc">/**
+<span class="lineno" id="290">   290  </span>	 * Register an &lt;code&gt;IProxy&lt;/code&gt; with the &lt;code&gt;Model&lt;/code&gt; by name.
+<span class="lineno" id="291">   291  </span>	 * 
+<span class="lineno" id="292">   292  </span>	 * @param proxyName the name of the &lt;code&gt;IProxy&lt;/code&gt;.
+<span class="lineno" id="293">   293  </span>	 * @param proxy the &lt;code&gt;IProxy&lt;/code&gt; instance to be registered with the &lt;code&gt;Model&lt;/code&gt;.
+<span class="lineno" id="294">   294  </span>	 */</span>
+<span class="lineno" id="295">   295  </span>	<span class="key">public</span> <span class="key">function</span> registerProxy ( proxy:IProxy ) : Void	{
+<span class="lineno" id="296">   296  </span>		model.registerProxy ( proxy );	
+<span class="lineno" id="297">   297  </span>	}
+<span class="lineno" id="298">   298  </span>			
+<span class="lineno" id="299">   299  </span>	<span class="comment doc">/**
+<span class="lineno" id="300">   300  </span>	 * Retrieve an &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt; by name.
+<span class="lineno" id="301">   301  </span>	 * 
+<span class="lineno" id="302">   302  </span>	 * @param proxyName the name of the proxy to be retrieved.
+<span class="lineno" id="303">   303  </span>	 * @return the &lt;code&gt;IProxy&lt;/code&gt; instance previously registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+<span class="lineno" id="304">   304  </span>	 */</span>
+<span class="lineno" id="305">   305  </span>	<span class="key">public</span> <span class="key">function</span> retrieveProxy ( proxyName:String ):IProxy {
+<span class="lineno" id="306">   306  </span>		<span class="key">return</span> model.retrieveProxy ( proxyName );	
+<span class="lineno" id="307">   307  </span>	}
+<span class="lineno" id="308">   308  </span>
+<span class="lineno" id="309">   309  </span>	<span class="comment doc">/**
+<span class="lineno" id="310">   310  </span>	 * Remove an &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt; by name.
+<span class="lineno" id="311">   311  </span>	 *
+<span class="lineno" id="312">   312  </span>	 * @param proxyName the &lt;code&gt;IProxy&lt;/code&gt; to remove from the &lt;code&gt;Model&lt;/code&gt;.
+<span class="lineno" id="313">   313  </span>	 * @return the &lt;code&gt;IProxy&lt;/code&gt; that was removed from the &lt;code&gt;Model&lt;/code&gt;
+<span class="lineno" id="314">   314  </span>	 */</span>
+<span class="lineno" id="315">   315  </span>	<span class="key">public</span> <span class="key">function</span> removeProxy ( proxyName:String ) : IProxy {
+<span class="lineno" id="316">   316  </span>		<span class="key">var</span> proxy:IProxy;
+<span class="lineno" id="317">   317  </span>		<span class="key">if</span> ( model != <span class="key">null</span> ) proxy = model.removeProxy ( proxyName );	
+<span class="lineno" id="318">   318  </span>		<span class="key">return</span> proxy;
+<span class="lineno" id="319">   319  </span>	}
+<span class="lineno" id="320">   320  </span>	
+<span class="lineno" id="321">   321  </span>	<span class="comment doc">/**
+<span class="lineno" id="322">   322  </span>	 * Check if a Proxy is registered
+<span class="lineno" id="323">   323  </span>	 * 
+<span class="lineno" id="324">   324  </span>	 * @param proxyName
+<span class="lineno" id="325">   325  </span>	 * @return whether a Proxy is currently registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+<span class="lineno" id="326">   326  </span>	 */</span>
+<span class="lineno" id="327">   327  </span>	<span class="key">public</span> <span class="key">function</span> hasProxy( proxyName:String ) : Boolean
+<span class="lineno" id="328">   328  </span>	{
+<span class="lineno" id="329">   329  </span>		<span class="key">return</span> model.hasProxy( proxyName );
+<span class="lineno" id="330">   330  </span>	}
+<span class="lineno" id="331">   331  </span>
+<span class="lineno" id="332">   332  </span>
+<span class="lineno" id="333">   333  </span>	<span class="comment doc">/**
+<span class="lineno" id="334">   334  </span>	 * Register a &lt;code&gt;IMediator&lt;/code&gt; with the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="335">   335  </span>	 * 
+<span class="lineno" id="336">   336  </span>	 * @param mediatorName the name to associate with this &lt;code&gt;IMediator&lt;/code&gt;
+<span class="lineno" id="337">   337  </span>	 * @param mediator a reference to the &lt;code&gt;IMediator&lt;/code&gt;
+<span class="lineno" id="338">   338  </span>	 */</span>
+<span class="lineno" id="339">   339  </span>	<span class="key">public</span> <span class="key">function</span> registerMediator( mediator:IMediator ) : Void {
+<span class="lineno" id="340">   340  </span>		<span class="key">if</span> ( view != <span class="key">null</span> ) view.registerMediator( mediator );
+<span class="lineno" id="341">   341  </span>	}
+<span class="lineno" id="342">   342  </span>
+<span class="lineno" id="343">   343  </span>	<span class="comment doc">/**
+<span class="lineno" id="344">   344  </span>	 * Retrieve an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="345">   345  </span>	 * 
+<span class="lineno" id="346">   346  </span>	 * @param mediatorName
+<span class="lineno" id="347">   347  </span>	 * @return the &lt;code&gt;IMediator&lt;/code&gt; previously registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+<span class="lineno" id="348">   348  </span>	 */</span>
+<span class="lineno" id="349">   349  </span>	<span class="key">public</span> <span class="key">function</span> retrieveMediator( mediatorName:String ) : IMediator {
+<span class="lineno" id="350">   350  </span>		<span class="key">return</span> IMediator(view.retrieveMediator( mediatorName ));
+<span class="lineno" id="351">   351  </span>	}
+<span class="lineno" id="352">   352  </span>
+<span class="lineno" id="353">   353  </span>	<span class="comment doc">/**
+<span class="lineno" id="354">   354  </span>	 * Remove an &lt;code&gt;IMediator&lt;/code&gt; from the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="355">   355  </span>	 * 
+<span class="lineno" id="356">   356  </span>	 * @param mediatorName name of the &lt;code&gt;IMediator&lt;/code&gt; to be removed.
+<span class="lineno" id="357">   357  </span>	 * @return the &lt;code&gt;IMediator&lt;/code&gt; that was removed from the &lt;code&gt;View&lt;/code&gt;
+<span class="lineno" id="358">   358  </span>	 */</span>
+<span class="lineno" id="359">   359  </span>	<span class="key">public</span> <span class="key">function</span> removeMediator( mediatorName:String ) : IMediator {
+<span class="lineno" id="360">   360  </span>		<span class="key">var</span> mediator:IMediator;
+<span class="lineno" id="361">   361  </span>		<span class="key">if</span> ( view != <span class="key">null</span> ) mediator = view.removeMediator( mediatorName );			
+<span class="lineno" id="362">   362  </span>		<span class="key">return</span> mediator;
+<span class="lineno" id="363">   363  </span>	}
+<span class="lineno" id="364">   364  </span>
+<span class="lineno" id="365">   365  </span>	<span class="comment doc">/**
+<span class="lineno" id="366">   366  </span>	 * Check if a Mediator is registered or not
+<span class="lineno" id="367">   367  </span>	 * 
+<span class="lineno" id="368">   368  </span>	 * @param mediatorName
+<span class="lineno" id="369">   369  </span>	 * @return whether a Mediator is registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+<span class="lineno" id="370">   370  </span>	 */</span>
+<span class="lineno" id="371">   371  </span>	<span class="key">public</span> <span class="key">function</span> hasMediator( mediatorName:String ) : Boolean
+<span class="lineno" id="372">   372  </span>	{
+<span class="lineno" id="373">   373  </span>		<span class="key">return</span> view.hasMediator( mediatorName );
+<span class="lineno" id="374">   374  </span>	}
+<span class="lineno" id="375">   375  </span>	
+<span class="lineno" id="376">   376  </span>	<span class="comment doc">/**
+<span class="lineno" id="377">   377  </span>	 * Create and send an &lt;code&gt;INotification&lt;/code&gt;.
+<span class="lineno" id="378">   378  </span>	 * 
+<span class="lineno" id="379">   379  </span>	 * &lt;P&gt;
+<span class="lineno" id="380">   380  </span>	 * Keeps us from having to construct new notification 
+<span class="lineno" id="381">   381  </span>	 * instances in our implementation code.
+<span class="lineno" id="382">   382  </span>	 * @param notificationName the name of the notiification to send
+<span class="lineno" id="383">   383  </span>	 * @param body the body of the notification (optional)
+<span class="lineno" id="384">   384  </span>	 * @param type the type of the notification (optional)
+<span class="lineno" id="385">   385  </span>	 */</span> 
+<span class="lineno" id="386">   386  </span>	<span class="key">public</span> <span class="key">function</span> sendNotification( notificationName:String, body:Object, type:String) : Void 
+<span class="lineno" id="387">   387  </span>	{
+<span class="lineno" id="388">   388  </span>		notifyObservers( <span class="key">new</span> Notification( notificationName, body, type ) );
+<span class="lineno" id="389">   389  </span>	}
+<span class="lineno" id="390">   390  </span>	
+<span class="lineno" id="391">   391  </span>	<span class="comment">// Private references to Model, View and Controller</span>
+<span class="lineno" id="392">   392  </span>	<span class="key">private</span> <span class="key">var</span> controller : IController;
+<span class="lineno" id="393">   393  </span>	<span class="key">private</span> <span class="key">var</span> model		 : IModel;
+<span class="lineno" id="394">   394  </span>	<span class="key">private</span> <span class="key">var</span> view		 : IView;
+<span class="lineno" id="395">   395  </span>	
+<span class="lineno" id="396">   396  </span>	<span class="comment">// The Singleton Facade instance.</span>
+<span class="lineno" id="397">   397  </span>	<span class="key">private</span> <span class="key">static</span> <span class="key">var</span> instance : IFacade; 
+<span class="lineno" id="398">   398  </span>	
+<span class="lineno" id="399">   399  </span>	<span class="comment">// Message Constants</span>
+<span class="lineno" id="400">   400  </span>	<span class="key">private</span> <span class="key">var</span> SINGLETON_MSG	: String = <span class="str_const">"Facade Singleton already constructed!"</span>;
+<span class="lineno" id="401">   401  </span>
+<span class="lineno" id="402">   402  </span>}</pre><ul class="main_nav" id="main_nav"><li><a href="../../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.patterns.facade" class="button">Package</a></li><li><a href="Facade.html" title="Detail of org.puremvc.as2.patterns.facade.Facade API" class="button">Class</a></li><li><span class="button nav_current">Source</span></li><li><a href="../../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

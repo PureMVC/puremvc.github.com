@@ -1,0 +1,124 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Observer.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A base &lt;code&gt;IObserver&lt;/code&gt; implementation.
+     * 
+     * &lt;P&gt; 
+     * An &lt;code&gt;Observer&lt;/code&gt; is an object that encapsulates information
+     * about an interested object with a method that should 
+     * be called when a particular &lt;code&gt;INotification&lt;/code&gt; is broadcast. &lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * In PureMVC, the &lt;code&gt;Observer&lt;/code&gt; class assumes these responsibilities:
+     * &lt;UL&gt;
+     * &lt;LI&gt;Encapsulate the notification (callback) method of the interested object.&lt;/LI&gt;
+     * &lt;LI&gt;Encapsulate the notification context (this) of the interested object.&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for setting the notification method and context.&lt;/LI&gt;
+     * &lt;LI&gt;Provide a method for notifying the interested object.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     * 
+     * @see org.puremvc.as3.multicore.core.View View
+     * @see org.puremvc.as3.multicore.patterns.observer.Notification Notification
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Observer</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IObserver</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">notify</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">context</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>;
+    
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * The notification method on the interested object should take 
+         * one parameter of type &lt;code&gt;INotification&lt;/code&gt;&lt;/P&gt;
+         * 
+         * @param notifyMethod the notification method of the interested object
+         * @param notifyContext the notification context of the interested object
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notifyMethod</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span>, <span class="ActionScriptDefault_Text">notifyContext</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">setNotifyMethod</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notifyMethod</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">setNotifyContext</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notifyContext</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Set the notification method.
+         * 
+         * &lt;P&gt;
+         * The notification method should take one parameter of type &lt;code&gt;INotification&lt;/code&gt;.&lt;/P&gt;
+         * 
+         * @param notifyMethod the notification (callback) method of the interested object.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setNotifyMethod</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notifyMethod</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">notify</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">notifyMethod</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Set the notification context.
+         * 
+         * @param notifyContext the notification context (this) of the interested object.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setNotifyContext</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notifyContext</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">context</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">notifyContext</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the notification method.
+         * 
+         * @return the notification (callback) method of the interested object.
+         */</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getNotifyMethod</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Function</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">notify</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Get the notification context.
+         * 
+         * @return the notification context (&lt;code&gt;this&lt;/code&gt;) of the interested object.
+         */</span>
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getNotifyContext</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">context</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Notify the interested object.
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to pass to the interested object&apos;s notification method.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">notifyObserver</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">getNotifyMethod</span><span class="ActionScriptBracket/Brace">()</span>.<span class="ActionScriptDefault_Text">apply</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">getNotifyContext</span><span class="ActionScriptBracket/Brace">()</span>,<span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">notification</span><span class="ActionScriptBracket/Brace">])</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    
+        <span class="ActionScriptASDoc">/**
+         * Compare an object to the notification context. 
+         * 
+         * @param object the object to compare
+         * @return boolean indicating if the object and the notification context are the same
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">compareNotifyContext</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">object</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+         <span class="ActionScriptBracket/Brace">{</span>
+             <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">object</span> <span class="ActionScriptOperator">===</span> <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">context</span>;
+         <span class="ActionScriptBracket/Brace">}</span>        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

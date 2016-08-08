@@ -1,0 +1,83 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationFacade.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC AS3 Demo - Flex CafeTownsend
+ Copyright (c) 2007-08 Michael Ramirez &lt;michael.ramirez@puremvc.org&gt;
+ Parts Copyright (c) 2005-07 Adobe Systems, Inc. 
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cafetownsend</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptOperator">*</span>;
+
+    <span class="ActionScriptASDoc">/**
+     * A concrete &lt;code&gt;Facade&lt;/code&gt; for the &lt;code&gt;CafeTownsend&lt;/code&gt; application.
+     * &lt;P&gt;
+     * The main job of the &lt;code&gt;ApplicationFacade&lt;/code&gt; is to act as a single 
+     * place for mediators, proxies and commands to access and communicate
+     * with each other without having to interact with the Model, View, and
+     * Controller classes directly. All this capability it inherits from 
+     * the PureMVC Facade class.&lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * This concrete Facade subclass is also a central place to define 
+     * notification constants which will be shared among commands, proxies and
+     * mediators, as well as initializing the controller with Command to 
+     * Notification mappings.&lt;/P&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Facade</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptComment">// Notification name constants
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">STARTUP</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>                     <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;startup&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">SHUTDOWN</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>                 <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;shutdown&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">APP_LOGOUT</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>                 <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;appLogout&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">APP_LOGIN</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>                 <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;appLogin&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">LOAD_EMPLOYEES_SUCCESS</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;loadEmployeesSuccess&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">LOAD_EMPLOYEES_FAILED</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>    <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;loadEmployeesFailed&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">VIEW_EMPLOYEE_LOGIN</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;viewEmployeeLogin&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">VIEW_EMPLOYEE_LIST</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;viewEmployeeList&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">VIEW_EMPLOYEE_DETAIL</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>        <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;viewEmployeeDetail&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">ADD_EMPLOYEE</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>                <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;addEmployee&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">UPDATE_EMPLOYEE</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>            <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;updateEmployee&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">SAVE_EMPLOYEE</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>            <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;saveEmployee&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">DELETE_EMPLOYEE</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>            <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;deleteEmployee&quot;</span>;
+        <span class="ActionScriptASDoc">/**
+         * Singleton ApplicationFacade Factory Method
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">instance</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register Commands with the Controller 
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span>.<span class="ActionScriptDefault_Text">initializeController</span><span class="ActionScriptBracket/Brace">()</span>; 
+            <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">STARTUP</span>, <span class="ActionScriptDefault_Text">ApplicationStartupCommand</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">startup</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">CafeTownsend</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">STARTUP</span>, <span class="ActionScriptDefault_Text">app</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

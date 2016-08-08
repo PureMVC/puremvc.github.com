@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>PureMVC_AS3_UnitTests</title>
+	<nodes>
+		<node label="libs">
+			<node label="flexunit.swc" url="source/libs/flexunit.swc"/>
+			<node label="PureMVC_AS3_2_0_4.swc" url="source/libs/PureMVC_AS3_2_0_4.swc"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.core" icon="packageIcon" expanded="true">
+				<node label="ControllerTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ControllerTest.as.html"/>
+				<node label="ControllerTestCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ControllerTestCommand.as.html"/>
+				<node label="ControllerTestCommand2.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ControllerTestCommand2.as.html"/>
+				<node label="ControllerTestVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ControllerTestVO.as.html"/>
+				<node label="ModelTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ModelTest.as.html"/>
+				<node label="ModelTestProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ModelTestProxy.as.html"/>
+				<node label="ViewTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTest.as.html"/>
+				<node label="ViewTestMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestMediator.as.html"/>
+				<node label="ViewTestMediator2.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestMediator2.as.html"/>
+				<node label="ViewTestMediator3.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestMediator3.as.html"/>
+				<node label="ViewTestMediator4.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestMediator4.as.html"/>
+				<node label="ViewTestMediator5.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestMediator5.as.html"/>
+				<node label="ViewTestMediator6.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestMediator6.as.html"/>
+				<node label="ViewTestNote.as" icon="actionScriptIcon" url="source/org/puremvc/as3/core/ViewTestNote.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.command" icon="packageIcon" expanded="true">
+				<node label="MacroCommandTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/MacroCommandTest.as.html"/>
+				<node label="MacroCommandTestCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/MacroCommandTestCommand.as.html"/>
+				<node label="MacroCommandTestSub1Command.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/MacroCommandTestSub1Command.as.html"/>
+				<node label="MacroCommandTestSub2Command.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/MacroCommandTestSub2Command.as.html"/>
+				<node label="MacroCommandTestVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/MacroCommandTestVO.as.html"/>
+				<node label="SimpleCommandTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/SimpleCommandTest.as.html"/>
+				<node label="SimpleCommandTestCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/SimpleCommandTestCommand.as.html"/>
+				<node label="SimpleCommandTestVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/command/SimpleCommandTestVO.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.facade" icon="packageIcon" expanded="true">
+				<node label="FacadeTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/facade/FacadeTest.as.html"/>
+				<node label="FacadeTestCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/facade/FacadeTestCommand.as.html"/>
+				<node label="FacadeTestVO.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/facade/FacadeTestVO.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.mediator" icon="packageIcon" expanded="true">
+				<node label="MediatorTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/mediator/MediatorTest.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.observer" icon="packageIcon" expanded="true">
+				<node label="NotificationTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/observer/NotificationTest.as.html"/>
+				<node label="ObserverTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/observer/ObserverTest.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.patterns.proxy" icon="packageIcon" expanded="true">
+				<node label="ProxyTest.as" icon="actionScriptIcon" url="source/org/puremvc/as3/patterns/proxy/ProxyTest.as.html"/>
+			</node>
+			<node selected="true" label="PureMVC_AS3_UnitTests.mxml" icon="mxmlAppIcon" url="source/PureMVC_AS3_UnitTests.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

@@ -1,0 +1,75 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IController.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptASDoc">/**
+     * The interface definition for a PureMVC Controller.
+     * 
+     * &lt;P&gt;
+     * In PureMVC, an &lt;code&gt;IController&lt;/code&gt; implementor 
+     * follows the &apos;Command and Controller&apos; strategy, and 
+     * assumes these responsibilities:
+     * &lt;UL&gt;
+     * &lt;LI&gt; Remembering which &lt;code&gt;ICommand&lt;/code&gt;s 
+     * are intended to handle which &lt;code&gt;INotifications&lt;/code&gt;.&lt;/LI&gt;
+     * &lt;LI&gt; Registering itself as an &lt;code&gt;IObserver&lt;/code&gt; with
+     * the &lt;code&gt;View&lt;/code&gt; for each &lt;code&gt;INotification&lt;/code&gt; 
+     * that it has an &lt;code&gt;ICommand&lt;/code&gt; mapping for.&lt;/LI&gt;
+     * &lt;LI&gt; Creating a new instance of the proper &lt;code&gt;ICommand&lt;/code&gt;
+     * to handle a given &lt;code&gt;INotification&lt;/code&gt; when notified by the &lt;code&gt;View&lt;/code&gt;.&lt;/LI&gt;
+     * &lt;LI&gt; Calling the &lt;code&gt;ICommand&lt;/code&gt;&apos;s &lt;code&gt;execute&lt;/code&gt;
+     * method, passing in the &lt;code&gt;INotification&lt;/code&gt;.&lt;/LI&gt; 
+     * &lt;/UL&gt;
+     *
+     * @see org.puremvc.as3.multicore.interfaces INotification
+     * @see org.puremvc.as3.multicore.interfaces ICommand
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IController</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register a particular &lt;code&gt;ICommand&lt;/code&gt; class as the handler 
+         * for a particular &lt;code&gt;INotification&lt;/code&gt;.
+         * 
+         * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt;
+         * @param commandClassRef the Class of the &lt;code&gt;ICommand&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">commandClassRef</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Class</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Execute the &lt;code&gt;ICommand&lt;/code&gt; previously registered as the
+         * handler for &lt;code&gt;INotification&lt;/code&gt;s with the given notification name.
+         * 
+         * @param notification the &lt;code&gt;INotification&lt;/code&gt; to execute the associated &lt;code&gt;ICommand&lt;/code&gt; for
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">executeCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notification</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Remove a previously registered &lt;code&gt;ICommand&lt;/code&gt; to &lt;code&gt;INotification&lt;/code&gt; mapping.
+         * 
+         * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt; to remove the &lt;code&gt;ICommand&lt;/code&gt; mapping for
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Command is registered for a given Notification 
+         * 
+         * @param notificationName
+         * @return whether a Command is currently registered for the given &lt;code&gt;notificationName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasCommand</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">notificationName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>;
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

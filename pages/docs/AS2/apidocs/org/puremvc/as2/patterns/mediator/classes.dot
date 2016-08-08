@@ -1,0 +1,22 @@
+strict digraph class_diagram {
+  rankdir=LR;
+  TypeMockMediator[
+    label="MockMediator",
+    URL="MockMediator.html",
+    tooltip="org.puremvc.as2.patterns.mediator.MockMediator",
+    shape="record"
+  ];
+  TypeMediatorTest[
+    label="MediatorTest",
+    URL="MediatorTest.html",
+    tooltip="org.puremvc.as2.patterns.mediator.MediatorTest",
+    shape="record"
+  ];
+  TypeMediator[
+    label="Mediator",
+    URL="Mediator.html",
+    tooltip="org.puremvc.as2.patterns.mediator.Mediator",
+    shape="record"
+  ];
+  TypeMediator -> TypeMockMediator;
+}

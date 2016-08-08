@@ -1,0 +1,28 @@
+strict digraph class_diagram {
+  rankdir=LR;
+  TypeMockVO[
+    label="MockVO",
+    URL="MockVO.html",
+    tooltip="org.puremvc.as2.patterns.proxy.MockVO",
+    shape="record"
+  ];
+  TypeMockProxy[
+    label="MockProxy",
+    URL="MockProxy.html",
+    tooltip="org.puremvc.as2.patterns.proxy.MockProxy",
+    shape="record"
+  ];
+  TypeProxyTest[
+    label="ProxyTest",
+    URL="ProxyTest.html",
+    tooltip="org.puremvc.as2.patterns.proxy.ProxyTest",
+    shape="record"
+  ];
+  TypeProxy[
+    label="Proxy",
+    URL="Proxy.html",
+    tooltip="org.puremvc.as2.patterns.proxy.Proxy",
+    shape="record"
+  ];
+  TypeProxy -> TypeMockProxy;
+}

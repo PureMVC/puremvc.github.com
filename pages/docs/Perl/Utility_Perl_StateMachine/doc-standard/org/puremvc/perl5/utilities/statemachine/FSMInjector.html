@@ -1,0 +1,218 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC State Machine - FSMInjector</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::utilities::statemachine::FSMInjector</code></p>
+<p><strong>inherits:</strong></p>
+<ul>
+<li>
+<p><code>org::puremvc::perl5::patterns::observer::Notifier</code></p>
+</li>
+</ul>
+<p>Creates and registers a <a href="StateMachine.html">StateMachine</a> described with a <strong>hash reference</strong>.</p>
+<p>This allows reconfiguration of the <a href="StateMachine.html">StateMachine</a> without changing any code, as well as making it easier than creating all the <a href="State.html">State</a> instances and registering them with the <a href="StateMachine.html">StateMachine</a> at startup time.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Here is an example of hash reference to describe a <a href="StateMachine.html">StateMachine</a> :</p>
+<pre>
+  <span class="operator">{</span>
+    <span class="string">'initial'</span> <span class="operator">=&gt;</span> <span class="string">'initial_state'</span><span class="operator">,</span>
+    <span class="string">'state'</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+                 <span class="operator">{</span>
+                   <span class="string">'name'</span> <span class="operator">=&gt;</span> <span class="string">'state1'</span><span class="operator">,</span>
+                   <span class="string">'entering'</span> <span class="operator">=&gt;</span> <span class="string">'entering_state1'</span><span class="operator">,</span>
+                   <span class="string">'exiting'</span> <span class="operator">=&gt;</span> <span class="string">'exiting_state1'</span><span class="operator">,</span>
+                   <span class="string">'changed'</span> <span class="operator">=&gt;</span> <span class="string">'changed_state1'</span><span class="operator">,</span>
+                   <span class="string">'transition'</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+                                     <span class="operator">{</span>
+                                       <span class="string">'target'</span> <span class="operator">=&gt;</span> <span class="string">'state2'</span><span class="operator">,</span>
+                                       <span class="string">'action'</span> <span class="operator">=&gt;</span> <span class="string">'transition12_action'</span>
+                                     <span class="operator">}</span><span class="operator">,</span>
+                                     <span class="operator">{</span>
+                                       <span class="string">'target'</span> <span class="operator">=&gt;</span> <span class="string">'state3'</span><span class="operator">,</span>
+                                       <span class="string">'action'</span> <span class="operator">=&gt;</span> <span class="string">'transition13_action'</span>
+                                     <span class="operator">}</span>
+                                   <span class="operator">]</span><span class="operator">,</span>
+                 <span class="operator">}</span><span class="operator">,</span>
+                 <span class="operator">{</span>
+                   <span class="string">'name'</span> <span class="operator">=&gt;</span> <span class="string">'state2'</span><span class="operator">,</span>
+                   <span class="string">'exiting'</span> <span class="operator">=&gt;</span> <span class="string">'exiting_state2'</span><span class="operator">,</span>
+                   <span class="string">'transition'</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+                                     <span class="operator">{</span>
+                                       <span class="string">'target'</span> <span class="operator">=&gt;</span> <span class="string">'state3'</span><span class="operator">,</span>
+                                       <span class="string">'action'</span> <span class="operator">=&gt;</span> <span class="string">'transition23_action'</span>
+                                     <span class="operator">}</span>
+                                   <span class="operator">]</span><span class="operator">,</span>
+                 <span class="operator">}</span><span class="operator">,</span>
+                 <span class="operator">{</span>
+                   <span class="string">'name'</span> <span class="operator">=&gt;</span> <span class="string">'state3'</span><span class="operator">,</span>
+                   <span class="string">'changed'</span> <span class="operator">=&gt;</span> <span class="string">'changed_state3'</span><span class="operator">,</span>
+                   <span class="string">'transition'</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+                                     <span class="operator">{</span>
+                                       <span class="string">'target'</span> <span class="operator">=&gt;</span> <span class="string">'state1'</span><span class="operator">,</span>
+                                       <span class="string">'action'</span> <span class="operator">=&gt;</span> <span class="string">'transition31_action'</span>
+                                     <span class="operator">}</span>
+                                   <span class="operator">]</span><span class="operator">,</span>
+                 <span class="operator">}</span>
+               <span class="operator">]</span>
+  <span class="operator">};</span>
+</pre>
+<p>As a tool, you can use <a target="_blank" href="http://search.cpan.org/~grantm/XML-Simple-2.18/lib/XML/Simple.pm">XML::Simple</a> CPAN module to produce the same from XML :</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">XML::Simple</span><span class="operator">;</span>
+  
+  <span class="keyword">my</span> <span class="variable">$xml</span> <span class="operator">=</span> <span class="string">'&lt;fsm initial="initial_state"&gt;
+               &lt;state name="state1" changed="changed_state1" entering="entering_state1" exiting="exiting_state1"&gt;
+                 &lt;transition action="transition12_action" target="state2" /&gt;
+                 &lt;transition action="transition13_action" target="state3" /&gt;
+               &lt;/state&gt;
+               &lt;state name="state2" exiting="exiting_state2"&gt;
+                 &lt;transition action="transition23_action" target="state3" /&gt;
+               &lt;/state&gt;
+               &lt;state name="state3" changed="changed_state3"&gt;
+                 &lt;transition action="transition31_action" target="state1" /&gt;
+               &lt;/state&gt;
+             &lt;/fsm&gt;'</span><span class="operator">;</span>
+  
+  <span class="keyword">my</span> <span class="variable">$hash</span> <span class="operator">=</span> <span class="variable">XMLin</span><span class="operator">(</span> <span class="variable">$xml</span><span class="operator">,</span> <span class="string">'KeyAttr'</span> <span class="operator">=&gt;</span> <span class="operator">[]</span><span class="operator">,</span> <span class="string">'ForceArray'</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">'state'</span><span class="operator">,</span> <span class="string">'transition'</span> <span class="operator">]</span> <span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">$fsm_injector</span> <span class="operator">=</span> <span class="variable">org::puremvc::perl5::utilities::statemachine::FSMInjector</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="variable">$hash</span> <span class="operator">);</span>
+</pre>
+<p>The <code>initial</code> property can be empty.</p>
+<p>A minimalist <a href="StateMachine.html">StateMachine</a> definition would be :</p>
+<pre>
+  <span class="operator">{</span>
+    <span class="string">'initial'</span> <span class="operator">=&gt;</span> <span class="string">''</span><span class="operator">,</span>
+  <span class="operator">};</span>
+</pre>
+<p>or in XML :</p>
+<pre>
+  &lt;fsm initial=&quot;&quot; /&gt;</pre>
+<p>where no state at all are defined, not even an initial one.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="fsminjector" class="item">FSMInjector</a></strong></dt>
+
+<dd>
+<p><a href="#fsminjector"><code>sub FSMInjector( $state_machine_def );</code></a></p>
+<p>Constructor.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$state_machine_def - scalar</code></p>
+<p>A reference on a hash holding the <a href="StateMachine.html">StateMachine</a> definition.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="createstate" class="item">createState</a></strong></dt>
+
+<dd>
+<p><a href="#createstate"><code>sub createState( $state_def );</code></a></p>
+<p>Creates a <a href="State.html">State</a> instance from its definition.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$state_def - scalar</code></p>
+<p>A reference on a hash array holding the <a href="State.html">State</a> definition.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::utilities::statemachine::State</code> - The created <a href="State.html">State</a> instance.</p>
+</dd>
+<dt><strong><a name="inject" class="item">inject</a></strong></dt>
+
+<dd>
+<p><a href="#inject"><code>sub inject();</code></a></p>
+<p>Inject the <a href="StateMachine.html">StateMachine</a> into the PureMVC apparatus as a <code>Mediator</code> called 'StateMachine'.</p>
+<p>Creates the <a href="StateMachine.html">StateMachine</a> instance, registers all the <a href="State.html">states</a> and registers the <a href="StateMachine.html">StateMachine</a> instance with the <code>Facade</code>.</p>
+</dd>
+<dt><strong><a name="isinitial" class="item">isInitial</a></strong></dt>
+
+<dd>
+<p><a href="#isinitial"><code>sub isInitial( $state_name );</code></a></p>
+<p>Says whether the given <a href="State.html">state</a> name represents the initial <a href="State.html">state</a>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$state_name - String</code></p>
+<p>The <a href="State.html">State</a> name to check.</p>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if this the name of the initial <a href="State.html">state</a>, &quot;&quot; otherwise.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="states" class="item">states</a></strong></dt>
+
+<dd>
+<p><a href="#states"><code>sub states();</code></a></p>
+<p>Getter of the Array reference holding all the created <a href="State.html">states</a>.</p>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - Array reference holding all the created <a href="State.html">states</a>.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="fsm" class="item">fsm</a></strong></dt>
+
+<dd>
+<p>The hash array reference corresponding to the XML definition.</p>
+</dd>
+<dt><strong><a name="_states" class="item">_states</a></strong></dt>
+
+<dd>
+<p>Array reference holding all the created <a href="State.html">states</a>.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="State.html">org::puremvc::perl5::utilities::statemachine::State</a></p>
+<p><a href="StateMachine.html">org::puremvc::perl5::utilities::statemachine::StateMachine</a></p>
+
+</body>
+
+</html>

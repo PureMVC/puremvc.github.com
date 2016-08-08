@@ -1,0 +1,671 @@
+<html>
+<head>
+<title>Docs For Class FilterControlMessage</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">org-puremvc-php-multicore-utilities-pipes</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+        
+                                    
+                                      [ <a href="../classtrees_org-puremvc-php-multicore-utilities-pipes.html" class="menu">class tree: org-puremvc-php-multicore-utilities-pipes</a> ]
+          [ <a href="../elementindex_org-puremvc-php-multicore-utilities-pipes.html" class="menu">index: org-puremvc-php-multicore-utilities-pipes</a> ]
+                [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+    <div id="ric">
+                    <p><a href="../ric_LICENSE.html">LICENSE</a></p>
+                    <p><a href="../ric_VERSION.html">VERSION</a></p>
+            </div>
+      <b>Packages:</b><br />
+              <a href="../li_org-puremvc-php-multicore-utilities-pipes.html">org-puremvc-php-multicore-utilities-pipes</a><br />
+            <br /><br />
+            
+            <b>Interfaces:</b><br />
+        <div class="package">
+		    		<a href="../org-puremvc-php-multicore-utilities-pipes/IPipeAware.html">IPipeAware</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/IPipeFitting.html">IPipeFitting</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/IPipeMessage.html">IPipeMessage</a><br />
+	  </div>
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../org-puremvc-php-multicore-utilities-pipes/Filter.html">Filter</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/Junction.html">Junction</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/JunctionMediator.html">JunctionMediator</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/Message.html">Message</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/Pipe.html">Pipe</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/PipeListener.html">PipeListener</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/Queue.html">Queue</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/QueueControlMessage.html">QueueControlMessage</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/TeeMerge.html">TeeMerge</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-pipes/TeeSplit.html">TeeSplit</a><br />
+	  </div>
+      
+            <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---Filter.php.html">		Filter.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---messages---FilterControlMessage.php.html">		FilterControlMessage.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---interfaces---IPipeAware.php.html">		IPipeAware.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---interfaces---IPipeFitting.php.html">		IPipeFitting.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---interfaces---IPipeMessage.php.html">		IPipeMessage.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---Junction.php.html">		Junction.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---JunctionMediator.php.html">		JunctionMediator.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---messages---Message.php.html">		Message.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---Pipe.php.html">		Pipe.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---PipeListener.php.html">		PipeListener.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---Queue.php.html">		Queue.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---messages---QueueControlMessage.php.html">		QueueControlMessage.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---TeeMerge.php.html">		TeeMerge.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-pipes/_org---puremvc---php---multicore---utilities---pipes---plumbing---TeeSplit.php.html">		TeeSplit.php
+		</a><br>
+	  </div><br />
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: FilterControlMessage</h1>
+Source Location: /org/puremvc/php/multicore/utilities/pipes/messages/FilterControlMessage.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre><a href="../org-puremvc-php-multicore-utilities-pipes/Message.html">Message</a>
+   |
+   --FilterControlMessage</pre><br />
+<div class="description">Filter Control Message.</div><br /><br />
+
+
+
+
+
+
+        
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#var$filter">$filter</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#var$name">$name</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#var$params">$params</a></li>
+  </ul>
+</td>
+
+<td valign="top">
+<h3><a href="#class_consts">Constants</a></h3>
+<ul>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constBASE">BASE</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constBYPASS">BYPASS</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constFILTER">FILTER</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constSET_FILTER">SET_FILTER</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constSET_PARAMS">SET_PARAMS</a></li>
+  </ul>
+</td>
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#method__construct">__construct</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#methodgetFilter">getFilter</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#methodgetName">getName</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#methodgetParams">getParams</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#methodsetFilter">setFilter</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#methodsetName">setName</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#methodsetParams">setParams</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+<td valign="top">
+<h3>Inherited Constants</h3>
+<div class="tags">
+<h4>Class: <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html">Message</a></h4>
+<dl>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#constNORMAL">Message::NORMAL</a>
+</dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#constPRIORITY_HIGH">Message::PRIORITY_HIGH</a>
+</dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#constPRIORITY_LOW">Message::PRIORITY_LOW</a>
+</dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#constPRIORITY_MED">Message::PRIORITY_MED</a>
+</dt>
+<dd>
+   
+</dd>
+</dl>
+</div>
+</td>
+
+<td valign="top">
+<h3>Inherited Variables</h3>
+<div class="tags">
+<h4>Class: <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html">Message</a></h4>
+<dl>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#var$body">Message::$body</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#var$header">Message::$header</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#var$priority">Message::$priority</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#var$type">Message::$type</a>
+  </dt>
+<dd>
+   
+</dd>
+</dl>
+</div>
+</td>
+
+<td valign="top">
+<h3>Inherited Methods</h3>
+<div class="tags">
+<h4>Class: <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html">Message</a></h4>
+<dl>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#method__construct">Message::__construct()</a>
+  </dt>
+  <dd>
+    Constructor
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodgetBody">Message::getBody()</a>
+  </dt>
+  <dd>
+    Get the body of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodgetHeader">Message::getHeader()</a>
+  </dt>
+  <dd>
+    Get the header of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodgetPriority">Message::getPriority()</a>
+  </dt>
+  <dd>
+    Get the priority of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodgetType">Message::getType()</a>
+  </dt>
+  <dd>
+    Get the type of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodsetBody">Message::setBody()</a>
+  </dt>
+  <dd>
+    Set the body of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodsetHeader">Message::setHeader()</a>
+  </dt>
+  <dd>
+    Set the header of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodsetPriority">Message::setPriority()</a>
+  </dt>
+  <dd>
+    Set the priority of this message
+  </dd>
+    <dt>
+    <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#methodsetType">Message::setType()</a>
+  </dt>
+  <dd>
+    Set the type of this message
+  </dd>
+  </dl>
+</div>
+</td>
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a53">53</a>]<br />
+Filter Control Message.<br /><br /><p>A special message type for controlling the behavior of a Filter.</p><p>The <ol><li><div class="src-line"><span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a></span>.<span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constSET_PARAMS">SET_PARAMS</a></span></div></li>
+</ol> message type tells the Filter  to retrieve the filter parameters object.</p><p>The <ol><li><div class="src-line"><span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a></span>.<span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constSET_FILTER">SET_FILTER</a></span></div></li>
+</ol> message type tells the Filter  to retrieve the filter function.</p><p>The <ol><li><div class="src-line"><span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a></span>.<span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constBYPASS">BYPASS</a></span></div></li>
+</ol> message type tells the Filter  that it should go into Bypass mode operation, passing all normal  messages through unfiltered.</p><p>The <ol><li><div class="src-line"><span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a></span>.<span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constFILTER">FILTER</a></span></div></li>
+</ol> message type tells the Filter  that it should go into Filtering mode operation, filtering all  normal normal messages before writing out. This is the default  mode of operation and so this message type need only be sent to  cancel a previous  <ol><li><div class="src-line"><span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a></span>.<span class="src-id"><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html#constBYPASS">BYPASS</a></span></div></li>
+</ol> message.</p><p>The Filter only acts on a control message if it is targeted  to this named filter instance. Otherwise it writes the message  through to its output unchanged.</p><p></p><br /></div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$filter"></a>
+	<p></p>
+	<h4>$filter = <span class="value"></span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a63">63</a>]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>function</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$name"></a>
+	<p></p>
+	<h4>$name = <span class="value"></span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a68">68</a>]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>string</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$params"></a>
+	<p></p>
+	<h4>$params = <span class="value"></span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a58">58</a>]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>object</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a105">105</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../org-puremvc-php-multicore-utilities-pipes/FilterControlMessage.html">FilterControlMessage</a> __construct(
+string
+$type, string
+$name, [function
+$filter = null], [object
+$params = null])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	Overrides <a href="../org-puremvc-php-multicore-utilities-pipes/Message.html#method__construct">Message::__construct()</a> (Constructor)<br /><br />
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$type</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$name</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">function&nbsp;&nbsp;</td>
+        <td><b>$filter</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+          <tr>
+        <td class="type">object&nbsp;&nbsp;</td>
+        <td><b>$params</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetFilter"></a>
+	<h3>method getFilter <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a150">150</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>function getFilter(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Get the filter function.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetName"></a>
+	<h3>method getName <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a129">129</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string getName(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Get the target filter name.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetParams"></a>
+	<h3>method getParams <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a171">171</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>object getParams(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Get the parameters object.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetFilter"></a>
+	<h3>method setFilter <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a140">140</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setFilter(
+function
+$filter)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Set the filter function.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">function&nbsp;&nbsp;</td>
+        <td><b>$filter</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetName"></a>
+	<h3>method setName <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a119">119</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setName(
+string
+$name)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Set the target filter name.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$name</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetParams"></a>
+	<h3>method setParams <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a161">161</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setParams(
+object
+$params)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Set the parameters object.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">object&nbsp;&nbsp;</td>
+        <td><b>$params</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+<hr />
+<a name="class_constss"></a>
+<h3>Class Constants</h3>
+<div class="tags">
+	<a name="constBASE"></a>
+	<p></p>
+	<h4>BASE = <span class="value">&nbsp;'http://puremvc.org/namespaces/pipes/messages/filter-control/'</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a73">73</a>]</p>
+  Message type base URI<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constBYPASS"></a>
+	<p></p>
+	<h4>BYPASS = <span class="value">&nbsp;'http://puremvc.org/namespaces/pipes/messages/bypass'</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a88">88</a>]</p>
+  Toggle to filter bypass mode.<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constFILTER"></a>
+	<p></p>
+	<h4>FILTER = <span class="value">&nbsp;'http://puremvc.org/namespaces/pipes/messages/filter'</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a93">93</a>]</p>
+  Toggle to filtering mode. (default behavior).<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constSET_FILTER"></a>
+	<p></p>
+	<h4>SET_FILTER = <span class="value">&nbsp;'http://puremvc.org/namespaces/pipes/messages/setfilter'</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a83">83</a>]</p>
+  Set filter function.<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constSET_PARAMS"></a>
+	<p></p>
+	<h4>SET_PARAMS = <span class="value">&nbsp;'http://puremvc.org/namespaces/pipes/messages/setparams'</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-pipes__orgpuremvcphpmulticoreutilitiespipesmessagesFilterControlMessage.php.html#a78">78</a>]</p>
+  Set filter parameters.<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Mon, 03 Aug 2009 05:09:09 +0000 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.2</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

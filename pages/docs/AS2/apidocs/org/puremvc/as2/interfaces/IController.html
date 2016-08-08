@@ -1,0 +1,43 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.interfaces.IController - PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.interfaces" rel="up"/><link href="../../../../org/puremvc/as2/interfaces/IFacade.html" title="Interface org.puremvc.as2.interfaces.IFacade" rel="prev"/><link href="../../../../org/puremvc/as2/interfaces/IProxy.html" title="Interface org.puremvc.as2.interfaces.IProxy" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Interface org.puremvc.as2.interfaces.IController</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.interfaces.IController</strong></li></ul></div><div class="type_description"><h2>Description</h2><p>
+ The interface definition for a PureMVC Controller.
+ 
+ <P>
+ In PureMVC, an <code>IController</code> implementor 
+ follows the 'Command and Controller' strategy, and 
+ assumes these responsibilities:
+ <UL>
+ <LI> Remembering which <code>ICommand</code>s 
+ are intended to handle which <code>INotifications</code>.</LI>
+ <LI> Registering itself as an <code>IObserver</code> with
+ the <code>View</code> for each <code>INotification</code> 
+ that it has an <code>ICommand</code> mapping for.</LI>
+ <LI> Locating the proper <code>ICommand</code> instance
+ to handle a given <code>INotification</code> when notified by the <code>View</code>.</LI>
+ <LI> Calling the <code>ICommand</code>'s <code>execute</code>
+ method, passing in the <code>INotification</code>.</LI> 
+ </UL>
+
+ </p><h4>See Also</h4><ul class="extra_info"><li><span class="unresolved_type_name">org.puremvc.as2.interfaces</span></li><li><span class="unresolved_type_name">org.puremvc.as2.interfaces</span></li></ul></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><a href="#executeCommand" title="function executeCommand(notification:INotification):Void">executeCommand()</a>, <a href="#hasCommand" title="function hasCommand(notificationName:String):Boolean">hasCommand()</a>, <a href="#registerCommand" title="function registerCommand(notificationName:String, commandClassRef:Function):Void">registerCommand()</a>, <a href="#removeCommand" title="function removeCommand(notificationName:String):Void">removeCommand()</a></div></div><div class="type_details"><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="registerCommand"></a><h3>registerCommand</h3><code class="method_synopsis">function <strong class="method_name">registerCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>, commandClassRef:<span class="unresolved_type_name">Function</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Register a particular <code>ICommand</code> class as the handler 
+ for a particular <code>INotification</code>.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code>
+ </td></tr><tr><td><code>commandClassRef</code></td><td>the Class of the <code>ICommand</code>
+
+	 </td></tr></table></div></div><div class="method_details"><a name="executeCommand"></a><h3>executeCommand</h3><code class="method_synopsis">function <strong class="method_name">executeCommand</strong>(notification:<a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Execute the <code>ICommand</code> previously registered as the
+ handler for <code>INotification</code>s with the given notification name.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notification</code></td><td>the <code>INotification</code> to execute the associated <code>ICommand</code> for
+	 </td></tr></table></div></div><div class="method_details alt_row"><a name="removeCommand"></a><h3>removeCommand</h3><code class="method_synopsis">function <strong class="method_name">removeCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Remove a previously registered <code>ICommand</code> to <code>INotification</code> mapping.
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
+	 </td></tr></table></div></div><div class="method_details"><a name="hasCommand"></a><h3>hasCommand</h3><code class="method_synopsis">function <strong class="method_name">hasCommand</strong>(notificationName:<span class="unresolved_type_name">String</span>):<span class="unresolved_type_name">Boolean</span></code><div class="method_info"><p>
+ Check if a Command is registered for a given Notification 
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td></td></tr></table><h4>Return</h4><p class="extra_info"> whether a Command is currently registered for the given <code>notificationName</code>.
+	 </p></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.interfaces" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="IController.as.html" title="Source code of org.puremvc.as2.interfaces.IController" class="button">Source</a></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

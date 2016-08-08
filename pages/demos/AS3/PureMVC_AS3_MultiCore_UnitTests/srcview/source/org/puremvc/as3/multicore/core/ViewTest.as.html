@@ -1,0 +1,475 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ViewTest.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurecale, Inc., Some rights reserved.
+ Your reuse is governed by Creative Commons Attribution 2.5 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestCase</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flexunit</span>.<span class="ActionScriptDefault_Text">framework</span>.<span class="ActionScriptDefault_Text">TestSuite</span>;
+     
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">observer</span>.<span class="ActionScriptOperator">*</span>;
+     <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+     
+      <span class="ActionScriptASDoc">/**
+     * Test the PureMVC View class.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ViewTest</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">TestCase</span> <span class="ActionScriptBracket/Brace">{</span>
+          
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">lastNotification</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;    
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">onRegisterCalled</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">onRemoveCalled</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+           <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> 0;
+         
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Notification1&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Notification2&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NOTE3</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Notification3&quot;</span>;
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NOTE4</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Notification4&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NOTE5</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Notification5&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NOTE6</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Notification6&quot;</span>;
+    
+          <span class="ActionScriptASDoc">/**
+           * Constructor.
+           * 
+           * @param methodName the name of the test method an instance to run
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+               <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">methodName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+      
+         <span class="ActionScriptASDoc">/**
+         * Create the TestSuite.
+         */</span>
+         <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">suite</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ts</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">TestSuite</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">TestSuite</span><span class="ActionScriptBracket/Brace">()</span>;
+               
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testGetInstance&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndNotifyObserver&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRetrieveMediator&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testHasMediator&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRegisterAndRemoveMediator&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testOnRegisterAndOnRemove&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testSuccessiveRegisterAndRemoveMediator&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRemoveMediatorAndSubsequentNotify&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testRemoveOneOfTwoMediatorsAndSubsequentNotify&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testMediatorReregistration&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">ts</span>.<span class="ActionScriptDefault_Text">addTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTest</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;testModifyObserverListDuringNotification&quot;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">ts</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+          
+          <span class="ActionScriptASDoc">/**
+           * Tests the View Multiton Factory Method 
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testGetInstance</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// Test Factory Method
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey1&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// test assertions
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance not null&quot;</span>, <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting instance implements IView&quot;</span>, <span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+           <span class="ActionScriptBracket/Brace">}</span>
+
+          <span class="ActionScriptASDoc">/**
+           * Tests registration and notification of Observers.
+           * 
+           * &lt;P&gt;
+           * An Observer is created to callback the viewTestMethod of
+           * this ViewTest instance. This Observer is registered with
+           * the View to be notified of &apos;ViewTestEvent&apos; events. Such
+           * an event is created, and a value set on its payload. Then
+           * the View is told to notify interested observers of this
+           * Event. 
+           * 
+           * &lt;P&gt;
+           * The View calls the Observer&apos;s notifyObserver method
+           * which calls the viewTestMethod on this instance
+           * of the ViewTest class. The viewTestMethod method will set 
+           * an instance variable to the value passed in on the Event
+           * payload. We evaluate the instance variable to be sure
+           * it is the same as that passed out as the payload of the 
+           * original &apos;ViewTestEvent&apos;.
+           * 
+          */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndNotifyObserver</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey2&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+              
+               <span class="ActionScriptComment">// Create observer, passing in notification method and context
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Observer</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Observer</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewTestMethod</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+               <span class="ActionScriptComment">// Register Observer&apos;s interest in a particulat Notification with the View 
+</span>               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerObserver</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ViewTestNote</span>.<span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">observer</span><span class="ActionScriptBracket/Brace">)</span>;
+              
+               <span class="ActionScriptComment">// Create a ViewTestNote, setting 
+</span>               <span class="ActionScriptComment">// a body value, and tell the View to notify 
+</span>               <span class="ActionScriptComment">// Observers. Since the Observer is this class 
+</span>               <span class="ActionScriptComment">// and the notification method is viewTestMethod,
+</span>               <span class="ActionScriptComment">// successful notification will result in our local 
+</span>               <span class="ActionScriptComment">// viewTestVar being set to the value we pass in 
+</span>               <span class="ActionScriptComment">// on the note body.
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ViewTestNote</span>.<span class="ActionScriptDefault_Text">create</span><span class="ActionScriptBracket/Brace">(</span>10<span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test assertions              
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting viewTestVar = 10&quot;</span>, <span class="ActionScriptDefault_Text">viewTestVar</span> <span class="ActionScriptOperator">==</span> 10 <span class="ActionScriptBracket/Brace">)</span>;
+           <span class="ActionScriptBracket/Brace">}</span>
+           
+          <span class="ActionScriptASDoc">/**
+           * A test variable that proves the viewTestMethod was
+           * invoked by the View.
+           */</span>
+          <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">viewTestVar</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+
+          <span class="ActionScriptASDoc">/**
+           * A utility method to test the notification of Observers by the view
+           */</span>
+          <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">viewTestMethod</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+          <span class="ActionScriptBracket/Brace">{</span>
+              <span class="ActionScriptComment">// set the local viewTestVar to the number on the event payload
+</span>              <span class="ActionScriptDefault_Text">viewTestVar</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Number</span>;
+          <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Tests registering and retrieving a mediator with
+         * the View.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRetrieveMediator</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey3&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create and register the test mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">viewTestMediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ViewTestMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewTestMediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Retrieve the component
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+            
+            <span class="ActionScriptComment">// test assertions              
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting comp is ViewTestMediator&quot;</span>, <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+               
+        <span class="ActionScriptBracket/Brace">}</span>
+         
+          <span class="ActionScriptASDoc">/**
+           * Tests the hasMediator Method
+           */</span>
+          <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testHasMediator</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+              
+               <span class="ActionScriptComment">// register a Mediator
+</span>               <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey4&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create and register the test mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Mediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;hasMediatorTest&apos;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// assert that the view.hasMediator method returns true
+</span>               <span class="ActionScriptComment">// for that mediator name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.hasMediator(&apos;hasMediatorTest&apos;) == true&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasMediatorTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">true</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;hasMediatorTest&apos;</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptComment">// assert that the view.hasMediator method returns false
+</span>               <span class="ActionScriptComment">// for that mediator name
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.hasMediator(&apos;hasMediatorTest&apos;) == false&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">hasMediator</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;hasMediatorTest&apos;</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">false</span><span class="ActionScriptBracket/Brace">)</span>;
+
+           <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Tests registering and removing a mediator 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRegisterAndRemoveMediator</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey5&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create and register the test mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Mediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;testing&apos;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Remove the component
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">removedMediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;testing&apos;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+            
+            <span class="ActionScriptComment">// assert that we have removed the appropriate mediator
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting removedMediator.getMediatorName() == &apos;testing&apos;&quot;</span>, 
+                        <span class="ActionScriptDefault_Text">removedMediator</span>.<span class="ActionScriptDefault_Text">getMediatorName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptString">&apos;testing&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+            <span class="ActionScriptComment">// assert that the mediator is no longer retrievable
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( &apos;testing&apos; ) == null )&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&apos;testing&apos;</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+                           
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Tests that the View callse the onRegister and onRemove methods
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testOnRegisterAndOnRemove</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey6&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create and register the test mediator
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">mediator</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IMediator</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator4</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// assert that onRegsiter was called, and the mediator responded by setting our boolean
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting onRegisterCalled == true&quot;</span>, 
+                        <span class="ActionScriptDefault_Text">onRegisterCalled</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+            
+            <span class="ActionScriptComment">// Remove the component
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator4</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IMediator</span>;
+            
+            <span class="ActionScriptComment">// assert that the mediator is no longer retrievable
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting onRemoveCalled == true&quot;</span>, 
+                           <span class="ActionScriptDefault_Text">onRemoveCalled</span> <span class="ActionScriptBracket/Brace">)</span>;
+                           
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        
+        
+        <span class="ActionScriptASDoc">/**
+         * Tests successive regster and remove of same mediator.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testSuccessiveRegisterAndRemoveMediator</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey7&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create and register the test mediator, 
+</span>            <span class="ActionScriptComment">// but not so we have a reference to it
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test that we can retrieve it
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator.NAME ) is ViewTestMediator&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Remove the Mediator
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that retrieving it now returns null            
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator.NAME ) == null&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that removing the mediator again once its gone doesn&apos;t cause crash         
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.removeMediator( ViewTestMediator.NAME ) doesn&apos;t crash&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">void</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Create and register another instance of the test mediator, 
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator.NAME ) is ViewTestMediator&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">is</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Remove the Mediator
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test that retrieving it now returns null            
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator.NAME ) == null&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Tests registering a Mediator for 2 different notifications, removing the
+         * Mediator from the View, and seeing that neither notification causes the
+         * Mediator to be notified. Added for the fix deployed in version 1.7
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRemoveMediatorAndSubsequentNotify</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey8&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create and register the test mediator to be removed.
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator2</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test that notifications work
+</span>               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification == NOTE1&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification == NOTE2&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Remove the Mediator
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator2</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that retrieving it now returns null            
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator2.NAME ) == null&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator2</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that notifications no longer work
+</span>            <span class="ActionScriptComment">// (ViewTestMediator2 is the one that sets lastNotification
+</span>            <span class="ActionScriptComment">// on this component, and ViewTestMediator)
+</span>            <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification != NOTE1&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification != NOTE2&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span>;
+
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Tests registering one of two registered Mediators and seeing
+         * that the remaining one still responds.
+         * Added for the fix deployed in version 1.7.1
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testRemoveOneOfTwoMediatorsAndSubsequentNotify</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Multiton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey9&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create and register that responds to notifications 1 and 2
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator2</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create and register that responds to notification 3
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator3</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test that all notifications work
+</span>               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification == NOTE1&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification == NOTE2&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE3</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification == NOTE3&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">NOTE3</span><span class="ActionScriptBracket/Brace">)</span>;
+                       
+            <span class="ActionScriptComment">// Remove the Mediator that responds to 1 and 2
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator2</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that retrieving it now returns null            
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator2.NAME ) == null&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator2</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that notifications no longer work
+</span>            <span class="ActionScriptComment">// for notifications 1 and 2, but still work for 3
+</span>            <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification != NOTE1&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptDefault_Text">NOTE1</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification != NOTE2&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptDefault_Text">NOTE2</span><span class="ActionScriptBracket/Brace">)</span>;
+
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE3</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting lastNotification == NOTE3&quot;</span>, 
+                       <span class="ActionScriptDefault_Text">lastNotification</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">NOTE3</span><span class="ActionScriptBracket/Brace">)</span>;
+
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Tests registering the same mediator twice. 
+         * A subsequent notification should only illicit
+         * one response. Also, since reregistration
+         * was causing 2 observers to be created, ensure
+         * that after removal of the mediator there will
+         * be no further response.
+         * 
+         * Added for the fix deployed in version 2.0.4
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testMediatorReregistration</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Singleton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey10&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create and register that responds to notification 5
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator5</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// try to register another instance of that mediator (uses the same NAME constant).
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator5</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// test that the counter is only incremented once (mediator 5&apos;s response) 
+</span>            <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptOperator">=</span>0;
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE5</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertEquals</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting counter == 1&quot;</span>,  1, <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// Remove the Mediator 
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator5</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that retrieving it now returns null            
+</span>               <span class="ActionScriptDefault_Text">assertTrue</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting view.retrieveMediator( ViewTestMediator5.NAME ) == null&quot;</span>, 
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">retrieveMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ViewTestMediator5</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// test that the counter is no longer incremented  
+</span>            <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptOperator">=</span>0;
+               <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">NOTE5</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+               <span class="ActionScriptDefault_Text">assertEquals</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting counter == 0&quot;</span>, 0,  <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        
+        <span class="ActionScriptASDoc">/**
+         * Tests the ability for the observer list to 
+         * be modified during the process of notification,
+         * and all observers be properly notified. This
+         * happens most often when multiple Mediators
+         * respond to the same notification by removing
+         * themselves.  
+         * 
+         * Added for the fix deployed in version 2.0.4
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">testModifyObserverListDuringNotification</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            
+              <span class="ActionScriptComment">// Get the Singleton View instance
+</span>              <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">view</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">View</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;ViewTestKey11&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Create and register several mediator instances that respond to notification 6 
+</span>            <span class="ActionScriptComment">// by removing themselves, which will cause the observer list for that notification 
+</span>            <span class="ActionScriptComment">// to change. versions prior to MultiCore Version 2.0.5 will see every other mediator
+</span>            <span class="ActionScriptComment">// fails to be notified.  
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/1&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/2&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/3&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/4&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/5&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/6&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/7&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptDefault_Text">ViewTestMediator6</span><span class="ActionScriptOperator">+</span><span class="ActionScriptString">&quot;/8&quot;</span>, <span class="ActionScriptReserved">this</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptComment">// clear the counter
+</span>            <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptOperator">=</span>0;
+            <span class="ActionScriptComment">// send the notification. each of the above mediators will respond by removing
+</span>            <span class="ActionScriptComment">// themselves and incrementing the counter by 1. This should leave us with a
+</span>            <span class="ActionScriptComment">// count of 8, since 8 mediators will respond.
+</span>            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NOTE6</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptComment">// verify the count is correct
+</span>               <span class="ActionScriptDefault_Text">assertEquals</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting counter == 8&quot;</span>, 8, <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptBracket/Brace">)</span>;
+    
+            <span class="ActionScriptComment">// clear the counter
+</span>            <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptOperator">=</span>0;
+            <span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">notifyObservers</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Notification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NOTE6</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptComment">// verify the count is 0
+</span>               <span class="ActionScriptDefault_Text">assertEquals</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Expecting counter == 0&quot;</span>, 0, <span class="ActionScriptDefault_Text">counter</span><span class="ActionScriptBracket/Brace">)</span>;
+
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+     <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

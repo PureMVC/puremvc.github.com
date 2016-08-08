@@ -1,0 +1,34 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.interfaces.INotifier - PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.interfaces" rel="up"/><link href="../../../../org/puremvc/as2/interfaces/IModel.html" title="Interface org.puremvc.as2.interfaces.IModel" rel="prev"/><link href="../../../../org/puremvc/as2/interfaces/ICommand.html" title="Interface org.puremvc.as2.interfaces.ICommand" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Interface org.puremvc.as2.interfaces.INotifier</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.interfaces.INotifier</strong></li></ul></div><div class="type_description"><h2>Description</h2><p>
+ The interface definition for a PureMVC Notifier.
+ 
+ <P>
+ <code>MacroCommand, Command, Mediator</code> and <code>Proxy</code>
+ all have a need to send <code>Notifications</code>. </P>
+ 
+ <P>
+ The <code>INotifier</code> interface provides a common method called
+ <code>sendNotification</code> that relieves implementation code of 
+ the necessity to actually construct <code>Notifications</code>.</P>
+ 
+ <P>
+ The <code>Notifier</code> class, which all of the above mentioned classes
+ extend, also provides an initialized reference to the <code>Facade</code>
+ Singleton, which is required for the convienience method
+ for sending <code>Notifications</code>, but also eases implementation as these
+ classes have frequent <code>Facade</code> interactions and usually require
+ access to the facade anyway.</P>
+ 
+ </p><h4>See Also</h4><ul class="extra_info"><li><a href="../../../../org/puremvc/as2/interfaces/IFacade.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.IFacade">IFacade</a></li><li><a href="../../../../org/puremvc/as2/interfaces/INotification.html" class="interface_name" title="Interface org.puremvc.as2.interfaces.INotification">INotification</a></li></ul></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><a href="#sendNotification" title="function sendNotification(notificationName:String, body:Object, type:String):Void">sendNotification()</a></div></div><div class="type_details"><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="sendNotification"></a><h3>sendNotification</h3><code class="method_synopsis">function <strong class="method_name">sendNotification</strong>(notificationName:<span class="unresolved_type_name">String</span>, body:<span class="unresolved_type_name">Object</span>, type:<span class="unresolved_type_name">String</span>):<span class="void_name">Void</span></code><div class="method_info"><p>
+ Send a <code>INotification</code>.
+ 
+ <P>
+ Convenience method to prevent having to construct new 
+ notification instances in our implementation code.</P>
+ 
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>notificationName</code></td><td>the name of the notification to send
+ </td></tr><tr><td><code>body</code></td><td>the body of the notification (optional)
+ </td></tr><tr><td><code>type</code></td><td>the type of the notification (optional)
+	 </td></tr></table></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.interfaces" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="INotifier.as.html" title="Source code of org.puremvc.as2.interfaces.INotifier" class="button">Source</a></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

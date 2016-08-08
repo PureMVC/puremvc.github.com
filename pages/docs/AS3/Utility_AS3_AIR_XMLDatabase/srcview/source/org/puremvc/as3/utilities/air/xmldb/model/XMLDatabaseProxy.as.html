@@ -1,0 +1,172 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>XMLDatabaseProxy.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+  PureMVC Utility for AS3 / AIR - XML Database 
+  Copyright(c) 2007-08 Cliff Hall &lt;clifford.hall@puremvc.org&gt;
+  Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">xmldb</span>.<span class="ActionScriptDefault_Text">model</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">filesystem</span>.<span class="ActionScriptDefault_Text">File</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">filesystem</span>.<span class="ActionScriptDefault_Text">FileMode</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">filesystem</span>.<span class="ActionScriptDefault_Text">FileStream</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptOperator">*</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">air</span>.<span class="ActionScriptDefault_Text">xmldb</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IXMLDatabaseProxy</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * Abstract Proxy subclass for handling File I/O for 
+     * an AIR-based XML database file.
+     * &lt;P&gt;
+     * 
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">XMLDatabaseProxy</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Proxy</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IProxy</span>, <span class="ActionScriptDefault_Text">IXMLDatabaseProxy</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">XMLDatabaseProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">data</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span>, <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptBracket/Brace">)</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Save the in memory XML Database to disk.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">persist</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">write</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Initialize the XML database.
+         * 
+         * &lt;P&gt;Read the file if it exists, or create one from scratch&lt;/P&gt;
+         * &lt;P&gt;This is called from the concrete subclass&apos;s constructor 
+         * or later if you want to lazily initialize. &lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initialize</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">dbName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">location</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">File</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Determine the database file location     
+</span>            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">dbName</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">dbName</span>;        
+            <span class="ActionScriptDefault_Text">dbFile</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">location</span>.<span class="ActionScriptDefault_Text">resolvePath</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">dbName</span> <span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Either read the existing database
+</span>            <span class="ActionScriptComment">// or build new database and save it 
+</span>            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dbFile</span>.<span class="ActionScriptDefault_Text">exists</span><span class="ActionScriptBracket/Brace">)</span>     <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">read</span><span class="ActionScriptBracket/Brace">()</span>; 
+            <span class="ActionScriptBracket/Brace">}</span> <span class="ActionScriptReserved">else</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">build</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">write</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptComment">// Parse XML Database
+</span>            <span class="ActionScriptDefault_Text">parse</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Read the XML Database
+         * 
+         * @return XML the in memory representation of the XML
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">read</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Read the database file into an XML object and return it
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dbStream</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FileStream</span>;
+            <span class="ActionScriptDefault_Text">dbStream</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FileStream</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">open</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dbFile</span>,<span class="ActionScriptDefault_Text">FileMode</span>.<span class="ActionScriptDefault_Text">READ</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dbXML</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">XML</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">readUTFBytes</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">bytesAvailable</span><span class="ActionScriptBracket/Brace">))</span>;
+            <span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">close</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">dbXML</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    
+        <span class="ActionScriptASDoc">/**
+         * Write the XML Database to disk.
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">write</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// Get the string representation of the XML database
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dbOut</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;\n&apos;</span>;
+            <span class="ActionScriptDefault_Text">dbOut</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">data</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">dbOut</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">dbOut</span>.<span class="ActionScriptDefault_Text">replace</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">\n</span><span class="ActionScriptOperator">/</span><span class="ActionScriptDefault_Text">g</span>, <span class="ActionScriptDefault_Text">File</span>.<span class="ActionScriptDefault_Text">lineEnding</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptComment">// Write and close the file
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dbStream</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">FileStream</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">FileStream</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">open</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dbFile</span>,<span class="ActionScriptDefault_Text">FileMode</span>.<span class="ActionScriptDefault_Text">WRITE</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">writeUTFBytes</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dbOut</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">dbStream</span>.<span class="ActionScriptDefault_Text">close</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Build a blank XML database. 
+         * 
+         * &lt;P&gt;
+         * Override in subclass to return a skeleton database.&lt;/P&gt;
+         * 
+         * @return XML a blank XML database
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">build</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">XML</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Parse the incoming XML database. 
+         * 
+         * &lt;P&gt;
+         * Override in subclass to parse the XML 
+         * database into separate Proxies if need 
+         * be.&lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * Rather than clutter the concrete class with
+         * methods and properties for returning specific
+         * parts of the database, create separate proxies
+         * to tend specific areas of the XML database, 
+         * and give them references to pieces of the
+         * XML document.&lt;/P&gt;
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">parse</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Cast the data object to its actual type.
+         * 
+         * &lt;P&gt;
+         * This is a useful idiom for proxies. The
+         * PureMVC Proxy class defines a data
+         * property of type Object. &lt;/P&gt;
+         * 
+         * &lt;P&gt;
+         * Here, we cast the generic data property to 
+         * its actual type in a protected mode. This 
+         * retains encapsulation, while allowing the instance
+         * (and subclassed instance) access to a 
+         * strongly typed reference with a meaningful
+         * name.&lt;/P&gt;
+         * 
+         * @return xml the data property cast to XML
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">xml</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">data</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">XML</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">// the data file reference
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dbFile</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">File</span>;
+        <span class="ActionScriptComment">// The data file name
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">dbName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

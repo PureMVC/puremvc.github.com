@@ -1,0 +1,8 @@
+<map id="class_diagram" name="class_diagram">
+<area shape="rect" href="MockNotification.html" title="org.puremvc.as2.patterns.observer.MockNotification" alt="" coords="195,294,347,342"/>
+<area shape="rect" href="ObserverTest.html" title="org.puremvc.as2.patterns.observer.ObserverTest" alt="" coords="15,222,137,270"/>
+<area shape="rect" href="NotificationTest.html" title="org.puremvc.as2.patterns.observer.NotificationTest" alt="" coords="5,150,147,198"/>
+<area shape="rect" href="Observer.html" title="org.puremvc.as2.patterns.observer.Observer" alt="" coords="31,78,121,126"/>
+<area shape="rect" href="Notification.html" title="org.puremvc.as2.patterns.observer.Notification" alt="" coords="23,294,129,342"/>
+<area shape="rect" href="Notifier.html" title="org.puremvc.as2.patterns.observer.Notifier" alt="" coords="37,6,115,54"/>
+</map>

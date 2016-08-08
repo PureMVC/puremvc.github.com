@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Demo_AS3_Flex_LoadupForAssets</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_2_0_4.swc" url="source/libs/PureMVC_AS3_2_0_4.swc"/>
+			<node label="Utility_AS3_Flex_Loadup_2_1.swc" url="source/libs/Utility_AS3_Flex_Loadup_2_1.swc"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="assets">
+				<node label="boats.jpg" icon="imageIcon" url="source/assets/boats.jpg.html"/>
+				<node label="gamepad.png" icon="imageIcon" url="source/assets/gamepad.png.html"/>
+				<node label="lorem.txt" url="source/assets/lorem.txt"/>
+				<node label="model_11.png" icon="imageIcon" url="source/assets/model_11.png.html"/>
+				<node label="oscil.swf" icon="swfIcon" url="source/assets/oscil.swf"/>
+				<node label="rural1.jpg" icon="imageIcon" url="source/assets/rural1.jpg.html"/>
+				<node label="rural2.jpg" icon="imageIcon" url="source/assets/rural2.jpg.html"/>
+				<node label="Thumbs.db" url="source/assets/Thumbs.db"/>
+				<node label="tropical.jpg" icon="imageIcon" url="source/assets/tropical.jpg.html"/>
+				<node label="Van_Gogh__Landscape_at_Saint_Remy_.png" icon="imageIcon" url="source/assets/Van_Gogh__Landscape_at_Saint_Remy_.png.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.loadupforassets" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.loadupforassets.controller" icon="packageIcon" expanded="true">
+				<node label="LoadAssetGroupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/controller/LoadAssetGroupCommand.as.html"/>
+				<node label="LoadAssetGroupInstructions.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/controller/LoadAssetGroupInstructions.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/controller/StartupCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.loadupforassets.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/view/ApplicationMediator.as.html"/>
+				<node label="GroupOfAssetsMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/view/GroupOfAssetsMediator.as.html"/>
+				<node label="SingleAssetsMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/view/SingleAssetsMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.loadupforassets.view.components" icon="packageIcon" expanded="true">
+				<node label="GroupOfAssets.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/view/components/GroupOfAssets.mxml.html"/>
+				<node label="SingleAssets.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/loadupforassets/view/components/SingleAssets.mxml.html"/>
+			</node>
+			<node selected="true" label="LoadupForAssets.mxml" icon="mxmlAppIcon" url="source/LoadupForAssets.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

@@ -1,0 +1,58 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>LoadAssetGroupInstructions.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+    PureMVC Flex Demo - LoadupForAssets - loading assets with the Loadup utility
+    Copyright (c) 2009 Philip Sexton &lt;philip.sexton@puremvc.org&gt;
+    Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">loadupforassets</span>.<span class="ActionScriptDefault_Text">controller</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">loadup</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IRetryParameters</span>;
+
+    <span class="ActionScriptASDoc">/**
+     *  LoadAssetGroupInstructions, in LoadupForAssets (LFA), defines the instructions required 
+     *  by the LFA&apos;s LoadAssetGroupCommand, sent to it as the notification body.
+     *  For the instructions to be sufficient, there must be a Loadup Monitor ProxyName and an 
+     *  assetGroupProxyName and a groupOfUrls.
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">LoadAssetGroupInstructions</span> <span class="ActionScriptBracket/Brace">{</span>
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_luMonitorProxyName</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_assetGroupProxyName</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_groupOfUrls</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_retryParameters</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IRetryParameters</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">_progressReportInterval</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span>;
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">LoadAssetGroupInstructions</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">luMonitorProxyName</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>,
+            <span class="ActionScriptDefault_Text">assetGroupProxyName</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>, <span class="ActionScriptDefault_Text">groupOfUrls</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>,
+            <span class="ActionScriptDefault_Text">retryParameters</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IRetryParameters</span> <span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">null</span>, <span class="ActionScriptDefault_Text">progressReportInterval</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">NaN</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_luMonitorProxyName</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">luMonitorProxyName</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_assetGroupProxyName</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">assetGroupProxyName</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_groupOfUrls</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">groupOfUrls</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_retryParameters</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">retryParameters</span>;
+            <span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">_progressReportInterval</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">progressReportInterval</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">luMonitorProxyName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_luMonitorProxyName</span>; <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">assetGroupProxyName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_assetGroupProxyName</span>; <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">groupOfUrls</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_groupOfUrls</span>; <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">retryParameters</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IRetryParameters</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_retryParameters</span>; <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">progressReportInterval</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptBracket/Brace">{</span> <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">_progressReportInterval</span>; <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">isSufficient</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">luMonitorProxyName</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptString">&quot;&quot;</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">assetGroupProxyName</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptString">&quot;&quot;</span> <span class="ActionScriptOperator">&amp;&amp;</span> <span class="ActionScriptDefault_Text">groupOfUrls</span>.<span class="ActionScriptDefault_Text">length</span> <span class="ActionScriptOperator">&gt;</span> 0 <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptReserved">else</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

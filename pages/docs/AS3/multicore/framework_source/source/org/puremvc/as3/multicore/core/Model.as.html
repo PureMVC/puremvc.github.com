@@ -1,0 +1,171 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Model.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC MultiCore - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">core</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptOperator">*</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * A Multiton &lt;code&gt;IModel&lt;/code&gt; implementation.
+     * 
+     * &lt;P&gt;
+     * In PureMVC, the &lt;code&gt;Model&lt;/code&gt; class provides
+     * access to model objects (Proxies) by named lookup. 
+     * 
+     * &lt;P&gt;
+     * The &lt;code&gt;Model&lt;/code&gt; assumes these responsibilities:&lt;/P&gt;
+     * 
+     * &lt;UL&gt;
+     * &lt;LI&gt;Maintain a cache of &lt;code&gt;IProxy&lt;/code&gt; instances.&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for registering, retrieving, and removing 
+     * &lt;code&gt;IProxy&lt;/code&gt; instances.&lt;/LI&gt;
+     * &lt;/UL&gt;
+     * 
+     * &lt;P&gt;
+     * Your application must register &lt;code&gt;IProxy&lt;/code&gt; instances 
+     * with the &lt;code&gt;Model&lt;/code&gt;. Typically, you use an 
+     * &lt;code&gt;ICommand&lt;/code&gt; to create and register &lt;code&gt;IProxy&lt;/code&gt; 
+     * instances once the &lt;code&gt;Facade&lt;/code&gt; has initialized the Core 
+     * actors.&lt;/p&gt;
+     *
+     * @see org.puremvc.as3.multicore.patterns.proxy.Proxy Proxy
+     * @see org.puremvc.as3.multicore.interfaces.IProxy IProxy
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">Model</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IModel</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Constructor. 
+         * 
+         * &lt;P&gt;
+         * This &lt;code&gt;IModel&lt;/code&gt; implementation is a Multiton, 
+         * so you should not call the constructor 
+         * directly, but instead call the static Multiton 
+         * Factory method &lt;code&gt;Model.getInstance( multitonKey )&lt;/code&gt;
+         * 
+         * @throws Error Error if instance for this Multiton key instance has already been constructed
+         * 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">Model</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">throw</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">MULTITON_MSG</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">key</span>;
+            <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">this</span>;
+            <span class="ActionScriptDefault_Text">proxyMap</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;    
+            <span class="ActionScriptDefault_Text">initializeModel</span><span class="ActionScriptBracket/Brace">()</span>;    
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * Initialize the &lt;code&gt;Model&lt;/code&gt; instance.
+         * 
+         * &lt;P&gt;
+         * Called automatically by the constructor, this
+         * is your opportunity to initialize the Singleton
+         * instance in your subclass without overriding the
+         * constructor.&lt;/P&gt;
+         * 
+         * @return void
+         */</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">initializeModel</span><span class="ActionScriptBracket/Brace">(</span>  <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+                
+        <span class="ActionScriptASDoc">/**
+         * &lt;code&gt;Model&lt;/code&gt; Multiton Factory method.
+         * 
+         * @return the instance for this Multiton key 
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IModel</span> 
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptReserved">null</span><span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">key</span><span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Model</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">key</span><span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IProxy&lt;/code&gt; with the &lt;code&gt;Model&lt;/code&gt;.
+         * 
+         * @param proxy an &lt;code&gt;IProxy&lt;/code&gt; to be held by the &lt;code&gt;Model&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">initializeNotifier</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">proxyMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">getProxyName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">proxy</span>;
+            <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Retrieve an &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt;.
+         * 
+         * @param proxyName
+         * @return the &lt;code&gt;IProxy&lt;/code&gt; instance previously registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IProxy</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">proxyMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Proxy is registered
+         * 
+         * @param proxyName
+         * @return whether a Proxy is currently registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">proxyMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">!=</span> <span class="ActionScriptReserved">null</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt;.
+         * 
+         * @param proxyName name of the &lt;code&gt;IProxy&lt;/code&gt; instance to be removed.
+         * @return the &lt;code&gt;IProxy&lt;/code&gt; that was removed from the &lt;code&gt;Model&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IProxy</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">proxyMap</span> <span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IProxy</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span> <span class="ActionScriptBracket/Brace">)</span> 
+            <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">proxyMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">proxyName</span> <span class="ActionScriptBracket/Brace">]</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+                <span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">onRemove</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">proxy</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an IModel instance
+         * 
+         * @param multitonKey of IModel instance to remove
+         */</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeModel</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">key</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">delete</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptBracket/Brace">[</span> <span class="ActionScriptDefault_Text">key</span> <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">// Mapping of proxyNames to IProxy instances
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">proxyMap</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Array</span>;
+
+        <span class="ActionScriptComment">// Singleton instance
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">instanceMap</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+        
+        <span class="ActionScriptComment">// The Multiton Key for this Core
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">multitonKey</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">String</span>;
+
+        <span class="ActionScriptComment">// Message Constants
+</span>        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">MULTITON_MSG</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Model instance for this Multiton key already constructed!&quot;</span>;
+
+    <span class="ActionScriptBracket/Brace">}</span>
+
+<span class="ActionScriptBracket/Brace">}</span>
+</pre></body>
+</html>

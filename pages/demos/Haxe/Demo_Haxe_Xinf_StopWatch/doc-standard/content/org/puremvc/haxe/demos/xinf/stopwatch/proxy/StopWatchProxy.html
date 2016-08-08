@@ -1,0 +1,134 @@
+<html>
+
+<head>
+<title>haXe API Documentation</title>
+
+<script type="text/javascript">
+<!--
+	function toggle(id) {
+		var e = document.getElementById(id);
+		e.isopen = !e.isopen;
+		e.style.display = e.isopen?"block":"none";
+		return false;
+	}
+-->
+</script>
+
+<style type="text/css">
+body {
+	text-align: center;
+	font-family: Trebuchet MS, sans-serif;
+	background-color : #ffffff;
+}
+
+.document {
+	width : 800px;
+	position : relative;
+	margin : 10px auto 5px auto;
+	border : solid 2px #CFD0D4;
+	text-align : justify;
+	background-color: #ffffff;
+	color: #292929;
+}
+
+.title {
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+	background-color : #0067b0;
+	color : white;
+}
+
+ul.entry {
+	list-style-type: circle;
+	font-weight : bold;
+	margin-left : 20px;
+}
+
+.package_content {
+	display : none;
+}
+
+a {
+	color : #0067b0;
+	font-weight : bold;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #0067b0;
+	text-decoration : underline;
+}
+
+a.package {
+	color : #292929;
+}
+
+.index {
+	margin-left : 10px;
+}
+
+.kwd {
+	color: #008cd7;
+}
+
+.classname {
+	font-size : 25px;
+	font-weight : bold;
+	margin : 20px 10px;
+}
+
+.classdoc {
+	border : 1px dashed #666;
+	margin-left : 20px;
+	margin-right : 20px;
+	padding : 5px 5px 5px 5px;
+}
+
+.importmod, .extends, .implements, .typedef, .platforms {
+	margin-left: 20px;
+	color : #777;
+}
+
+dd {
+	margin : 0px 20px 20px 40px;
+	font-size : 12pt;
+	color : #444;
+}
+
+dt {
+	margin-left : 20px;
+	margin-bottom : 5px;
+	text-align : left;
+	font-size : 10pt;
+	font-family: Courier New, monospace;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="document">
+<div class="title">PureMVC Framework for haXe: API Documentation</div>
+
+<a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../../../../../../../../index.html" class="index">Index</a><div class="classname"><span class="kwd">class </span>org.puremvc.haxe.demos.xinf.stopwatch.proxy.StopWatchProxy</div><div class="extends">extends <a href="../../../../../../../org/puremvc/haxe/patterns/proxy/Proxy.html" class="type">org.puremvc.haxe.patterns.proxy.Proxy</a></div><dl><dt><span class="kwd">var </span>displayTime(getDisplayTime,null) : { s : <a href="../../../../../../../Int.html" class="type">Int</a>, m : <a href="../../../../../../../Int.html" class="type">Int</a>, h : <a href="../../../../../../../Int.html" class="type">Int</a>}</dt><dd></dd><dt><span class="kwd">var </span>elapsed(getElapsed,null) : <a href="../../../../../../../Date.html" class="type">Date</a></dt><dd></dd><dt><span class="kwd">function </span>new() : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd></dd><dt><span class="kwd">function </span>freeze() : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd><p>Freeze the current lap time.</p>
+<p><p>Send a LAP notification with the current elapsed time.</p></p>
+<p><p>Called when the Split button of the UI requests a split
+	  view of the current lap time (frozen) and the ongoing
+	  elapsed time as (updated with TICKS).</p></p></dd><dt><span class="kwd">function </span>resetTimer() : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd>
+	  Reset the timer.
+</dd><dt><span class="kwd">function </span>startTimer() : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd><p>Start the timer.</p>
+<p><p>Ensure the timer exists, and has a listener
+	  placed if this is the first call.</p></p>
+<p><p>Then start the timer. Note, the timer is
+	  not reset first, so this is also called
+	  when restarting a paused timer.</p></p></dd><dt><span class="kwd">function </span>stopTimer() : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd>
+	  Stop the timer.
+</dd><dt><span class="kwd">static </span><span class="kwd">var </span>LAP : <a href="../../../../../../../String.html" class="type">String</a></dt><dd></dd><dt><span class="kwd">static </span><span class="kwd">var </span>NAME : <a href="../../../../../../../String.html" class="type">String</a></dt><dd></dd><dt><span class="kwd">static </span><span class="kwd">var </span>RESET : <a href="../../../../../../../String.html" class="type">String</a></dt><dd></dd><dt><span class="kwd">static </span><span class="kwd">var </span>SYNC : <a href="../../../../../../../String.html" class="type">String</a></dt><dd></dd><dt><span class="kwd">static </span><span class="kwd">var </span>TICK : <a href="../../../../../../../String.html" class="type">String</a></dt><dd></dd></dl><a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../../../../../../../../index.html" class="index">Index</a>
+
+</div>
+
+</body>
+</html>

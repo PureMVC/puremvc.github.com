@@ -1,0 +1,134 @@
+<html>
+
+<head>
+<title>haXe API Documentation</title>
+
+<script type="text/javascript">
+<!--
+	function toggle(id) {
+		var e = document.getElementById(id);
+		e.isopen = !e.isopen;
+		e.style.display = e.isopen?"block":"none";
+		return false;
+	}
+-->
+</script>
+
+<style type="text/css">
+body {
+	text-align: center;
+	font-family: Trebuchet MS, sans-serif;
+	background-color : #ffffff;
+}
+
+.document {
+	width : 800px;
+	position : relative;
+	margin : 10px auto 5px auto;
+	border : solid 2px #CFD0D4;
+	text-align : justify;
+	background-color: #ffffff;
+	color: #292929;
+}
+
+.title {
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+	background-color : #0067b0;
+	color : white;
+}
+
+ul.entry {
+	list-style-type: circle;
+	font-weight : bold;
+	margin-left : 20px;
+}
+
+.package_content {
+	display : none;
+}
+
+a {
+	color : #0067b0;
+	font-weight : bold;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #0067b0;
+	text-decoration : underline;
+}
+
+a.package {
+	color : #292929;
+}
+
+.index {
+	margin-left : 10px;
+}
+
+.kwd {
+	color: #008cd7;
+}
+
+.classname {
+	font-size : 25px;
+	font-weight : bold;
+	margin : 20px 10px;
+}
+
+.classdoc {
+	border : 1px dashed #666;
+	margin-left : 20px;
+	margin-right : 20px;
+	padding : 5px 5px 5px 5px;
+}
+
+.importmod, .extends, .implements, .typedef, .platforms {
+	margin-left: 20px;
+	color : #777;
+}
+
+dd {
+	margin : 0px 20px 20px 40px;
+	font-size : 12pt;
+	color : #444;
+}
+
+dt {
+	margin-left : 20px;
+	margin-bottom : 5px;
+	text-align : left;
+	font-size : 10pt;
+	font-family: Courier New, monospace;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="document">
+<div class="title">PureMVC Framework for haXe: API Documentation</div>
+
+<a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../../../../../../../../index.html" class="index">Index</a><div class="classname"><span class="kwd">class </span>org.puremvc.haxe.multicore.utilities.pipes.messages.QueueControlMessage</div><div class="extends">extends <a href="../../../../../../../org/puremvc/haxe/multicore/utilities/pipes/messages/Message.html" class="type">Message</a></div><div class="classdoc"><p>Queue Control Message.</p>
+<p><p>A special message for controlling the behavior of a Queue.</p></p>
+<p><p>When written to a pipeline containing a Queue, the type
+  of the message is interpreted and acted upon by the Queue.</p></p>
+<p><p>Unlike filters, multiple serially connected queues aren't
+  very useful and so they do not require a name. If multiple
+  queues are connected serially, the message will be acted
+  upon by the first queue only.</p></p></div><dl><dt><span class="kwd">function </span>new(type : <a href="../../../../../../../String.html" class="type">String</a>) : <a href="../../../../../../../Void.html" class="type">Void</a></dt><dd></dd><dt><span class="kwd">static </span><span class="kwd">var </span>FIFO : <a href="../../../../../../../String.html" class="type">String</a></dt><dd>
+	  Toggle to FIFO operation mode (default behavior).
+</dd><dt><span class="kwd">static </span><span class="kwd">var </span>FLUSH : <a href="../../../../../../../String.html" class="type">String</a></dt><dd>
+	  Flush the queue.
+</dd><dt><span class="kwd">static </span><span class="kwd">var </span>SORT : <a href="../../../../../../../String.html" class="type">String</a></dt><dd>
+	  Toggle to sort-by-priority operation mode.
+</dd></dl><a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../../../../../../../../index.html" class="index">Index</a>
+
+</div>
+
+</body>
+</html>

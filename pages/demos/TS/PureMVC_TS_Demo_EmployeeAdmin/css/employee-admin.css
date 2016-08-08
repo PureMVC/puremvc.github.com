@@ -1,0 +1,277 @@
+HTML,BODY
+{
+	background:url(../img/background.png);
+	padding:0;
+	margin:0;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size:1em;
+}
+
+
+
+/* ============================================================================================== *
+ * ========================================== Generic =========================================== *
+ * ============================================================================================== */
+
+.panel-title
+{
+	padding-left:4px;
+	margin-bottom:2px;
+	text-align:left;
+	font-weight:bold;
+	font-size:0.8em;
+	height:20px;
+}
+
+.control-bar
+{
+	margin-top:8px;
+	text-align:right;
+	vertical-align:middle;
+}
+
+
+/* ============================================================================================== *
+ * ========================================= Application ======================================== *
+ * ============================================================================================== */
+
+.application
+{
+	width:670px;
+	height:630px;
+	margin:auto;
+    background: url(../img/wash-white-7.png);
+}
+
+.application .title
+{
+	height:33px;
+	text-align:left;
+	background-color:white;
+	padding-top:8px;
+	vertical-align:middle;
+	margin-bottom:10px;
+}
+
+.application .name
+{
+	margin-left:20px;
+	color:#0559CC;
+	font-size:1.4em;
+}
+
+.application .category
+{
+	padding-left:12px;
+	color:#000000;
+	font-size:0.97em;
+	font-weight:bold;
+}
+
+
+
+/* ============================================================================================== *
+ * ========================================== User List ========================================= *
+ * ============================================================================================== */
+
+.user-list-panel
+{
+	padding:10px;
+	width:630px;
+	height:240px;
+	background-color:#bed7fa;
+	text-align:center;
+	margin-left:10px;
+    border-radius: 4px;
+}
+
+.user-list-panel .user-total
+{
+    font-size: 0.6em;
+	float:right;
+    margin-top:-2em;
+    color:#777777;
+}
+
+.user-list-panel .control-bar
+{
+	text-align:center;
+	padding-right:1em;
+}
+
+
+
+/* ============================================================================================== *
+ * ========================================== User Form ========================================= *
+ * ============================================================================================== */
+
+.user-form-panel
+{
+	float:left;
+
+	margin-left:10px;
+	margin-top:10px;
+
+	width:300px;
+	height:280px;
+
+	padding:10px;
+	background-color:#bed7fa;
+	text-align:center;
+	vertical-align:middle;
+    border-radius: 4px;
+}
+
+.user-form-panel .selected-uname
+{
+    font-size: 0.6em;
+	float:right;
+    margin-top:-2em;
+    color:#777777;
+}
+
+.user-form-panel-content
+{
+	text-align:right;
+	background-color:#FFF;
+	width:280px;
+	height:195px;
+	padding:10px;
+	margin-bottom:10px;
+}
+
+.user-form-panel-content .field
+{
+	margin-bottom:5px;
+}
+
+.user-form-panel-content label
+{
+	font-size:0.7em;
+	padding-right:1em;
+}
+
+.user-form-panel-content label.required
+{
+	background-image:url("../img/required_field.gif");
+	background-repeat:no-repeat;
+	background-position:center right;
+}
+
+.user-form-panel-content label.fieldError
+{
+	background-image:url("../img/field_error.gif") ;
+    background-repeat:no-repeat;
+	background-position:center right;
+}
+
+.user-form-panel-content input[type=text],
+.user-form-panel-content input[type=password],
+.user-form-panel-content input[type=email]
+{
+	margin:0;
+	width:150px;
+	border: thin solid grey;
+	font-size:0.75em;
+    padding-left:3px;
+    padding-bottom:3px;
+}
+
+.user-form-panel-content input.fieldError
+{
+	background: #fff09b;
+}
+
+.user-form-panel-content select
+{
+	margin:0;
+	width:155px;
+	font-size:0.75em;
+}
+
+.user-form-panel-content select.fieldError
+{
+	background:#fff09b;
+}
+
+
+
+/* ============================================================================================== *
+ * ========================================= Role List ========================================== *
+ * ============================================================================================== */
+
+.role-panel
+{
+	float:right;
+
+	margin-right:10px;
+	margin-top:10px;
+
+	width:300px;
+	height:280px;
+
+	padding:10px;
+	background-color:#bed7fa;
+	text-align:center;
+	vertical-align:middle;
+    border-radius: 4px;
+}
+
+.role-panel .selected-fullname
+{
+    font-size: 0.6em;
+	float:right;
+    margin-top:-2em;
+    color:#777777;
+}
+
+.role-panel .role-panel-content
+{
+	text-align:right;
+	background-color:#FFF;
+	width:280px;
+	height:195px;
+	padding:10px;
+	margin-bottom:10px;
+}
+
+.role-panel .role-list
+{
+	width:170px;
+    font-size:0.75em;
+}
+
+
+
+/* ============================================================================================== *
+ * ==================================== jQuery UI overrides ===================================== *
+ * ============================================================================================== */
+
+.ui-widget
+{
+	font-size:0.6em;
+}
+
+/* Arbitrary maximum height fixed for listbox widgets */
+UL[role="listbox"]
+{
+	max-height: 150px;
+	overflow: auto;
+}
+
+.ui-autocomplete-input
+{
+	height:20px;
+	padding-left:0.5em;
+	width:115px;
+}
+
+
+/* ============================================================================================== *
+ * ====================================== jQgrid overrides ====================================== *
+ * ============================================================================================== */
+
+.ui-jqgrid .ui-jqgrid-view
+{
+	font-size: 1em;
+}

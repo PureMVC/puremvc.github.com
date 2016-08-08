@@ -1,0 +1,526 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Facade</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::patterns::facade::Facade</code></p>
+<p>Singleton providing a single entry point for performing MVC pattern actions.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">package</span> <span class="variable">com::me::myapp::Facade</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span> <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">org::puremvc::perl5::patterns::facade::Facade</span><span class="operator">;</span>
+  <span class="keyword">our</span> <span class="variable">@ISA</span> <span class="operator">=</span> <span class="string">qw( org::puremvc::perl5::patterns::facade::Facade )</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">base</span> <span class="string">'Exporter'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Notification constants. The Facade is the ideal location for these constants, since any part</span>
+  <span class="comment"># of the application participating in PureMVC Observer Notification will know the Facade.</span>
+  <span class="keyword">use</span> <span class="variable">constant</span> <span class="string">GO_COMMAND</span> <span class="operator">=&gt;</span> <span class="string">"com::me::myapp::Facade::go"</span><span class="operator">;</span>
+  <span class="keyword">our</span> <span class="variable">@EXPORT_OK</span> <span class="operator">=</span> <span class="operator">(</span><span class="string">'GO_COMMAND'</span><span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::MyModel</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::MyView</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::MyController</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::proxies::CountryListProxy</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::mediators::LoginMediator</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">com::me::myapp::commands::GoCommand</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$_instance</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Private constructor called by getInstance class method</span>
+  <span class="keyword">my</span> <span class="variable">$new</span> <span class="operator">=</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="variable">$class</span><span class="operator">-&gt;</span><span class="variable">SUPER::getInstance</span><span class="operator">();</span> <span class="comment"># Calls parent class constructor</span>
+    <span class="keyword">bless</span><span class="operator">(</span> <span class="variable">$self</span><span class="operator">,</span> <span class="variable">$class</span> <span class="operator">);</span> <span class="comment"># $self is now an instance of com::me::myapp::Facade class</span>
+    
+    <span class="keyword">return</span> <span class="variable">$self</span><span class="operator">;</span>
+      <span class="operator">};</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="comment"># Optional overriding of org::puremvc::perl5::patterns::facade::Facade::initializeFacade() method</span>
+  <span class="comment"># Overriding is necessary if you need to do extra initialization during construction of your own Facade instance</span>
+  <span class="keyword">sub</span><span class="variable"> initializeFacade </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">SUPER::initializeFacade</span><span class="operator">();</span>
+</pre>
+<pre>
+    # Add special initialization code here
+    # If none, no need to override initializeFacade method
+  }</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="keyword">sub</span><span class="variable"> getInstance </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">$_instance</span> <span class="operator">=</span> <span class="variable">$new</span><span class="operator">-&gt;(</span><span class="variable">$class</span><span class="operator">)</span> <span class="keyword">if</span> <span class="operator">!</span> <span class="keyword">defined</span> <span class="variable">$_instance</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">return</span> <span class="variable">$_instance</span><span class="operator">;</span>
+      <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment"># Optional overriding of org::puremvc::perl5::patterns::facade::Facade::initializeController() method</span>
+  <span class="comment"># This where you can register your Commands and define your own Controller singleton</span>
+  <span class="keyword">sub</span><span class="variable"> initializeController </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># The following must not be executed if you use your own Controller class as</span>
+    <span class="comment"># it is the case here</span>
+    <span class="comment">#$self-&gt;SUPER::initializeController();</span>
+</pre>
+<pre>
+    <span class="comment"># Registering personal Controller</span>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_controller</span><span class="operator">}</span> <span class="operator">=</span> <span class="variable">com::me::myapp::MyController</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">()</span> <span class="keyword">unless</span> <span class="keyword">exists</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_controller</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Command registration for GO_COMMAND notification</span>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">registerCommand</span><span class="operator">(</span> <span class="variable">GO_COMMAND</span><span class="operator">,</span> <span class="string">"com::me::myapp::commands::GoCommand"</span> <span class="operator">);</span>
+      <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment"># Optional overriding of org::puremvc::perl5::patterns::facade::Facade::initializeModel() method</span>
+  <span class="comment"># This where you can register SOME SPECIAL Proxys and define your own Model singleton</span>
+  <span class="keyword">sub</span><span class="variable"> initializeModel </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># The following must not be executed if you use your own Model class as below</span>
+    <span class="comment"># it is the case here</span>
+    <span class="comment">#$self-&gt;SUPER::initializeModel();</span>
+</pre>
+<pre>
+    <span class="comment"># Registering personal Model</span>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_model</span><span class="operator">}</span> <span class="operator">=</span> <span class="variable">com::me::myapp::MyModel</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">()</span> <span class="keyword">unless</span> <span class="keyword">exists</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_model</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Proxy registration</span>
+    <span class="comment"># CAREFUL: as initializeModel method is part of Facade construction process,</span>
+    <span class="comment"># DO NOT register Proxys needing to send notification here as notification sending</span>
+    <span class="comment"># by a Proxy requires Facade to be constructed.</span>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">registerProxy</span><span class="operator">(</span> <span class="variable">com::me::myapp::proxies::CountryListProxy</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">()</span> <span class="operator">);</span>
+      <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment"># Optional overriding of org::puremvc::perl5::patterns::facade::Facade::initializeView() method</span>
+  <span class="comment"># This where you can register SOME SPECIAL Mediators and define your own View singleton</span>
+  <span class="keyword">sub</span><span class="variable"> initializeView </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># The following must not be executed if you use your own View class as below</span>
+    <span class="comment"># it is the case here</span>
+    <span class="comment">#$self-&gt;SUPER::initializeView();</span>
+</pre>
+<pre>
+    <span class="comment"># Registering personal View</span>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_view</span><span class="operator">}</span> <span class="operator">=</span> <span class="variable">com::me::myapp::MyView</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">()</span> <span class="keyword">unless</span> <span class="keyword">exists</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_view</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Mediator registration</span>
+    <span class="comment"># CAREFUL: as initializeView method is part of Facade construction process,</span>
+    <span class="comment"># DO NOT register Mediator needing to access your Facade instance.</span>
+    <span class="comment"># Usually Mediators send/receive notifications, and are registered elsewhere in the application</span>
+    <span class="comment"># for this reason.</span>
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">registerMediator</span><span class="operator">(</span> <span class="variable">com::me::myapp::mediators::LoginMediator</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">()</span> <span class="operator">);</span>
+      <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment">#**********************</span>
+  <span class="comment">#**********************</span>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, the <code>Facade</code> class assumes these responsibilities:</p>
+<ul>
+<li>
+<p>Initializing the <a href="../../core/Model.html">Model</a>, <a href="../../core/View.html">View</a> and <a href="../../core/Controller.html">Controller</a> singletons.</p>
+</li>
+<li>
+<p>Providing all the methods defined by the <a href="../../core/Model.html">Model</a>, <a href="../../core/View.html">View</a> &amp; <a href="../../core/Controller.html">Controller</a> singletons.</p>
+</li>
+<li>
+<p>Providing the ability to override the specific <a href="../../core/Model.html">Model</a>, <a href="../../core/View.html">View</a> and <a href="../../core/Controller.html">Controller</a> singletons created.</p>
+</li>
+<li>
+<p>Providing a single point of contact to the application for registering <a href="../command/SimpleCommand.html">Command</a>s and notifying <a href="../observer/Observer.html">Observers</a>.</p>
+</li>
+</ul>
+<p><strong>Using the <code>Facade</code> interface methods should be sufficient for your application to use all the MVC patterns</strong>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="getinstance" class="item">getInstance</a></strong></dt>
+
+<dd>
+<p><a href="#getinstance"><code>sub getInstance();</code></a></p>
+<p>Returns the singleton instance of the Facade.
+During first call, <code>Facade</code> instance is created.
+Future calls just return already created instance.
+Facade creation process includes <a href="../../core/Model.html">Model</a>, <a href="../../core/View.html">View</a> &amp; <a href="../../core/Controller.html">Controller</a> singletons initialization (see <a href="#initializefacade"><code>initializeFacade</code></a> method).</p>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::facade::Facade</code> - The singleton instance of the <code>Facade</code>.</p>
+</dd>
+<dt><strong><a name="initializefacade" class="item">initializeFacade</a></strong></dt>
+
+<dd>
+<p><a href="#initializefacade"><code>sub initializeFacade();</code></a></p>
+<p>Automatically called during <a href="#getinstance"><code>getInstance</code></a> method first run (<code>Facade</code> instance creation).
+This is where <a href="../../core/Model.html">Model</a>, <a href="../../core/View.html">View</a> &amp; <a href="../../core/Controller.html">Controller</a> singletons initialization methods are called.
+If you use a subclass of <code>Facade</code>, make sure to call <a href="#initializefacade"><code>SUPER::initializeFacade()</code></a> during <code>Facade</code> singleton construction.</p>
+</dd>
+<dt><strong><a name="initializecontroller" class="item">initializeController</a></strong></dt>
+
+<dd>
+<p><a href="#initializecontroller"><code>sub initializeController();</code></a></p>
+<p>Called by <a href="#initializefacade"><code>initializeFacade</code></a> method.
+Override this method in your subclass of <code>Facade</code> if one or both of the following are true:</p>
+<ul>
+<li>
+<p>You wish to initialize your own <a href="../../core/Controller.html">Controller</a> class.</p>
+</li>
+<li>
+<p>You have <a href="../command/SimpleCommand.html">Commands</a> to register with the <a href="../../core/Controller.html">Controller</a> at startup.</p>
+</li>
+</ul>
+<p>If you don't want to initialize a different <a href="../../core/Controller.html">Controller</a> call <a href="#initializecontroller"><code>SUPER::initializeController()</code></a> at the beginning of your method, then register <a href="../command/SimpleCommand.html">Commands</a>.</p>
+</dd>
+<dt><strong><a name="initializemodel" class="item">initializeModel</a></strong></dt>
+
+<dd>
+<p><a href="#initializemodel"><code>sub initializeModel();</code></a></p>
+<p>Called by <a href="#initializefacade"><code>initializeFacade</code></a> method.
+Override this method in your subclass of <code>Facade</code> if one or both of the following are true:</p>
+<ul>
+<li>
+<p>You wish to initialize your own <a href="../../core/Model.html">Model</a> class.</p>
+</li>
+<li>
+<p>You have Proxies to register with the <a href="../../core/Model.html">Model</a> that do not retrieve a reference to the <code>Facade</code> at construction time.</p>
+</li>
+</ul>
+<p>If you don't want to initialize a different <a href="../../core/Model.html">Model</a> call <a href="#initializemodel"><code>SUPER::initializeModel()</code></a> at the beginning of your method, then register <a href="../proxy/Proxy.html">Proxies</a>.</p>
+<p>Note: This method is <em>rarely</em> overridden; in practice you are more likely to use a <a href="../command/SimpleCommand.html">Command</a> to create and register <a href="../proxy/Proxy.html">Proxies</a> with the <a href="../../core/Model.html">Model</a>, since <a href="../proxy/Proxy.html">Proxies</a> with mutable data will likely need to send <a href="../observer/Notification.html">notifications</a> and thus will likely want to fetch a reference to the <code>Facade</code> during their construction.</p>
+</dd>
+<dt><strong><a name="initializeview" class="item">initializeView</a></strong></dt>
+
+<dd>
+<p><a href="#initializeview"><code>sub initializeView();</code></a></p>
+<p>Called by <a href="#initializefacade"><code>initializeFacade</code></a> method.
+Override this method in your subclass of <code>Facade</code> if one or both of the following are true:</p>
+<ul>
+<li>
+<p>You wish to initialize your own <a href="../../core/View.html">View</a> class.</p>
+</li>
+<li>
+<p>You have <a href="../mediator/Mediator.html">Mediators</a> to register with the <a href="../../core/View.html">View</a> that do not retrieve a reference to the <code>Facade</code> at construction time.</p>
+</li>
+</ul>
+<p>If you don't want to initialize a different <a href="../../core/View.html">View</a> call <a href="#initializeview"><code>SUPER::initializeView()</code></a> at the beginning of your method, then register <a href="../mediator/Mediator.html">Mediators</a>.</p>
+<p>Note: This method is <em>rarely</em> overridden; in practice you are more likely to use a <a href="../command/SimpleCommand.html">Command</a> to create and register <a href="../mediator/Mediator.html">Mediators</a> with the <a href="../../core/View.html">View</a>, since <a href="../mediator/Mediator.html">Mediators</a> will likely need to send <a href="../observer/Notification.html">notifications</a> and thus will likely want to fetch a reference to the <code>Facade</code> during their construction.</p>
+</dd>
+<dt><strong><a name="registercommand" class="item">registerCommand</a></strong></dt>
+
+<dd>
+<p><a href="#registercommand"><code>sub registerCommand( $notification_name, $command_class_ref );</code></a></p>
+<p>Register a <a href="../command/SimpleCommand.html">Command</a> with the <a href="../../core/Controller.html">Controller</a> by <a href="../observer/Notification.html">notification</a> name.</p>
+<p>When a <a href="../observer/Notifier.html">notifier</a> will send a <a href="../observer/Notification.html">notification</a> whose name is <code>$notification_name</code>, the <a href="../../core/Controller.html">Controller</a> will create an instance of <code>$command_class_ref</code> <a href="../command/SimpleCommand.html">Command</a> class and execute its <code>execute</code> method.</p>
+<p><code>$command_class_ref</code> is a string holding the name of the <a href="../command/SimpleCommand.html">Command</a> class, e.g. &quot;<code>com::me::myapp::MyCommand</code>&quot;.</p>
+<p>Note that there can only be one and only one <a href="../command/SimpleCommand.html">Command</a> registered with the <a href="../../core/Controller.html">Controller</a> for a given <a href="../observer/Notification.html">notification</a> name. A call to this method will replace any previously registered <a href="../command/SimpleCommand.html">Command</a> for that <a href="../observer/Notification.html">notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../observer/Notification.html">notifications</a> the registered <code>Command</code> will handle.</p>
+</li>
+<li>
+<p><code>$command_class_ref - String</code></p>
+<p>Class name of the <code>Command</code> to handle <a href="../observer/Notification.html">notification</a> called <code>$notification_name</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="removecommand" class="item">removeCommand</a></strong></dt>
+
+<dd>
+<p><a href="#removecommand"><code>sub removeCommand( $notification_name );</code></a></p>
+<p>Remove a previously registered <a href="../command/SimpleCommand.html">Command</a> with the <a href="../../core/Controller.html">Controller</a> by <a href="../observer/Notification.html">notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../observer/Notification.html">notification</a> for which to remove a registered <a href="../command/SimpleCommand.html">command</a>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="hascommand" class="item">hasCommand</a></strong></dt>
+
+<dd>
+<p><a href="#hascommand"><code>sub hasCommand( $notification_name );</code></a></p>
+<p>Check if a <a href="../command/SimpleCommand.html">Command</a> is registered with the <a href="../../core/Controller.html">Controller</a> by <a href="../observer/Notification.html">Notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../observer/Notification.html">notification</a> for which to check a registered <a href="../command/SimpleCommand.html">command</a>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if a <a href="../command/SimpleCommand.html">Command</a> class is registered with the <a href="../../core/Controller.html">Controller</a> for <a href="../observer/Notification.html">notifications</a> named <code>$notification_name</code>, &quot;&quot; otherwise.</p>
+</dd>
+<dt><strong><a name="registerproxy" class="item">registerProxy</a></strong></dt>
+
+<dd>
+<p><a href="#registerproxy"><code>sub registerProxy( $proxy );</code></a></p>
+<p>Register a <a href="../proxy/Proxy.html">Proxy</a> with the <a href="../../core/Model.html">Model</a>.</p>
+<p>During registration the <a href="../../core/Model.html">Model</a> uses <code>Proxy</code>'s <code>getProxyName</code> method to map the <a href="../proxy/Proxy.html">Proxy</a> instance to its name. This will serve for retrieval of the <a href="../proxy/Proxy.html">Proxy</a> instance by its name (see <a href="#retrieveproxy"><code>retrieveProxy</code></a> method).</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy - org::puremvc::perl5::patterns::proxy::Proxy</code></p>
+<p>A <a href="../proxy/Proxy.html">Proxy</a> instance to register with the <code>Model</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="retrieveproxy" class="item">retrieveProxy</a></strong></dt>
+
+<dd>
+<p><a href="#retrieveproxy"><code>sub retrieveProxy( $proxy_name );</code></a></p>
+<p>Retrieve a <a href="../proxy/Proxy.html">Proxy</a> from the <a href="../../core/Model.html">Model</a> by name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name of the <a href="../proxy/Proxy.html">proxy</a> to retrieve from the <code>Model</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::proxy::Proxy</code> - The <a href="../proxy/Proxy.html">Proxy</a> instance retrieved from the <code>Model</code>.</p>
+</dd>
+<dt><strong><a name="removeproxy" class="item">removeProxy</a></strong></dt>
+
+<dd>
+<p><a href="#removeproxy"><code>sub removeProxy( $proxy_name );</code></a></p>
+<p>Remove a <a href="../proxy/Proxy.html">Proxy</a> from the <a href="../../core/Model.html">Model</a> by name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name of the <a href="../proxy/Proxy.html">proxy</a> to remove from the <code>Model</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::proxy::Proxy</code> - The <a href="../proxy/Proxy.html">Proxy</a> instance removed from the <code>Model</code>.</p>
+</dd>
+<dt><strong><a name="hasproxy" class="item">hasProxy</a></strong></dt>
+
+<dd>
+<p><a href="#hasproxy"><code>sub hasProxy( $proxy_name );</code></a></p>
+<p>Check if a <a href="../proxy/Proxy.html">Proxy</a> is registered with the <a href="../../core/Model.html">Model</a> by name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$proxy_name - String</code></p>
+<p>Name of the <a href="../proxy/Proxy.html">proxy</a> to check.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if a <a href="../proxy/Proxy.html">Proxy</a> instance is registered with the <code>Model</code> with name <code>$proxy_name</code>, &quot;&quot; otherwise.</p>
+</dd>
+<dt><strong><a name="registermediator" class="item">registerMediator</a></strong></dt>
+
+<dd>
+<p><a href="#registermediator"><code>sub registerMediator( $mediator );</code></a></p>
+<p>Register a <a href="../mediator/Mediator.html">Mediator</a> with the <a href="../../core/View.html">View</a>.</p>
+<p>During registration the <a href="../../core/View.html">View</a> uses <a href="../mediator/Mediator.html">Mediator</a>'s <code>getMediatorName</code> method to map the <a href="../mediator/Mediator.html">Mediator</a> instance to its name. This will serve for retrieval of the <a href="../mediator/Mediator.html">Mediator</a> instance by its name (see <a href="#retrievemediator"><code>retrieveMediator</code></a> method).</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator - org::puremvc::perl5::patterns::mediator::Mediator</code></p>
+<p>A <a href="../mediator/Mediator.html">Mediator</a> instance to register with the <code>View</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="retrievemediator" class="item">retrieveMediator</a></strong></dt>
+
+<dd>
+<p><a href="#retrievemediator"><code>sub retrieveMediator( $mediator_name );</code></a></p>
+<p>Retrieve a <a href="../mediator/Mediator.html">Mediator</a> from the <a href="../../core/View.html">View</a> by name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code></p>
+<p>Name of the <a href="../mediator/Mediator.html">mediator</a> to retrieve from the <code>View</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::mediator::Mediator</code> - The <a href="../mediator/Mediator.html">Mediator</a> instance retrieved from the <code>View</code>.</p>
+</dd>
+<dt><strong><a name="removemediator" class="item">removeMediator</a></strong></dt>
+
+<dd>
+<p><a href="#removemediator"><code>sub removeMediator( $mediator_name );</code></a></p>
+<p>Remove a <a href="../mediator/Mediator.html">Mediator</a> from the <a href="../../core/View.html">View</a> by name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code></p>
+<p>Name of the <a href="../mediator/Mediator.html">mediator</a> to remove from the <code>View</code>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::patterns::mediator::Mediator</code> - The <a href="../mediator/Mediator.html">Mediator</a> instance removed from the <code>View</code>.</p>
+</dd>
+<dt><strong><a name="hasmediator" class="item">hasMediator</a></strong></dt>
+
+<dd>
+<p><a href="#hasmediator"><code>sub hasMediator( $mediator_name );</code></a></p>
+<p>Check if a <a href="../mediator/Mediator.html">Mediator</a> is registered with the <a href="../../core/View.html">View</a> by name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$mediator_name - String</code></p>
+<p>Name of the <a href="../mediator/Mediator.html">mediator</a> to check.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if a <a href="../mediator/Mediator.html">Mediator</a> instance is registered with the <code>View</code> with name <code>$mediator_name</code>, &quot;&quot; otherwise.</p>
+</dd>
+<dt><strong><a name="sendnotification" class="item">sendNotification</a></strong></dt>
+
+<dd>
+<p><a href="#sendnotification"><code>sub sendNotification( $notification_name, $body, $type );</code></a></p>
+<p>Keeps us from having to construct new <a href="../observer/Notification.html">Notification</a> objects in our implementation code.</p>
+<p>This method will construct a new <a href="../observer/Notification.html">Notification</a> named <code>$notification_name</code> with optional <code>$body</code> and <code>$type</code> parameters.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the constructed <a href="../observer/Notification.html">Notification</a> instance.</p>
+</li>
+<li>
+<p><code>$body - *</code></p>
+<p>Body or (business data) of the <a href="../observer/Notification.html">notification</a>. Can be any object or scalar. - Optional</p>
+</li>
+<li>
+<p><code>$type - *</code></p>
+<p>Type of the <a href="../observer/Notification.html">notification</a>. This data can be useful to distinguish several types of the same <code>Notification</code>. Usually is a string but could be any other object or scalar. - Optional</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="notifyobservers" class="item">notifyObservers</a></strong></dt>
+
+<dd>
+<p><a href="#notifyobservers"><code>sub notifyObservers( $notification );</code></a></p>
+<p>You should not have to use this method ; instead use <a href="#sendnotification"><code>sendNotification</code></a> method to notify registered <a href="../observer/Observer.html">observers</a> for <code>$notification</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification - org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>Instance of <a href="../observer/Notification.html">Notification</a> the observers will receive as a parameter when notified.</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="_model" class="item">_model</a></strong></dt>
+
+<dd>
+<p>Holds the <a href="../../core/Model.html">Model</a> singleton instance of the application. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+<dt><strong><a name="_view" class="item">_view</a></strong></dt>
+
+<dd>
+<p>Holds the <a href="../../core/View.html">View</a> singleton instance of the application. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+<dt><strong><a name="_controller" class="item">_controller</a></strong></dt>
+
+<dd>
+<p>Holds the <a href="../../core/Controller.html">Controller</a> singleton instance of the application. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../core/Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="../../core/View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../../core/Controller.html">org::puremvc::perl5::core::Controller</a></p>
+<p><a href="../observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>

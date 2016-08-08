@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>CafeTownsend Flex Demo</title>
+	<nodes>
+		<node label="libs">
+			<node label="PureMVC_AS3_2_0_1.swc" url="source/libs/PureMVC_AS3_2_0_1.swc"/>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="assets">
+				<node label="Employees.xml" url="source/assets/Employees.xml.txt"/>
+				<node label="header.jpg" icon="imageIcon" url="source/assets/header.jpg.html"/>
+				<node label="main.css" icon="cssIcon" url="source/assets/main.css.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend.controller" icon="packageIcon" expanded="true">
+				<node label="ApplicationStartupCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/controller/ApplicationStartupCommand.as.html"/>
+				<node label="ModelPrepCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/controller/ModelPrepCommand.as.html"/>
+				<node label="ViewPrepCommand.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/controller/ViewPrepCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend.model" icon="packageIcon" expanded="true">
+				<node label="EmployeeProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/model/EmployeeProxy.as.html"/>
+				<node label="UserProxy.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/model/UserProxy.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend.model.business" icon="packageIcon" expanded="true">
+				<node label="LoadEmployeesDelegate.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/model/business/LoadEmployeesDelegate.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend.model.vo" icon="packageIcon" expanded="true">
+				<node label="Employee.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/model/vo/Employee.as.html"/>
+				<node label="User.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/model/vo/User.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/ApplicationMediator.as.html"/>
+				<node label="EmployeeDetailMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/EmployeeDetailMediator.as.html"/>
+				<node label="EmployeeListMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/EmployeeListMediator.as.html"/>
+				<node label="EmployeeLoginMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/EmployeeLoginMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.flex.cafetownsend.view.components" icon="packageIcon" expanded="true">
+				<node label="EmployeeDetail.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/components/EmployeeDetail.mxml.html"/>
+				<node label="EmployeeList.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/components/EmployeeList.mxml.html"/>
+				<node label="EmployeeLogin.mxml" icon="mxmlIcon" url="source/org/puremvc/as3/demos/flex/cafetownsend/view/components/EmployeeLogin.mxml.html"/>
+			</node>
+			<node selected="true" label="CafeTownsend.mxml" icon="mxmlAppIcon" url="source/CafeTownsend.mxml.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

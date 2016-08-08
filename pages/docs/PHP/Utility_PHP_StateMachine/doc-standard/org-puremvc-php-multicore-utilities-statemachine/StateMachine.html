@@ -1,0 +1,568 @@
+<html>
+<head>
+<title>Docs For Class StateMachine</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">org-puremvc-php-multicore-utilities-statemachine</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+        
+                                    
+                                      [ <a href="../classtrees_org-puremvc-php-multicore-utilities-statemachine.html" class="menu">class tree: org-puremvc-php-multicore-utilities-statemachine</a> ]
+          [ <a href="../elementindex_org-puremvc-php-multicore-utilities-statemachine.html" class="menu">index: org-puremvc-php-multicore-utilities-statemachine</a> ]
+                [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+    <div id="ric">
+                    <p><a href="../ric_LICENSE.html">LICENSE</a></p>
+                    <p><a href="../ric_VERSION.html">VERSION</a></p>
+            </div>
+      <b>Packages:</b><br />
+              <a href="../li_org-puremvc-php-multicore-utilities-statemachine.html">org-puremvc-php-multicore-utilities-statemachine</a><br />
+            <br /><br />
+            
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../org-puremvc-php-multicore-utilities-statemachine/FSMInjector.html">FSMInjector</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a><br />
+	    		<a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html">StateMachine</a><br />
+	  </div>
+      
+            <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../org-puremvc-php-multicore-utilities-statemachine/_org---puremvc---php---multicore---utilities---statemachine---FSMInjector.php.html">		FSMInjector.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-statemachine/_org---puremvc---php---multicore---utilities---statemachine---State.php.html">		State.php
+		</a><br>
+			<a href="../org-puremvc-php-multicore-utilities-statemachine/_org---puremvc---php---multicore---utilities---statemachine---StateMachine.php.html">		StateMachine.php
+		</a><br>
+	  </div><br />
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: StateMachine</h1>
+Source Location: /org/puremvc/php/multicore/utilities/statemachine/StateMachine.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre>Mediator
+   |
+   --StateMachine</pre><br />
+<div class="description">A Finite State Machine implimentation.</div><br /><br />
+<h4>Author(s):</h4>
+<ul>
+        </ul>
+
+
+
+
+    
+
+        
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#var$canceled">$canceled</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#var$initial">$initial</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#var$states">$states</a></li>
+  </ul>
+</td>
+
+<td valign="top">
+<h3><a href="#class_consts">Constants</a></h3>
+<ul>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#constACTION">ACTION</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#constCANCEL">CANCEL</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#constCHANGED">CHANGED</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#constNAME">NAME</a></li>
+  </ul>
+</td>
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#method__construct">__construct</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodgetCurrentState">getCurrentState</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodhandleNotification">handleNotification</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodlistNotificationInterests">listNotificationInterests</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodonRegister">onRegister</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodregisterState">registerState</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodremoveState">removeState</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodsetCurrentState">setCurrentState</a></li>
+    <li><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html#methodtransitionTo">transitionTo</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a34">34</a>]<br />
+A Finite State Machine implimentation.<br /><br /><p>Handles regisistration and removal of state definitions,  which include optional entry and exit commands for each  state.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>see:</b>&nbsp;&nbsp;</td><td>Mediator</td>
+  </tr>
+</table>
+</div>
+</div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$canceled"></a>
+	<p></p>
+	<h4>$canceled = <span class="value"></span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a69">69</a>]</p>
+  The transition has been canceled.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>bool</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$initial"></a>
+	<p></p>
+	<h4>$initial = <span class="value"></span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a63">63</a>]</p>
+  The initial state of the FSM.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$states"></a>
+	<p></p>
+	<h4>$states = <span class="value">array()</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a57">57</a>]</p>
+  Map of States objects by name.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>array</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a76">76</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../org-puremvc-php-multicore-utilities-statemachine/StateMachine.html">StateMachine</a> __construct(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetCurrentState"></a>
+	<h3>method getCurrentState <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a224">224</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a> getCurrentState(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Get the current state.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>A State defining the machine's current state</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodhandleNotification"></a>
+	<h3>method handleNotification <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a202">202</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void handleNotification(
+
+$notification)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Handle notifications the <strong>StateMachine</strong> is interested in.<br /><br /><p><strong>StateMachine::ACTION</strong>: Triggers the transition to a new state.<br />  <strong>StateMachine::CANCEL</strong>: Cancels the transition if sent in response to the exiting note for the current state.<br /></p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">INotification&nbsp;&nbsp;</td>
+        <td><b>$notification</b>&nbsp;&nbsp;</td>
+        <td>The <strong>INotification</strong> to be handled.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodlistNotificationInterests"></a>
+	<h3>method listNotificationInterests <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a187">187</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void listNotificationInterests(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Notification interests for the StateMachine.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodonRegister"></a>
+	<h3>method onRegister <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a88">88</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void onRegister(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		onRegister event<br /><br /><p>Called by the <strong>View</strong> when the <strong>Mediator</strong> is registered.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodregisterState"></a>
+	<h3>method registerState <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a103">103</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void registerState(
+<a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a>
+$state, [bool
+$initial = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Registers the entry and exit commands for a given state.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type"><a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a>&nbsp;&nbsp;</td>
+        <td><b>$state</b>&nbsp;&nbsp;</td>
+        <td>the state to which to register the above commands</td>
+      </tr>
+          <tr>
+        <td class="type">bool&nbsp;&nbsp;</td>
+        <td><b>$initial</b>&nbsp;&nbsp;</td>
+        <td>boolean telling if this is the initial state of the system</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodremoveState"></a>
+	<h3>method removeState <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a119">119</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void removeState(
+string
+$stateName)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Remove a state mapping.<br /><br /><p>Removes the entry and exit commands for a given state  as well as the state mapping itself.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$stateName</b>&nbsp;&nbsp;</td>
+        <td>stateName</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetCurrentState"></a>
+	<h3>method setCurrentState <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a234">234</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setCurrentState(
+<a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a>
+$state)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Set the current state.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type"><a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a>&nbsp;&nbsp;</td>
+        <td><b>$state</b>&nbsp;&nbsp;</td>
+        <td>The current state to use</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodtransitionTo"></a>
+	<h3>method transitionTo <span class="smalllinenumber">[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a144">144</a>]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void transitionTo(
+<a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a>
+$nextState, [object data
+$data = null])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Transitions to the given state from the current state.<br /><br /><p>Sends the <strong>exiting</strong> notification for the current state  followed by the <strong>entering</strong> notification for the new state.  Once finally transitioned to the new state, the <strong>changed</strong>  notification for the new state is sent.</p><p>If a data parameter is provided, it is included as the body of all  three state-specific transition notes.</p><p>Finally, when all the state-specific transition notes have been  sent, a <strong>StateMachine.CHANGED</strong> note is sent, with the  new <strong>State</strong> object as the <strong>body</strong> and the name of the  new state in the <strong>type</strong>.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type"><a href="../org-puremvc-php-multicore-utilities-statemachine/State.html">State</a>&nbsp;&nbsp;</td>
+        <td><b>$nextState</b>&nbsp;&nbsp;</td>
+        <td>the next State to transition to.</td>
+      </tr>
+          <tr>
+        <td class="type">object data&nbsp;&nbsp;</td>
+        <td><b>$data</b>&nbsp;&nbsp;</td>
+        <td>is the optional Object that was sent in the <strong>StateMachine.ACTION</strong> notification body</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+<hr />
+<a name="class_constss"></a>
+<h3>Class Constants</h3>
+<div class="tags">
+	<a name="constACTION"></a>
+	<p></p>
+	<h4>ACTION = <span class="value">&nbsp;&quot;StateMachine/notes/action&quot;</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a41">41</a>]</p>
+  Action Notification name.<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constCANCEL"></a>
+	<p></p>
+	<h4>CANCEL = <span class="value">&nbsp;&quot;StateMachine/notes/cancel&quot;</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a51">51</a>]</p>
+  Cancel Notification name<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constCHANGED"></a>
+	<p></p>
+	<h4>CHANGED = <span class="value">&nbsp;&quot;StateMachine/notes/changed&quot;</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a46">46</a>]</p>
+  Changed Notification name<br /><br />
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="constNAME"></a>
+	<p></p>
+	<h4>NAME = <span class="value">&nbsp;&quot;StateMachine&quot;</span></h4>
+	<p>[line <a href="../__filesource/fsource_org-puremvc-php-multicore-utilities-statemachine__orgpuremvcphpmulticoreutilitiesstatemachineStateMachine.php.html#a36">36</a>]</p>
+  
+  <br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Mon, 03 Aug 2009 05:20:50 +0000 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.2</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

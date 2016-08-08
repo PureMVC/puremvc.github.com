@@ -1,0 +1,64 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IWidgetShell.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+  Modularity - A PureMVC AS3 MultiCore Flex Demo
+  Copyright(c) 2008 Cliff Hall &lt;clifford.hall@puremvc.org&gt;
+  Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">multicore</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">modularity</span>.<span class="ActionScriptDefault_Text">interfaces</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptDefault_Text">DisplayObject</span>;
+    
+    <span class="ActionScriptASDoc">/**
+     * Interface for the WidgetShell
+     * &lt;P&gt;
+     * This is the API that the WidgetShell
+     * exposes to Widgets for communication.
+     * Through this interface alone the IWidget
+     * is able to communicate its wishes to the
+     * application into which it is loaded.&lt;/P&gt;
+     * &lt;P&gt;
+     * Since third-parties may develop widgets
+     * to run inside the app, we want to limit
+     * their access to the application and its
+     * resources.&lt;/P&gt;
+     * 
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IWidgetShell</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        
+        <span class="ActionScriptASDoc">/**
+         * A widget may add a view component to the canvas.
+         * &lt;P&gt;
+         * Though the display object reference is added to
+         * the view hierarchy of the app, it is still managed
+         * by a mediator running inside the widget itself.&lt;/P&gt;
+         * 
+         * @param displayObject to add to the canvas
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">addComponent</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">component</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DisplayObject</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * A widget may remove a view component it added to the canvas.
+         * &lt;P&gt;
+         * 
+         * @param displayObject to add to the canvas
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeComponent</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">component</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">DisplayObject</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+        <span class="ActionScriptASDoc">/**
+         * Allow the Widget to write to the status line
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">setStatusMessage</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">message</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>;
+        
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

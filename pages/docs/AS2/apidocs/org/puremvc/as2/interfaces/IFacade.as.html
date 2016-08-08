@@ -1,0 +1,123 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>PureMVC Unit Tests</title><script src="../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../index-files";
+//--></script><link href="../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><pre><span class="lineno" id="1">     1  </span><span class="comment">/*
+<span class="lineno" id="2">     2  </span>PureMVC AS2 Port by Pedr Browne &lt;pedr.browne@puremvc.org&gt;
+<span class="lineno" id="3">     3  </span>PureMVC - Copyright(c) 2006-2008 Futurescale, Inc., Some rights reserved.
+<span class="lineno" id="4">     4  </span>Your reuse is governed by the Creative Commons Attribution 3.0 License
+<span class="lineno" id="5">     5  </span> */</span>
+<span class="lineno" id="6">     6  </span><span class="key">import</span> org.puremvc.as2.interfaces.*;
+<span class="lineno" id="7">     7  </span>
+<span class="lineno" id="8">     8  </span><span class="comment doc">/**
+<span class="lineno" id="9">     9  </span> * The interface definition for a PureMVC Facade.
+<span class="lineno" id="10">    10  </span> *
+<span class="lineno" id="11">    11  </span> * &lt;P&gt;
+<span class="lineno" id="12">    12  </span> * The Facade Pattern suggests providing a single
+<span class="lineno" id="13">    13  </span> * class to act as a central point of communication 
+<span class="lineno" id="14">    14  </span> * for a subsystem. &lt;/P&gt;
+<span class="lineno" id="15">    15  </span> * 
+<span class="lineno" id="16">    16  </span> * &lt;P&gt;
+<span class="lineno" id="17">    17  </span> * In PureMVC, the Facade acts as an interface between
+<span class="lineno" id="18">    18  </span> * the core MVC actors (Model, View, Controller) and
+<span class="lineno" id="19">    19  </span> * the rest of your application.&lt;/P&gt;
+<span class="lineno" id="20">    20  </span> * 
+<span class="lineno" id="21">    21  </span> * @see org.puremvc.as2.interfaces.IModel IModel
+<span class="lineno" id="22">    22  </span> * @see org.puremvc.as2.interfaces.IView IView
+<span class="lineno" id="23">    23  </span> * @see org.puremvc.as2.interfaces.IController IController
+<span class="lineno" id="24">    24  </span> * @see org.puremvc.as2.interfaces.ICommand ICommand
+<span class="lineno" id="25">    25  </span> * @see org.puremvc.as2.interfaces.INotification INotification
+<span class="lineno" id="26">    26  </span> */</span>
+<span class="lineno" id="27">    27  </span><span class="key">interface</span> org.puremvc.as2.interfaces.IFacade <span class="key">extends</span> INotifier
+<span class="lineno" id="28">    28  </span>{
+<span class="lineno" id="29">    29  </span>
+<span class="lineno" id="30">    30  </span>	<span class="comment doc">/**
+<span class="lineno" id="31">    31  </span>	 * Notify &lt;code&gt;Observer&lt;/code&gt;s of an &lt;code&gt;INotification&lt;/code&gt;.
+<span class="lineno" id="32">    32  </span>	 * 
+<span class="lineno" id="33">    33  </span>	 * @param note the &lt;code&gt;INotification&lt;/code&gt; to have the &lt;code&gt;View&lt;/code&gt; notify observers of.
+<span class="lineno" id="34">    34  </span>	 */</span>
+<span class="lineno" id="35">    35  </span>	<span class="key">function</span> notifyObservers( note:INotification ) : Void;
+<span class="lineno" id="36">    36  </span>	
+<span class="lineno" id="37">    37  </span>	<span class="comment doc">/**
+<span class="lineno" id="38">    38  </span>	 * Register an &lt;code&gt;IProxy&lt;/code&gt; with the &lt;code&gt;Model&lt;/code&gt; by name.
+<span class="lineno" id="39">    39  </span>	 * 
+<span class="lineno" id="40">    40  </span>	 * @param proxy the &lt;code&gt;IProxy&lt;/code&gt; to be registered with the &lt;code&gt;Model&lt;/code&gt;.
+<span class="lineno" id="41">    41  </span>	 */</span>
+<span class="lineno" id="42">    42  </span>	<span class="key">function</span> registerProxy( proxy:IProxy ) : Void;
+<span class="lineno" id="43">    43  </span>
+<span class="lineno" id="44">    44  </span>	<span class="comment doc">/**
+<span class="lineno" id="45">    45  </span>	 * Retrieve a &lt;code&gt;IProxy&lt;/code&gt; from the &lt;code&gt;Model&lt;/code&gt; by name.
+<span class="lineno" id="46">    46  </span>	 * 
+<span class="lineno" id="47">    47  </span>	 * @param proxyName the name of the &lt;code&gt;IProxy&lt;/code&gt; instance to be retrieved.
+<span class="lineno" id="48">    48  </span>	 * @return the &lt;code&gt;IProxy&lt;/code&gt; previously regisetered by &lt;code&gt;proxyName&lt;/code&gt; with the &lt;code&gt;Model&lt;/code&gt;.
+<span class="lineno" id="49">    49  </span>	 */</span>
+<span class="lineno" id="50">    50  </span>	<span class="key">function</span> retrieveProxy( proxyName:String ) : IProxy;
+<span class="lineno" id="51">    51  </span>	
+<span class="lineno" id="52">    52  </span>	<span class="comment doc">/**
+<span class="lineno" id="53">    53  </span>	 * Remove an &lt;code&gt;IProxy&lt;/code&gt; instance from the &lt;code&gt;Model&lt;/code&gt; by name.
+<span class="lineno" id="54">    54  </span>	 *
+<span class="lineno" id="55">    55  </span>	 * @param proxyName the &lt;code&gt;IProxy&lt;/code&gt; to remove from the &lt;code&gt;Model&lt;/code&gt;.
+<span class="lineno" id="56">    56  </span>	 */</span>
+<span class="lineno" id="57">    57  </span>	<span class="key">function</span> removeProxy( proxyName:String ) : IProxy;
+<span class="lineno" id="58">    58  </span>	
+<span class="lineno" id="59">    59  </span>	<span class="comment doc">/**
+<span class="lineno" id="60">    60  </span>	 * Check if a Proxy is registered
+<span class="lineno" id="61">    61  </span>	 * 
+<span class="lineno" id="62">    62  </span>	 * @param proxyName
+<span class="lineno" id="63">    63  </span>	 * @return whether a Proxy is currently registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+<span class="lineno" id="64">    64  </span>	 */</span>
+<span class="lineno" id="65">    65  </span>	<span class="key">function</span> hasProxy( proxyName:String ) : Boolean;
+<span class="lineno" id="66">    66  </span>		
+<span class="lineno" id="67">    67  </span>	<span class="comment doc">/**
+<span class="lineno" id="68">    68  </span>	 * Register an &lt;code&gt;ICommand&lt;/code&gt; with the &lt;code&gt;Controller&lt;/code&gt;.
+<span class="lineno" id="69">    69  </span>	 * 
+<span class="lineno" id="70">    70  </span>	 * @param noteName the name of the &lt;code&gt;INotification&lt;/code&gt; to associate the &lt;code&gt;ICommand&lt;/code&gt; with.
+<span class="lineno" id="71">    71  </span>	 * @param commandClassRef the Class of the &lt;code&gt;ICommand&lt;/code&gt;.
+<span class="lineno" id="72">    72  </span>	 */</span>
+<span class="lineno" id="73">    73  </span>	<span class="key">function</span> registerCommand( noteName : String, commandClassRef : Function ) : Void
+<span class="lineno" id="74">    74  </span>	
+<span class="lineno" id="75">    75  </span>	<span class="comment doc">/**
+<span class="lineno" id="76">    76  </span>	 * Remove a previously registered &lt;code&gt;ICommand&lt;/code&gt; to &lt;code&gt;INotification&lt;/code&gt; mapping from the Controller.
+<span class="lineno" id="77">    77  </span>	 * 
+<span class="lineno" id="78">    78  </span>	 * @param notificationName the name of the &lt;code&gt;INotification&lt;/code&gt; to remove the &lt;code&gt;ICommand&lt;/code&gt; mapping for
+<span class="lineno" id="79">    79  </span>	 */</span>
+<span class="lineno" id="80">    80  </span>	<span class="key">function</span> removeCommand( notificationName:String ): Void;
+<span class="lineno" id="81">    81  </span>	
+<span class="lineno" id="82">    82  </span>	<span class="comment doc">/**
+<span class="lineno" id="83">    83  </span>	 * Check if a Command is registered for a given Notification 
+<span class="lineno" id="84">    84  </span>	 * 
+<span class="lineno" id="85">    85  </span>	 * @param notificationName
+<span class="lineno" id="86">    86  </span>	 * @return whether a Command is currently registered for the given &lt;code&gt;notificationName&lt;/code&gt;.
+<span class="lineno" id="87">    87  </span>	 */</span>
+<span class="lineno" id="88">    88  </span>	<span class="key">function</span> hasCommand( notificationName:String ) : Boolean;
+<span class="lineno" id="89">    89  </span>		
+<span class="lineno" id="90">    90  </span>	<span class="comment doc">/**
+<span class="lineno" id="91">    91  </span>	 * Register an &lt;code&gt;IMediator&lt;/code&gt; instance with the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="92">    92  </span>	 * 
+<span class="lineno" id="93">    93  </span>	 * @param mediator a reference to the &lt;code&gt;IMediator&lt;/code&gt; instance
+<span class="lineno" id="94">    94  </span>	 */</span>
+<span class="lineno" id="95">    95  </span>	<span class="key">function</span> registerMediator( mediator:IMediator ) : Void;
+<span class="lineno" id="96">    96  </span>
+<span class="lineno" id="97">    97  </span>	<span class="comment doc">/**
+<span class="lineno" id="98">    98  </span>	 * Retrieve an &lt;code&gt;IMediator&lt;/code&gt; instance from the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="99">    99  </span>	 * 
+<span class="lineno" id="100">   100  </span>	 * @param mediatorName the name of the &lt;code&gt;IMediator&lt;/code&gt; instance to retrievve
+<span class="lineno" id="101">   101  </span>	 * @return the &lt;code&gt;IMediator&lt;/code&gt; previously registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+<span class="lineno" id="102">   102  </span>	 */</span>
+<span class="lineno" id="103">   103  </span>	<span class="key">function</span> retrieveMediator( mediatorName:String ) : IMediator;
+<span class="lineno" id="104">   104  </span>
+<span class="lineno" id="105">   105  </span>	<span class="comment doc">/**
+<span class="lineno" id="106">   106  </span>	 * Remove a &lt;code&gt;IMediator&lt;/code&gt; instance from the &lt;code&gt;View&lt;/code&gt;.
+<span class="lineno" id="107">   107  </span>	 * 
+<span class="lineno" id="108">   108  </span>	 * @param mediatorName name of the &lt;code&gt;IMediator&lt;/code&gt; instance to be removed.
+<span class="lineno" id="109">   109  </span>	 */</span>
+<span class="lineno" id="110">   110  </span>	<span class="key">function</span> removeMediator( mediatorName:String ) : IMediator;
+<span class="lineno" id="111">   111  </span>	
+<span class="lineno" id="112">   112  </span>	<span class="comment doc">/**
+<span class="lineno" id="113">   113  </span>	 * Check if a Mediator is registered or not
+<span class="lineno" id="114">   114  </span>	 * 
+<span class="lineno" id="115">   115  </span>	 * @param mediatorName
+<span class="lineno" id="116">   116  </span>	 * @return whether a Mediator is registered with the given &lt;code&gt;mediatorName&lt;/code&gt;.
+<span class="lineno" id="117">   117  </span>	 */</span>
+<span class="lineno" id="118">   118  </span>	<span class="key">function</span> hasMediator( mediatorName:String ) : Boolean;
+<span class="lineno" id="119">   119  </span>		
+<span class="lineno" id="120">   120  </span>}</pre><ul class="main_nav" id="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.interfaces" class="button">Package</a></li><li><a href="IFacade.html" title="Detail of org.puremvc.as2.interfaces.IFacade API" class="button">Class</a></li><li><span class="button nav_current">Source</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

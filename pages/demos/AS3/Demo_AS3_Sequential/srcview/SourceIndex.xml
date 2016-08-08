@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Sequential AS3 Demo</title>
+	<nodes>
+		<node label="src-multicore" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.multicore.demos.sequential" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.sequential.controller" icon="packageIcon" expanded="true">
+				<node label="ExampleAsyncMacroCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/controller/ExampleAsyncMacroCommand.as.html"/>
+				<node label="ExampleSimpleCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/controller/ExampleSimpleCommand.as.html"/>
+				<node label="FirstAsyncCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/controller/FirstAsyncCommand.as.html"/>
+				<node label="SecondAsyncCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/controller/SecondAsyncCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/controller/StartupCommand.as.html"/>
+				<node label="ThirdAsyncCommand.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/controller/ThirdAsyncCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.sequential.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/view/ApplicationMediator.as.html"/>
+				<node label="OutputMediator.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/view/OutputMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.demos.sequential.view.components" icon="packageIcon" expanded="true">
+				<node label="OutputComponent.as" icon="actionScriptIcon" url="source/src-multicore/org/puremvc/as3/multicore/demos/sequential/view/components/OutputComponent.as.html"/>
+			</node>
+			<node label="Sequential.as" icon="actionScriptIcon" url="source/src-multicore/Sequential.as.html"/>
+		</node>
+		<node label="src-standard" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.demos.sequential" icon="packageIcon" expanded="true">
+				<node label="ApplicationFacade.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/ApplicationFacade.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.sequential.controller" icon="packageIcon" expanded="true">
+				<node label="ExampleAsyncMacroCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/controller/ExampleAsyncMacroCommand.as.html"/>
+				<node label="ExampleSimpleCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/controller/ExampleSimpleCommand.as.html"/>
+				<node label="FirstAsyncCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/controller/FirstAsyncCommand.as.html"/>
+				<node label="SecondAsyncCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/controller/SecondAsyncCommand.as.html"/>
+				<node label="StartupCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/controller/StartupCommand.as.html"/>
+				<node label="ThirdAsyncCommand.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/controller/ThirdAsyncCommand.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.sequential.view" icon="packageIcon" expanded="true">
+				<node label="ApplicationMediator.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/view/ApplicationMediator.as.html"/>
+				<node label="OutputMediator.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/view/OutputMediator.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.demos.sequential.view.components" icon="packageIcon" expanded="true">
+				<node label="OutputComponent.as" icon="actionScriptIcon" url="source/src-standard/org/puremvc/as3/demos/sequential/view/components/OutputComponent.as.html"/>
+			</node>
+			<node label="Sequential.as" icon="actionScriptIcon" url="source/src-standard/Sequential.as.html"/>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

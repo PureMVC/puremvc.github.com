@@ -1,0 +1,223 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ApplicationMediator.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+    PureMVC Flex Demo - StartupForAssets - loading assets with the StartupManager utility
+    Copyright (c) 2008 Philip Sexton &lt;philip.sexton@puremvc.org&gt;
+    Your reuse is governed by the Creative Commons Attribution 3.0 License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupforassets</span>.<span class="ActionScriptDefault_Text">view</span> <span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">Event</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">events</span>.<span class="ActionScriptDefault_Text">MouseEvent</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">collections</span>.<span class="ActionScriptDefault_Text">ArrayCollection</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">collections</span>.<span class="ActionScriptDefault_Text">ListCollectionView</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">controls</span>.<span class="ActionScriptDefault_Text">Button</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">controls</span>.<span class="ActionScriptDefault_Text">ProgressBar</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">controls</span>.<span class="ActionScriptDefault_Text">ProgressBarMode</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">UIComponent</span>;
+    
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">startupforassets</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IMediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">INotification</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">mediator</span>.<span class="ActionScriptDefault_Text">Mediator</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">patterns</span>.<span class="ActionScriptDefault_Text">proxy</span>.<span class="ActionScriptDefault_Text">Proxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">StartupManager</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">assetloader</span>.<span class="ActionScriptDefault_Text">controller</span>.<span class="ActionScriptDefault_Text">LoadAssetGroupInstructions</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">assetloader</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IAsset</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">assetloader</span>.<span class="ActionScriptDefault_Text">interfaces</span>.<span class="ActionScriptDefault_Text">IAssetForFlex</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">assetloader</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">AssetProxy</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">RetryParameters</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">utilities</span>.<span class="ActionScriptDefault_Text">startupmanager</span>.<span class="ActionScriptDefault_Text">model</span>.<span class="ActionScriptDefault_Text">StartupMonitorProxy</span>;
+
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">Mediator</span> <span class="ActionScriptReserved">implements</span> <span class="ActionScriptDefault_Text">IMediator</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">NAME</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;ApplicationMediator&quot;</span>;
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptReserved">const</span> <span class="ActionScriptDefault_Text">THIS_ASSET_GROUP</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Zodiac&quot;</span>;
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">progressMessages</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ListCollectionView</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ArrayCollection</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">groupOfUrls</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loadBtn</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Button</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Button</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loadProgressBar</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ProgressBar</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ProgressBar</span><span class="ActionScriptBracket/Brace">()</span>;
+
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ApplicationMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">viewComponent</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Object</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">super</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">NAME</span>, <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onRegister</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">progressMessages</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">progressMessages</span>;
+
+            <span class="ActionScriptDefault_Text">loadBtn</span>.<span class="ActionScriptDefault_Text">label</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptString">&quot;Load Assets&quot;</span>;
+            <span class="ActionScriptDefault_Text">loadBtn</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">MouseEvent</span>.<span class="ActionScriptDefault_Text">CLICK</span>, <span class="ActionScriptDefault_Text">onLoad</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">controlsDisplayComponent</span>.<span class="ActionScriptDefault_Text">addChild</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loadBtn</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptDefault_Text">loadProgressBar</span>.<span class="ActionScriptDefault_Text">mode</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">ProgressBarMode</span>.<span class="ActionScriptDefault_Text">MANUAL</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">app</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">StartupForAssets</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">viewComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">StartupForAssets</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">assetsDisplayComponent</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">UIComponent</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">assetsDisplayComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">UIComponent</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">controlsDisplayComponent</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">UIComponent</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">app</span>.<span class="ActionScriptDefault_Text">controlsDisplayComponent</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">UIComponent</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">onLoad</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">loadBtn</span>.<span class="ActionScriptDefault_Text">enabled</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">false</span>;
+            <span class="ActionScriptDefault_Text">loadBtn</span>.<span class="ActionScriptDefault_Text">removeEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">MouseEvent</span>.<span class="ActionScriptDefault_Text">CLICK</span>, <span class="ActionScriptDefault_Text">onLoad</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">controlsDisplayComponent</span>.<span class="ActionScriptDefault_Text">removeChild</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loadBtn</span> <span class="ActionScriptBracket/Brace">)</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span> <span class="ActionScriptDefault_Text">isStartupManagerBusy</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">controlsDisplayComponent</span>.<span class="ActionScriptDefault_Text">addChild</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loadProgressBar</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">sendNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">LOAD_ASSET_GROUP</span>, <span class="ActionScriptDefault_Text">loadingInstructions</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">// won&apos;t actually happen in this demo.
+</span>                <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;StartupManager Busy, Try Later&quot;</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">loadBtn</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">MouseEvent</span>.<span class="ActionScriptDefault_Text">CLICK</span>, <span class="ActionScriptDefault_Text">onLoad</span> <span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptDefault_Text">loadBtn</span>.<span class="ActionScriptDefault_Text">enabled</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         *  We choose to ignore the following notifications:&lt;ul&gt;
+         *  &lt;li&gt;StartupManager.LOADING_PROGRESS&lt;/li&gt;
+         *  &lt;li&gt;StartupManager.LOAD_RESOURCE_TIMED_OUT&lt;/li&gt;
+         *  &lt;li&gt;StartupManager.WAITING_FOR_MORE_RESOURCES&lt;/li&gt;
+         *  &lt;/ul&gt;
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">listNotificationInterests</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptBracket/Brace">[</span>
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">LOADING_COMPLETE</span>,
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">LOADING_FINISHED_INCOMPLETE</span>,
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">CALL_OUT_OF_SYNC_IGNORED</span>,
+
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">RETRYING_LOAD_RESOURCE</span>,
+
+                <span class="ActionScriptComment">//StartupManager.ASSET_LOAD_FAILED,
+</span>                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">ASSET_LOAD_FAILED_IOERROR</span>,
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">ASSET_LOAD_FAILED_SECURITY</span>,
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">NEW_ASSET_AVAILABLE</span>,
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">ASSET_GROUP_LOAD_PROGRESS</span>,
+                <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">URL_REFUSED_PROXY_NAME_ALREADY_EXISTS</span>
+                <span class="ActionScriptBracket/Brace">]</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         *  All the notifications to be handled, whether from StartupManager or
+         *  AssetGroupProxy, are of interest only if the notification type matches
+         *  the identifier for this asset group.
+         */</span>
+        <span class="ActionScriptReserved">override</span> <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">handleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getType</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">THIS_ASSET_GROUP</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">doHandleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">doHandleNotification</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">INotification</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">errMsg</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span>;
+            <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getName</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptComment">/*case StartupManager.ASSET_LOAD_FAILED:
+                    progressMessages.addItemAt( &quot;Asset Load Failed&quot;, 0);
+                    break;*/</span>
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">ASSET_LOAD_FAILED_IOERROR</span><span class="ActionScriptOperator">:</span>
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">ASSET_LOAD_FAILED_SECURITY</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">assetPx</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">AssetProxy</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">AssetProxy</span>;
+                    <span class="ActionScriptDefault_Text">errMsg</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">AssetProxy</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">getLoadingErrorMessage</span><span class="ActionScriptBracket/Brace">()</span>;
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Asset Load Failed, Asset=&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">assetPx</span>.<span class="ActionScriptDefault_Text">url</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;...Msg=&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">errMsg</span>, 1<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">textPart</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">errMsg</span>.<span class="ActionScriptDefault_Text">match</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">/text=.*?\Z/</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">textPart</span> <span class="ActionScriptBracket/Brace">)</span>
+                        <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;...&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">textPart</span><span class="ActionScriptBracket/Brace">[</span>0<span class="ActionScriptBracket/Brace">]</span>, 2<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">ASSET_GROUP_LOAD_PROGRESS</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Progress, %=&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">toString</span><span class="ActionScriptBracket/Brace">()</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">loadProgressBar</span>.<span class="ActionScriptDefault_Text">setProgress</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Number</span>, 100<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">NEW_ASSET_AVAILABLE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">child</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">UIComponent</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IAssetForFlex</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">uiComponent</span>;
+                    <span class="ActionScriptDefault_Text">child</span>.<span class="ActionScriptDefault_Text">width</span> <span class="ActionScriptOperator">=</span> 120;
+                    <span class="ActionScriptDefault_Text">child</span>.<span class="ActionScriptDefault_Text">height</span> <span class="ActionScriptOperator">=</span> 120;
+                    <span class="ActionScriptDefault_Text">assetsDisplayComponent</span>.<span class="ActionScriptDefault_Text">addChild</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">child</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Displayed new asset: &quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">IAsset</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">url</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">URL_REFUSED_PROXY_NAME_ALREADY_EXISTS</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> 
+                        <span class="ActionScriptString">&quot;Asset Url Refused, Proxy Name Already Exists, url=&quot;</span> <span class="ActionScriptOperator">+</span> <span class="ActionScriptDefault_Text">note</span>.<span class="ActionScriptDefault_Text">getBody</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">String</span>, 0 <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">RETRYING_LOAD_RESOURCE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Retrying&quot;</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">LOADING_COMPLETE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">controlsDisplayComponent</span>.<span class="ActionScriptDefault_Text">removeChild</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">loadProgressBar</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Loading Complete, This Group Of Assets All Loaded&quot;</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">LOADING_FINISHED_INCOMPLETE</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;Loading Finished BUT INCOMPLETE&quot;</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+
+                <span class="ActionScriptReserved">case</span> <span class="ActionScriptDefault_Text">StartupManager</span>.<span class="ActionScriptDefault_Text">CALL_OUT_OF_SYNC_IGNORED</span><span class="ActionScriptOperator">:</span>
+                    <span class="ActionScriptDefault_Text">progressMessages</span>.<span class="ActionScriptDefault_Text">addItemAt</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;SM ignores Call Out Of Sync&quot;</span>, 0<span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptComment">// we choose to throw Error
+</span>                    <span class="ActionScriptReserved">throw</span> <span class="ActionScriptDefault_Text">Error</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptString">&quot;SM reports Call Out Of Sync; please debug&quot;</span> <span class="ActionScriptBracket/Brace">)</span>;
+                    <span class="ActionScriptReserved">break</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">isStartupManagerBusy</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">busy</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span> <span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">StartupMonitorProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">))</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptOperator">!</span> <span class="ActionScriptDefault_Text">busy</span>;
+
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">StartupMonitorProxy</span>.<span class="ActionScriptDefault_Text">NAME</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">StartupMonitorProxy</span><span class="ActionScriptBracket/Brace">)</span>.<span class="ActionScriptDefault_Text">isOkToReset</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptOperator">!</span> <span class="ActionScriptDefault_Text">busy</span>;
+
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">busy</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptASDoc">/**
+         *  The loading instructions must include groupId and groupOfUrls.  We also want to 
+         *  specify the retry parameters and the progress reporting interval that we want 
+         *  the SM to use.
+         *  &lt;p&gt;
+         *  The retry parameters are: maxRetries, retryInterval in secs, timeout in secs
+         *  &lt;ul&gt;
+         *  &lt;li&gt;they apply per asset&lt;/li&gt;
+         *  &lt;li&gt;the StartupAsOrdered demo offers option to play with these parameters.&lt;/li&gt;&lt;/ul&gt;
+         *  &lt;/p&gt;&lt;p&gt;
+         *  Override the StartupManager&apos;s standard progress report interval ( it applies to asset loading )
+         *  - a small interval, say 5 msecs, is better for this demo.
+         *  &lt;/p&gt;
+         */</span>
+         <span class="ActionScriptReserved">private</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">loadingInstructions</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">LoadAssetGroupInstructions</span> <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptComment">// named Proxy registered in StartupCommand
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">groupOfUrls</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">Proxy</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">facade</span>.<span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(A</span><span class="ActionScriptDefault_Text">pplicationFacade</span>.<span class="ActionScriptDefault_Text">URL_GROUP</span><span class="ActionScriptBracket/Brace">))</span>.<span class="ActionScriptDefault_Text">getData</span><span class="ActionScriptBracket/Brace">()</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Array</span>;
+            <span class="ActionScriptComment">// maxRetries 2, retryInterval 10 secs, timeout 300 secs
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">retryParams</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">RetryParameters</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">RetryParameters</span><span class="ActionScriptBracket/Brace">(</span> 2, 10, 300 <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptComment">// progressReportInterval .005 secs i.e. 5 msecs.
+</span>            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">progressReportInterval</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span> <span class="ActionScriptOperator">=</span> .005;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">instructions</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">LoadAssetGroupInstructions</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">LoadAssetGroupInstructions</span><span class="ActionScriptBracket/Brace">(</span>
+                <span class="ActionScriptDefault_Text">THIS_ASSET_GROUP</span>,
+                <span class="ActionScriptDefault_Text">groupOfUrls</span>,
+                <span class="ActionScriptDefault_Text">retryParams</span>,
+                <span class="ActionScriptDefault_Text">progressReportInterval</span>
+            <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">instructions</span>;
+         <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

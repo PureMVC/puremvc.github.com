@@ -1,0 +1,35 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.puremvc.as2.patterns.command.MacroCommandTest - PureMVC Unit Tests</title><script src="../../../../../quicknav.js" type="text/javascript"></script><script><!--
+document.quicknavBasePath="../../../../../index-files";
+//--></script><link href="../../../../../style.css" title="JavaDoc" rel="stylesheet" type="text/css"/><link href="../../../../../unnatural.css" title="Unnatural" rel="alternate stylesheet" type="text/css"/><link href="../../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.puremvc.as2.patterns.command" rel="up"/><link href="../../../../../org/puremvc/as2/patterns/command/MockMacroCommand.html" title="Class org.puremvc.as2.patterns.command.MockMacroCommand" rel="prev"/><link href="../../../../../org/puremvc/as2/patterns/command/SimpleCommandTest.html" title="Class org.puremvc.as2.patterns.command.SimpleCommandTest" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/></head><body><h1>Class org.puremvc.as2.patterns.command.MacroCommandTest</h1><div class="type_hierachy"><ul><li><strong>org.puremvc.as2.patterns.command.MacroCommandTest</strong></li></ul></div><div class="type_description"></div><div class="type_indexes"><div class="method_index"><h2>Method Index</h2><a href="#setUp" title="public function setUp():Void">setUp()</a>, <a href="#tearDown" title="public function tearDown():Void">tearDown()</a>, <a href="#testInstantiated" title="public function testInstantiated():Void">testInstantiated()</a>, <a href="#testMacroCommandExecute" title="public function testMacroCommandExecute():Void">testMacroCommandExecute()</a></div></div><div class="type_details"><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="setUp"></a><h3>setUp</h3><code class="method_synopsis">public function <strong class="method_name">setUp</strong>():<span class="void_name">Void</span></code><div class="method_info"></div></div><div class="method_details"><a name="tearDown"></a><h3>tearDown</h3><code class="method_synopsis">public function <strong class="method_name">tearDown</strong>():<span class="void_name">Void</span></code><div class="method_info"></div></div><div class="method_details alt_row"><a name="testInstantiated"></a><h3>testInstantiated</h3><code class="method_synopsis">public function <strong class="method_name">testInstantiated</strong>():<span class="void_name">Void</span></code><div class="method_info"></div></div><div class="method_details"><a name="testMacroCommandExecute"></a><h3>testMacroCommandExecute</h3><code class="method_synopsis">public function <strong class="method_name">testMacroCommandExecute</strong>():<span class="void_name">Void</span></code><div class="method_info"><p>
+ Tests operation of a <code>MacroCommand</code>.
+ 
+ <P>
+ This test creates a new <code>Notification</code>, adding a 
+ <code>MacroCommandTestVO</code> as the body. 
+ It then creates a <code>MockMacroCommand</code> and invokes
+ its <code>execute</code> method, passing in the 
+ <code>Notification</code>.<P>
+ 
+ <P>
+ The <code>MockMacroCommand</code> has defined an
+ <code>initializeMacroCommand</code> method, which is 
+ called automatically by its constructor. In this method
+ the <code>MockMacroCommand</code> adds 2 SubCommands
+ to itself, <code>MacroCommandTestSub1Command</code> and
+ <code>MacroCommandTestSub2Command</code>.
+ 
+ <P>
+ The <code>MacroCommandTestVO</code> has 2 result properties,
+ one is set by <code>MacroCommandTestSub1Command</code> by
+ multiplying the input property by 2, and the other is set
+ by <code>MacroCommandTestSub2Command</code> by multiplying
+ the input property by itself. 
+ 
+ <P>
+ Success is determined by evaluating the 2 result properties
+ on the <code>MacroCommandTestVO</code> that was passed to 
+ the <code>MockMacroCommand</code> on the Notification 
+ body.</P>
+ 
+	 </p></div></div></div></div><ul class="main_nav" id="main_nav"><li><a href="../../../../../overview-summary.html" title="Overview of PureMVC Unit Tests" class="button">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.puremvc.as2.patterns.command" class="button">Package</a></li><li><span class="button nav_current">Class</span></li><li><a href="MacroCommandTest.as.html" title="Source code of org.puremvc.as2.patterns.command.MacroCommandTest" class="button">Source</a></li><li><a href="../../../../../index-files/index.html" title="Alpabetical index of types and members" class="button">Index</a></li></ul><div class="footer"><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a></div></body></html>

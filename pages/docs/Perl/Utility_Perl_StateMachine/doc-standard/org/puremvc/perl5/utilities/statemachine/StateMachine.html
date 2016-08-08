@@ -1,0 +1,172 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC State Machine - StateMachine</title>
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::utilities::statemachine::StateMachine</code></p>
+<p><strong>inherits:</strong></p>
+<ul>
+<li>
+<p><code>org::puremvc::perl5::patterns::mediator::Mediator</code></p>
+</li>
+</ul>
+<p>A Finite State Machine implementation for PureMVC.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>A <code>StateMachine</code> object assumes these reponsibilities:</p>
+<ul>
+<li>
+<p>Providing a method for <a href="State.html">State</a> objects registration.</p>
+</li>
+<li>
+<p>Providing a method for <a href="State.html">State</a> objects removal.</p>
+</li>
+<li>
+<p>Providing a method to transition from one <a href="State.html">State</a> to another.</p>
+</li>
+<li>
+<p>Sending <a href="State.html">State's</a> defined <code>Notification</code> when entering, exiting or finishing transitioning to it.</p>
+</li>
+</ul>
+<p>As a <code>Mediator</code>, a <code>StateMachine</code> object's <code>_viewComponent</code> property represents the current <a href="State.html">State</a> the object is in.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="registerstate" class="item">registerState</a></strong></dt>
+
+<dd>
+<p><a href="#registerstate"><code>sub registerState( $state, $is_initial );</code></a></p>
+<p>Register a <a href="State.html">State</a> object.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$state - org::puremvc::perl5::utilities::statemachine::State</code></p>
+<p>The <a href="State.html">State</a> to register.</p>
+</li>
+<li>
+<p><code>$is_initial - scalar</code></p>
+<p>Specifies whether the registered <a href="State.html">State</a> is the initial state. False is represented by a value different from 0.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="removestate" class="item">removeState</a></strong></dt>
+
+<dd>
+<p><a href="#removestate"><code>sub removeState( $state_name );</code></a></p>
+<p>Remove a <a href="State.html">State</a> object from the <code>StateMachine</code>.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$state_name - String</code></p>
+<p>The name of the <a href="State.html">State</a> to remove.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="transitionto" class="item">transitionTo</a></strong></dt>
+
+<dd>
+<p><a href="#transitionto"><code>sub transitionTo( $next_state, $data );</code></a></p>
+<p>Transitions to the given <a href="State.html">State</a> from the current state.</p>
+<p>Sends the exiting <code>notification</code> for the current <a href="State.html">State</a> followed by the entering <code>notification</code> for the new <a href="State.html">State</a>. Once finally transitioned to the new <a href="State.html">State</a>, the changed <code>notification</code> for the new <a href="State.html">State</a> is sent.</p>
+<p>If a data parameter is provided, it is included as the body of all three state-specific transition <code>notifications</code>.</p>
+<p>Finally, when all the state-specific transition <code>notifications</code> have been sent, a <code>StateMachine::CHANGED</code> <code>notification</code> is sent, with the new <a href="State.html">State</a> object as the body and the name of the new <a href="State.html">State</a> in the type.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$next_state - org::puremvc::perl5::utilities::statemachine::State</code></p>
+<p>The next <a href="State.html">State</a> to transition to.</p>
+</li>
+<li>
+<p><code>$data - *</code></p>
+<p>Optional data that was sent in the <code>StateMachine.ACTION</code> <code>notification</code> body.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="currentstate" class="item">currentState</a></strong></dt>
+
+<dd>
+<p><a href="#currentstate"><code>sub currentState( $new_state );</code></a></p>
+<p>Getter/setter for the <code>_viewComponent</code> property.</p>
+<p>When no parameter is given, behaves as a getter, as a setter otherwise.</p>
+<p>The <code>_viewComponent</code> property represents the current <a href="State.html">State</a> the machine is in.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$new_state - org::puremvc::perl5::utilities::statemachine::State</code> - Optional</p>
+<p>The new current <a href="State.html">State</a> of the <code>StateMachine</code>.</p>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::utilities::statemachine::State</code> - The current <a href="State.html">State</a> of the <code>StateMachine</code>.</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="canceled" class="item">canceled</a></strong></dt>
+
+<dd>
+<p>1 if a transition has been canceled, any other value otherwise.</p>
+</dd>
+<dt><strong><a name="initial" class="item">initial</a></strong></dt>
+
+<dd>
+<p>The initial <a href="State.html">State</a> of the <code>StateMachine</code>.</p>
+</dd>
+<dt><strong><a name="states" class="item">states</a></strong></dt>
+
+<dd>
+<p>Map of <a href="State.html">States</a> objects by name.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="FSMInjector.html">org::puremvc::perl5::utilities::statemachine::FSMInjector</a></p>
+<p><a href="State.html">org::puremvc::perl5::utilities::statemachine::State</a></p>
+
+</body>
+
+</html>

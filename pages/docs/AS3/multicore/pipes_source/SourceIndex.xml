@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>PureMVC AS3/MultiCore Pipes Utility</title>
+	<nodes>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="org.puremvc.as3.multicore.utilities.pipes.interfaces" icon="packageIcon" expanded="true">
+				<node label="IPipeAware.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/interfaces/IPipeAware.as.html"/>
+				<node label="IPipeFitting.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/interfaces/IPipeFitting.as.html"/>
+				<node label="IPipeMessage.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/interfaces/IPipeMessage.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.utilities.pipes.messages" icon="packageIcon" expanded="true">
+				<node label="FilterControlMessage.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/messages/FilterControlMessage.as.html"/>
+				<node label="Message.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/messages/Message.as.html"/>
+				<node label="QueueControlMessage.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/messages/QueueControlMessage.as.html"/>
+			</node>
+			<node label="org.puremvc.as3.multicore.utilities.pipes.plumbing" icon="packageIcon" expanded="true">
+				<node label="Filter.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/Filter.as.html"/>
+				<node label="Junction.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/Junction.as.html"/>
+				<node label="JunctionMediator.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/JunctionMediator.as.html"/>
+				<node label="Pipe.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/Pipe.as.html"/>
+				<node label="PipeListener.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/PipeListener.as.html"/>
+				<node label="Queue.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/Queue.as.html"/>
+				<node label="TeeMerge.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/TeeMerge.as.html"/>
+				<node label="TeeSplit.as" icon="actionScriptIcon" url="source/org/puremvc/as3/multicore/utilities/pipes/plumbing/TeeSplit.as.html"/>
+			</node>
+		</node>
+		<node label="license.txt" url="source/license.txt"/>
+		<node label="version.txt" url="source/version.txt"/>
+	</nodes>
+</index>

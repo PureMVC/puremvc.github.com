@@ -1,0 +1,41 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>PopManager.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC Flex/CF Demo – File Uploader 
+ Copyright (c) 2007 Simon Bailey &lt;simon.bailey@puremvc.org&gt;
+ Your reuse is governed by the Creative Commons Attribution 3.0 License
+ */</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">view</span>.<span class="ActionScriptDefault_Text">managers</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">Application</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">display</span>.<span class="ActionScriptDefault_Text">Sprite</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">managers</span>.<span class="ActionScriptDefault_Text">PopUpManager</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">core</span>.<span class="ActionScriptDefault_Text">IFlexDisplayObject</span>;
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">demos</span>.<span class="ActionScriptDefault_Text">flex</span>.<span class="ActionScriptDefault_Text">cf</span>.<span class="ActionScriptDefault_Text">fileupload</span>.<span class="ActionScriptDefault_Text">ApplicationFacade</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">PopManager</span> <span class="ActionScriptReserved">extends</span> <span class="ActionScriptDefault_Text">PopUpManager</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">openPopUpWindow</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">ComponentClass</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Class</span>, <span class="ActionScriptDefault_Text">MediatorClass</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Class</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">window</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFlexDisplayObject</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">PopUpManager</span>.<span class="ActionScriptDefault_Text">createPopUp</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">Application</span>.<span class="ActionScriptDefault_Text">application</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">Sprite</span>, <span class="ActionScriptDefault_Text">ComponentClass</span>, <span class="ActionScriptReserved">true</span> <span class="ActionScriptBracket/Brace">)</span>;
+        
+            <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>.<span class="ActionScriptDefault_Text">registerMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">MediatorClass</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">window</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">PopUpManager</span>.<span class="ActionScriptDefault_Text">centerPopUp</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">window</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptReserved">public</span> <span class="ActionScriptReserved">static</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">closePopUpWindow</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">window</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IFlexDisplayObject</span>, <span class="ActionScriptDefault_Text">mediatorName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">PopUpManager</span>.<span class="ActionScriptDefault_Text">removePopUp</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">window</span> <span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">ApplicationFacade</span>.<span class="ActionScriptDefault_Text">getInstance</span><span class="ActionScriptBracket/Brace">()</span>.<span class="ActionScriptDefault_Text">removeMediator</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">mediatorName</span> <span class="ActionScriptBracket/Brace">)</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

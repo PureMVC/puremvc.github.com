@@ -1,0 +1,154 @@
+<html>
+
+<head>
+<title>haXe API Documentation</title>
+
+<script type="text/javascript">
+<!--
+	function toggle(id) {
+		var e = document.getElementById(id);
+		e.isopen = !e.isopen;
+		e.style.display = e.isopen?"block":"none";
+		return false;
+	}
+-->
+</script>
+
+<style type="text/css">
+body {
+	text-align: center;
+	font-family: Trebuchet MS, sans-serif;
+	background-color : #ffffff;
+}
+
+.document {
+	width : 800px;
+	position : relative;
+	margin : 10px auto 5px auto;
+	border : solid 2px #CFD0D4;
+	text-align : justify;
+	background-color: #ffffff;
+	color: #292929;
+}
+
+.title {
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+	background-color : #0067b0;
+	color : white;
+}
+
+ul.entry {
+	list-style-type: circle;
+	font-weight : bold;
+	margin-left : 20px;
+}
+
+.package_content {
+	display : none;
+}
+
+a {
+	color : #0067b0;
+	font-weight : bold;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #0067b0;
+	text-decoration : underline;
+}
+
+a.package {
+	color : #292929;
+}
+
+.index {
+	margin-left : 10px;
+}
+
+.kwd {
+	color: #008cd7;
+}
+
+.classname {
+	font-size : 25px;
+	font-weight : bold;
+	margin : 20px 10px;
+}
+
+.classdoc {
+	border : 1px dashed #666;
+	margin-left : 20px;
+	margin-right : 20px;
+	padding : 5px 5px 5px 5px;
+}
+
+.importmod, .extends, .implements, .typedef, .platforms {
+	margin-left: 20px;
+	color : #777;
+}
+
+dd {
+	margin : 0px 20px 20px 40px;
+	font-size : 12pt;
+	color : #444;
+}
+
+dt {
+	margin-left : 20px;
+	margin-bottom : 5px;
+	text-align : left;
+	font-size : 10pt;
+	font-family: Courier New, monospace;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="document">
+<div class="title">PureMVC Framework for haXe: API Documentation</div>
+
+<a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../index.html" class="index">Index</a><div class="classname"><span class="kwd">class </span>StringTools</div><div class="classdoc">
+	The StringTools class contains some extra functionalities for <code>String</code>
+	manipulation. It's stored in a different class in order to prevent
+	the standard <code>String</code> of being bloated and thus increasing the size of
+	each application using it.
+</div><dl><dt><span class="kwd">static </span><span class="kwd">function </span>endsWith(s : <a href="String.html" class="type">String</a>, end : <a href="String.html" class="type">String</a>) : <a href="Bool.html" class="type">Bool</a></dt><dd>
+		Tells if the string <code>s</code> ends with the string <code>end</code>.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>hex(n : <a href="Int.html" class="type">Int</a>, ?digits : <a href="Int.html" class="type">Int</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Encode a number into a hexadecimal representation, with an optional number of zeros for left padding.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>htmlEscape(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Escape HTML special characters of the string.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>htmlUnescape(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Unescape HTML special characters of the string.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>isSpace(s : <a href="String.html" class="type">String</a>, pos : <a href="Int.html" class="type">Int</a>) : <a href="Bool.html" class="type">Bool</a></dt><dd>
+		Tells if the character in the string <code>s</code> at position <code>pos</code> is a space.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>lpad(s : <a href="String.html" class="type">String</a>, c : <a href="String.html" class="type">String</a>, l : <a href="Int.html" class="type">Int</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Pad the string <code>s</code> by appending <code>c</code> at its left until it reach <code>l</code> characters.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>ltrim(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Removes spaces at the left of the String <code>s</code>.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>replace(s : <a href="String.html" class="type">String</a>, sub : <a href="String.html" class="type">String</a>, by : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Replace all occurences of the string <code>sub</code> in the string <code>s</code> by the string <code>by</code>.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>rpad(s : <a href="String.html" class="type">String</a>, c : <a href="String.html" class="type">String</a>, l : <a href="Int.html" class="type">Int</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Pad the string <code>s</code> by appending <code>c</code> at its right until it reach <code>l</code> characters.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>rtrim(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Removes spaces at the right of the String <code>s</code>.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>startsWith(s : <a href="String.html" class="type">String</a>, start : <a href="String.html" class="type">String</a>) : <a href="Bool.html" class="type">Bool</a></dt><dd>
+		Tells if the string <code>s</code> starts with the string <code>start</code>.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>trim(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Removes spaces at the beginning and the end of the String <code>s</code>.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>urlDecode(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Decode an URL using the standard format.
+</dd><dt><span class="kwd">static </span><span class="kwd">function </span>urlEncode(s : <a href="String.html" class="type">String</a>) : <a href="String.html" class="type">String</a></dt><dd>
+		Encode an URL by using the standard format.
+</dd></dl><a href="#" onclick="javascript:history.back(-1); return false" class="index">Back</a> | <a href="../index.html" class="index">Index</a>
+
+</div>
+
+</body>
+</html>

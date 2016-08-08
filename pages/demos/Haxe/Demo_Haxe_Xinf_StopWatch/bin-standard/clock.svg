@@ -1,0 +1,48 @@
+<!--
+PureMVC haXe StateMachine Demo - StopWatch Port by Zjnue Brzavi <zjnue.brzavi@puremvc.org>
+Copyright (c) 2007-2008, Cliff Hall <cliff.hall@puremvc.org>
+Your reuse is governed by the Creative Commons Attribution 3.0 License
+-->
+<svg height="300" width="300" xmlns="http://www.w3.org/2000/svg">
+  <g id="all">
+  	<g id="watch" transform="translate(120, 120) scale(2,2)">
+  		<circle id="bkg" rx="0" ry="0" r="50" stroke="#3a5" fill="#ada" fill-opacity="1"/>
+  		<line x1="0" y1="-46" x2="0" y2="-50" stroke="green"/>
+  		<line x1="46" y1="0" x2="50" y2="0" stroke="green"/>
+  		<line x1="0" y1="46" x2="0" y2="50" stroke="green"/>
+  		<line x1="-46" y1="0" x2="-50" y2="0" stroke="green"/>
+  		<line id="hour" x1="0" y1="0" x2="0" y2="-32" stroke="blue" stroke-width="3"/>
+  		<line id="minute" x1="0" y1="0" x2="0" y2="-40" stroke="#6ff" stroke-width="1.4"/>
+  		<line id="second" x1="0" y1="0" x2="0" y2="-46" stroke="white" stroke-width="0.8"/>
+  		<circle rx="0" ry="0" r="1.8" fill="red"/>
+  	</g>
+  	<!-- should use defs instead -->
+  	<g id="buttons" transform="translate(5, 240) scale(.82,.9)">
+  		<g id="start_btn">
+  			<rect x="0" y="0" rx="5" ry="5" width="50" height="22" stroke="green" fill="#999"/>
+  			<text x="7" y="15" font-size="10" font-weight="bold" fill="white">START</text>
+  			<rect id="start_btn_cover" x="0" y="0" rx="5" ry="5" width="50" height="22" fill="white" fill-opacity=".7"/>
+  		</g>
+  		<g id="stop_btn" transform="translate(60, 0)">
+  			<rect x="0" y="0" rx="5" ry="5" width="50" height="22" stroke="green" fill="#999"/>
+  			<text x="10" y="15" font-size="10" font-weight="bold" fill="white">STOP</text>
+  			<rect id="stop_btn_cover" x="0" y="0" rx="5" ry="5" width="50" height="22" fill="white" fill-opacity=".7"/>
+  		</g>
+  		<g id="reset_btn" transform="translate(120, 0)">
+  			<rect x="0" y="0" rx="5" ry="5" width="50" height="22" stroke="green" fill="#999"/>
+  			<text x="7.2" y="15" font-size="10" font-weight="bold" fill="white">RESET</text>
+  			<rect id="reset_btn_cover" x="0" y="0" rx="5" ry="5" width="50" height="22" fill="white" fill-opacity=".7"/>
+  		</g>
+  		<g id="split_btn" transform="translate(180, 0)">
+  			<rect x="0" y="0" rx="5" ry="5" width="50" height="22" stroke="green" fill="#999"/>
+  			<text x="7.4" y="15" font-size="10" font-weight="bold" fill="white">SPLIT</text>
+  			<rect id="split_btn_cover" x="0" y="0" rx="5" ry="5" width="50" height="22" fill="white" fill-opacity=".7"/>
+  		</g>
+  		<g id="unsplit_btn" transform="translate(240, 0)">
+  			<rect x="0" y="0" rx="5" ry="5" width="50" height="22" stroke="green" fill="#999"/>
+  			<text x="1.6" y="15" font-size="10" font-weight="bold" fill="white">UNSPLIT</text>
+  			<rect id="unsplit_btn_cover" x="0" y="0" rx="5" ry="5" width="50" height="22" fill="white" fill-opacity=".7"/>
+  		</g>
+  	</g>
+  </g>
+</svg>

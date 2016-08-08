@@ -1,0 +1,1363 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../../../print.css" type="text/css" media="print">
+<meta content="LoadupMonitorProxy,org.puremvc.as3.utilities.loadup.model.LoadupMonitorProxy,CALL_OUT_OF_SYNC_IGNORED,INVALID_RESET_MSG,INVALID_RESOURCES_MSG,LOADING_COMPLETE,LOADING_FINISHED_INCOMPLETE,LOADING_PROGRESS,LOAD_RESOURCE_TIMED_OUT,NAME,RETRYING_LOAD_RESOURCE,UNKNOWN_ILOADUP_PROXY_MSG,WAITING_FOR_MORE_RESOURCES,prefixIfAutoLRPName,waitingForMoreResourcesNotificationName,defaultRetryPolicy,failedResourcesThisTry,loadedResources,resourceList,expectedNumberOfResources,addResource,addResourceViaLoadupProxy,addResources,addResourcesViaLoadupProxy,allResourcesLoaded,cleanup,closeResourceList,doCloseResourceList,doSendNotification,findLRProxyByAppProxyName,getFailedResourcesThisTry,getLoadedResources,getResourceList,getResourceViaLoadupProxyName,initializeMonitor,isActive,isAnyRemainingResourceLoadable,isLoadResourcesFeasible,isLoadingFinished,isOkToReset,keepResourceListOpen,loadResources,reConfigureAllRetryPolicies,removeResourceProxies,reset,resourceFailed,resourceHasBeenTimedOut,resourceLoaded,sendProgressNotification,tryToCompleteLoadResources" name="keywords">
+<title>org.puremvc.as3.utilities.loadup.model.LoadupMonitorProxy</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'LoadupMonitorProxy - API Documentation';
+				var baseRef = '../../../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../../../all-classes.html')" href="../../../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../../all-classes.html')" href="../../../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../../index-list.html')" href="../../../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../../../index.html?org/puremvc/as3/utilities/loadup/model/LoadupMonitorProxy.html&amp;org/puremvc/as3/utilities/loadup/model/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;LoadupMonitorProxy</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class LoadupMonitorProxy"); titleBar_setSubNav(true,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.puremvc.as3.utilities.loadup.model</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class LoadupMonitorProxy</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">LoadupMonitorProxy <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../../../images/inherit-arrow.gif"> org.puremvc.as3.patterns.proxy.Proxy</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td>org.puremvc.as3.interfaces.IProxy</td>
+</tr>
+</table>
+<p></p>
+  The Loadup utility offers a solution to the problem of how to manage the loading of data resources, 
+  be that at application startup or at some other time in the duration of the application.  See the
+  Loadup class for an introduction to this utility.
+  <p>
+  An example of use is as follows. 
+  In the context of the puremvc framework, the application typically has a startup command that manages 
+  the instantiation of essential actors like proxies and mediators.  At this time, you may also want to 
+  prime the application with some resources, for example data, before allowing user interaction. This 
+  utility offers a way of doing that.</p>
+  <p>
+  The utility enables the application to do the following
+  <ul><li>
+  state how the resource loading should be sequenced so that dependent resources are loaded in correct order</li>
+  <li>specify a retry policy, per resource</li>
+  <li>be aware of the progress of the resource loading</li>
+  <li>know when the resource loading is complete</li>
+  <li>cater for an open-ended list of resources.</li></ul>
+  <p>
+  The demo app called LoadupAsOrdered provides an example use of this utility.</p>
+  <p>
+  This LoadupMonitorProxy class has the main role in managing the loading process.  The client application 
+  creates an instance of it for each batch of loading to be done.  The term Monitor is used in the
+  following documentation to signify this instance. Each Monitor instance is made unique by the
+  proxyName it is given; hence there can be concurrent instances. When only one instance is required, the
+  default name may well be sufficient. When the client application is finished with an instance, it should
+  invoke the cleanup operation to facilitate garbage collection.</p>
+  <p>
+  Repeated use of one monitor instance is possible, serial not concurrent, by invoking the reset 
+  operation to reset the state of the monitor and ready it for reuse.</p>
+  <p>
+  For each loadup resource to be managed, the app has created a <code>LoadupResourceProxy</code>
+  object.  The app must register each of these with the Monitor, using the <code>addResource</code>
+  method.  See the <code>LoadupResourceProxy</code> class for detail on that class.</p>
+  <p>
+  It is assumed that the app has defined separate 'loaded' notifications for each resource.  When the
+  app completes a resource load, it will send the relevant notification.  The app must register the
+  utility command <code>LoadupResourceLoadedCommand</code> for each of these notifications, so that 
+  the command can inform the Monitor that the resource has been loaded.</p>
+  <p>
+  Given that a resource load could fail, it is also recommended the app defines separate 'failed'
+  notifications for each resource.  If a fail occurs, the app will send the relevant notification.
+  The app must register the utility command <code>LoadupResourceFailedCommand</code> for each
+  of these notifications, so that the command can inform the Monitor that the resource load has failed.</p>
+  <p>
+  NOTE NOTE that 'loaded' and 'failed' notifications MUST MUST use the body of the 
+  <code>Notification</code> to identify the resource, using the application's resource proxy name. In 
+  the case a 'failed' notification, the body can contain the name as a simple String object, as it would
+  for a 'loaded' notification, but it can also embed the name in a FailureInfo object.  A FailureInfo 
+  object enables the app to send a 'do not retry' instruction to the utility, when required.</p>
+  <p>
+  NOTE NOTE that 'loaded' and 'failed' notifications, when the monitor instance has its own
+  custom name, i.e. a name other than the default name, MUST MUST include the monitor's name as the
+  notification type, so that the utility command (see above) can know which monitor to inform.</p>
+  <p>
+  The app starts the loading of resources using the <code>loadResources</code> method.  For each resource
+  that the Monitor decides should be loaded, it invokes the <code>load</code> method on the app's
+  resource proxy using the <code>ILoadupProxy</code> interface.</p>
+  <p>
+  When the utility receives a 'failed' notification, and the notification does not state 'do not retry',
+  that is, retry is allowed (this is the default),
+  the utility will retry to load that resource, subject to the retry policy associated with the resource.</p>
+  <p>
+  During the loading of resources, the Monitor can send various notifications to the application.
+  These are as follows:
+  <ul><li>LOADING_PROGRESS: sent after each resource load, with percent loaded as the note body, an integer</li>
+  <li>RETRYING_LOAD_RESOURCE: a load operation has failed and the Monitor is now retrying the load; the 
+  notification identifies the resource using the app's resource proxy name in the notification body</li>
+  <li>LOAD_RESOURCE_TIMED_OUT: the Monitor has asked the app to load a resource and has now timed out
+  the load; the timeout was decided by the <code>LoadupResourceProxy</code> for the resource; the 
+  notification identifies the resource using the app's resource proxy name in the notification body</li>
+  <li>LOADING_COMPLETE: all resources have been successfully loaded</li>
+  <li>LOADING_FINISHED_INCOMPLETE: all resources that could be loaded have been loaded, but not all have
+  been loaded; some may have failed, even after retries, some may have timed out, some may depend on others 
+  and one of those others has failed</li>
+  <li>CALL_OUT_OF_SYNC_IGNORED: the app has called a method on the Monitor and that method is not valid
+  at this stage of the process</li>
+  <li>WAITING_FOR_MORE_RESOURCES: when the context is an open-ended resource list (see below), and all 
+  resources listed so far have been loaded, this notification is sent instead of the LOADING_COMPLETE 
+  notification</li>
+  </ul></p>
+  <p>Each notification sent by the Monitor includes a notification type; this is the Monitor's
+  proxyName.</p>
+  <p>
+  The recommended response of the app to each of these notifications is as follows:
+  <ul><li>LOADING_PROGRESS: optional</li>
+  <li>RETRYING_LOAD_RESOURCE: optional</li>
+  <li>LOAD_RESOURCE_TIMED_OUT: optional, see the <code>getFailedResourcesThisTry()</code> method as another
+  way to find out what resources have failed or have timed out</li>
+  <li>LOADING_COMPLETE: should listen for, now the application can proceed</li>
+  <li>LOADING_FINISHED_INCOMPLETE: should listen for, can try again to load the remaining resources by 
+  invoking the <code>tryToCompleteLoadResources</code> method on the Monitor; in this case, the Monitor 
+  resets the retry policy of each outstanding resource, so that the retry history is removed and each 
+  resource can be retried again to the fullest extent</li>
+  <li>CALL_OUT_OF_SYNC_IGNORED: should listen for, should probably abort loadup and debug</li>
+  <li>WAITING_FOR_MORE_RESOURCES: optional</li>
+  </ul></p>
+  <p>
+  Technically, it is worth noting that an application could choose to ignore the <code>LoadupResourceLoadedCommand</code>
+  and the <code>LoadupResourceFailedCommand</code>, and instead directly invoke the corresponding methods on the Monitor,
+  namely, <code>resourceLoaded</code> and <code>resourceFailed</code>.</p>
+  <p>
+  An Error is thrown when certain exceptions are encountered, for example 
+  <ul><li>
+  Invalid Resources: if the Monitor decides that the set of resources cannot
+  be loaded, for example, there are no resources, or they have inter-dependencies such that it is
+  not feasible to load them.</li></p>
+  <p>
+  The property <code>defaultRetryPolicy</code> is a convenient way of setting a retry policy that will be used
+  as the default in <code>LoadupResourceProxy</code> objects.  This is assigned an initial value based on the 
+  utility's own standard retry policy and configured as: maxRetries=0, retryInterval=0, timeout=300secs.  The timeout
+  is set because it is deemed important to have some fallback timeout in the case of asynchronous operations. 
+  Also, see method reConfigureAllRetryPolicies() below.</p>
+  <p>
+  The utility can be used to load an open-ended list of resources, where the full set of resources is not known 
+  at the outset.  For example, the first resource loaded might determine what other resources are to be loaded. This 
+  method of loading is accomplished as follows
+  <ul><li>
+  before invoking loadResources(), invoke keepResourceListOpen()</li>
+  <li>after invoking loadResources(), use addResource() or addResources() to add to the list, as the 
+  additional resources arise; note that the LoadupResourceProxy 'requires' property should be set before 
+  adding to the list; this requirement can lead to addResources() being preferred as the means of adding an 
+  inter-dependent set of resources; consequently, the approach implemented by the 
+  makeAndRegisterLoadupResource method of the LoadupAsOrdered demo is not applicable in this circumstance</li>
+  <li>invoke closeResourceList() to inform the monitor that all resources have been added</li>
+  <li>before invoking loadResources(), set the expectedNumberOfResources property, if you want the report of 
+  loading progress to be reasonable; this will be used until a more exact number is known.</li></ul></p>
+  <p>
+  Adapted from original code of Meekgeek and Daniele Ugoletti,
+  implemented in Daniele's ApplicationSkeleton_v1.3 demo, Nov 2007,
+  posted to the puremvc forums.</p>
+  
+ <p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#defaultRetryPolicy">defaultRetryPolicy</a> : <a href="../interfaces/IRetryPolicy.html">IRetryPolicy</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#expectedNumberOfResources">expectedNumberOfResources</a> : int<div class="summaryTableDescription">[write-only]
+      Only relevant if keepResourceListOpen() is relevant; purpose is to make the reporting
+      of loading progress more valid.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#prefixIfAutoLRPName">prefixIfAutoLRPName</a> : String = "luLR_"<div class="summaryTableDescription">
+         This var is used by the addResourceViaLoadupProxy method.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#waitingForMoreResourcesNotificationName">waitingForMoreResourcesNotificationName</a> : String = "luWaitingForMoreResources"<div class="summaryTableDescription">
+          If the client app overrides the initial value of this var, then it is in charge of its
+          value; the reset() operation DOES NOT reset it to the initial value.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+</table>
+</div>
+<a name="protectedPropertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Properties</div>
+<table id="summaryTableProtectedProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#failedResourcesThisTry">failedResourcesThisTry</a> : Array<div class="summaryTableDescription">[read-only]
+          An array of LoadupResourceProxy objects.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#loadedResources">loadedResources</a> : Array<div class="summaryTableDescription">[read-only]
+          An array of LoadupResourceProxy objects.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#resourceList">resourceList</a> : <a href="../interfaces/IResourceList.html">IResourceList</a>
+<div class="summaryTableDescription">[read-only]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#LoadupMonitorProxy()">LoadupMonitorProxy</a>(proxyName:String = null, data:<a href="../interfaces/IResourceList.html">IResourceList</a> = null)</div>
+<div class="summaryTableDescription">
+   Constructor
+      </div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addResource()">addResource</a>(r:<a href="LoadupResourceProxy.html">LoadupResourceProxy</a>):void</div>
+<div class="summaryTableDescription">
+          Add a resource to be loaded.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addResources()">addResources</a>(resources:Array):void</div>
+<div class="summaryTableDescription">
+          Add resourceS to be loaded.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addResourcesViaLoadupProxy()">addResourcesViaLoadupProxy</a>(pxs:Array):void</div>
+<div class="summaryTableDescription">
+          Add resourceS via an array of ILoadupProxy objects - alternative to adding them singly.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addResourceViaLoadupProxy()">addResourceViaLoadupProxy</a>(px:<a href="../interfaces/ILoadupProxy.html">ILoadupProxy</a>, resourceProxyName:String = null):void</div>
+<div class="summaryTableDescription">
+          See addResource() above.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#allResourcesLoaded()">allResourcesLoaded</a>():Boolean</div>
+<div class="summaryTableDescription">
+         Check have all the listed resources been loaded.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#cleanup()">cleanup</a>():void</div>
+<div class="summaryTableDescription">
+          This cleanup feature deals with removal of object state that is closely bound with this loadup 
+          monitor instance.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#closeResourceList()">closeResourceList</a>():void</div>
+<div class="summaryTableDescription">
+          If resource list is already closed, then nothing happens.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getFailedResourcesThisTry()">getFailedResourcesThisTry</a>():Array</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getLoadedResources()">getLoadedResources</a>():Array</div>
+<div class="summaryTableDescription">
+          These 3 functions provide safe read-only access to 3 non-public objects.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getResourceList()">getResourceList</a>():<a href="../interfaces/IResourceList.html">IResourceList</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getResourceViaLoadupProxyName()">getResourceViaLoadupProxyName</a>(proxyName:String):<a href="../model/LoadupResourceProxy.html">LoadupResourceProxy</a>
+</div>
+<div class="summaryTableDescription">
+          Find the resource, that is, the LoadupResourceProxy object, where the corresponding
+          ILoadupProxy object has the given name.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isActive()">isActive</a>():Boolean</div>
+<div class="summaryTableDescription">
+          Is the monitor active, meaning is it engaged in loading resources or has it finished this
+          try.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isOkToReset()">isOkToReset</a>():Boolean</div>
+<div class="summaryTableDescription">
+          Is it ok to reset this monitor?
+          Yes, if the monitor is not currently active; by active we mean that loading has started and the 
+          monitor has not yet reached a LOADING_COMPLETE or LOADING_FINISHED_INCOMPLETE state.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#keepResourceListOpen()">keepResourceListOpen</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#loadResources()">loadResources</a>():void</div>
+<div class="summaryTableDescription">
+         Start to load all resources.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#reConfigureAllRetryPolicies()">reConfigureAllRetryPolicies</a>(retryParameters:<a href="../interfaces/IRetryParameters.html">IRetryParameters</a>):void</div>
+<div class="summaryTableDescription">
+          After loading has 'finished incomplete', this method is a convenient way for the client app
+          to change the retry policies, where the same input parameters apply to all policy instances.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#reset()">reset</a>():void</div>
+<div class="summaryTableDescription">
+          Reset the state of the monitor, so that it is ready for reuse.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#resourceFailed()">resourceFailed</a>(proxyName:String, allowRetry:Boolean = true):void</div>
+<div class="summaryTableDescription">
+         The resource load has failed, update the state, retry the load if possible,
+          otherwise check are we finished with this try to load resources.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#resourceHasBeenTimedOut()">resourceHasBeenTimedOut</a>(r:<a href="LoadupResourceProxy.html">LoadupResourceProxy</a>):void</div>
+<div class="summaryTableDescription">
+         Loading of the resource has timed out, update the state and
+          check if the loading process is complete.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#resourceLoaded()">resourceLoaded</a>(proxyName:String):void</div>
+<div class="summaryTableDescription">
+         The resource is loaded, update the state and check if the loading process is complete.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#sendProgressNotification()">sendProgressNotification</a>():void</div>
+<div class="summaryTableDescription">
+          Sends the Loading Progress notification, with percent loaded, for client app to observe.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#tryToCompleteLoadResources()">tryToCompleteLoadResources</a>():void</div>
+<div class="summaryTableDescription">
+          Try to complete the loading of outstanding resources
+         </div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+</table>
+</div>
+<a name="protectedMethodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Methods</div>
+<table id="summaryTableProtectedMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#doCloseResourceList()">doCloseResourceList</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#doSendNotification()">doSendNotification</a>(notificationName:String, body:Object = null):void</div>
+<div class="summaryTableDescription">
+          Notification type is this LoadupMonitorProxy's proxyName.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#findLRProxyByAppProxyName()">findLRProxyByAppProxyName</a>(appProxyName:String):<a href="../model/LoadupResourceProxy.html">LoadupResourceProxy</a>
+</div>
+<div class="summaryTableDescription">
+          Find the LoadupResourceProxy object, in the resourceList, that refers to the
+          app resource proxy of the given name.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#initializeMonitor()">initializeMonitor</a>():void</div>
+<div class="summaryTableDescription">
+          </div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isAnyRemainingResourceLoadable()">isAnyRemainingResourceLoadable</a>():Boolean</div>
+<div class="summaryTableDescription">
+          For each resource that has not yet been processed, 
+          check is there at least one that could be loaded.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isLoadingFinished()">isLoadingFinished</a>():Boolean</div>
+<div class="summaryTableDescription">
+          Check if the loading process is finished.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isLoadResourcesFeasible()">isLoadResourcesFeasible</a>():Boolean</div>
+<div class="summaryTableDescription">
+          Load resources is feasible unless there something illogical about the set of 
+          resources.</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeResourceProxies()">removeResourceProxies</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#CALL_OUT_OF_SYNC_IGNORED">CALL_OUT_OF_SYNC_IGNORED</a> : String = "luCallOutOfSyncIgnored"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOADING_COMPLETE">LOADING_COMPLETE</a> : String = "luLoadingComplete"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOADING_FINISHED_INCOMPLETE">LOADING_FINISHED_INCOMPLETE</a> : String = "luLoadingFinishedIncomplete"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOADING_PROGRESS">LOADING_PROGRESS</a> : String = "luLoadingProgress"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LOAD_RESOURCE_TIMED_OUT">LOAD_RESOURCE_TIMED_OUT</a> : String = "luLoadResourceTimedOut"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#NAME">NAME</a> : String = "LoadupMonitorProxy"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#RETRYING_LOAD_RESOURCE">RETRYING_LOAD_RESOURCE</a> : String = "luRetryingLoadResource"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#WAITING_FOR_MORE_RESOURCES">WAITING_FOR_MORE_RESOURCES</a> : String = "luWaitingForMoreResources"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+</table>
+</div>
+<a name="protectedConstantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Constants</div>
+<table id="summaryTableProtectedConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#INVALID_RESET_MSG">INVALID_RESET_MSG</a> : String = ": LoadupMonitorProxy does not allow reset at this time"<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#INVALID_RESOURCES_MSG">INVALID_RESOURCES_MSG</a> : String = ": Invalid set of resources, check dependencies"<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#UNKNOWN_ILOADUP_PROXY_MSG">UNKNOWN_ILOADUP_PROXY_MSG</a> : String = ": Unknown ILoadupProxy in loaded/failed notification, not known in LoadupMonitorProxy instance named :"<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">LoadupMonitorProxy</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="defaultRetryPolicy"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">defaultRetryPolicy</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>defaultRetryPolicy:<a href="../interfaces/IRetryPolicy.html">IRetryPolicy</a></code>&nbsp;&nbsp;[read-write]<span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get defaultRetryPolicy():<a href="../interfaces/IRetryPolicy.html">IRetryPolicy</a></code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set defaultRetryPolicy(value:<a href="../interfaces/IRetryPolicy.html">IRetryPolicy</a>):void</code>
+<br>
+</div>
+<a name="expectedNumberOfResources"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">expectedNumberOfResources</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>expectedNumberOfResources:int</code>&nbsp;&nbsp;[write-only]<p>
+      Only relevant if keepResourceListOpen() is relevant; purpose is to make the reporting
+      of loading progress more valid. 
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set expectedNumberOfResources(value:int):void</code>
+<br>
+</div>
+<a name="failedResourcesThisTry"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">failedResourcesThisTry</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>failedResourcesThisTry:Array</code>&nbsp;&nbsp;[read-only]<p>
+          An array of LoadupResourceProxy objects.
+         </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;protected function get failedResourcesThisTry():Array</code>
+<br>
+</div>
+<a name="loadedResources"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">loadedResources</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>loadedResources:Array</code>&nbsp;&nbsp;[read-only]<p>
+          An array of LoadupResourceProxy objects.
+         </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;protected function get loadedResources():Array</code>
+<br>
+</div>
+<a name="prefixIfAutoLRPName"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">prefixIfAutoLRPName</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var prefixIfAutoLRPName:String = "luLR_"</code><p>
+         This var is used by the addResourceViaLoadupProxy method.  The client app can assign a value,
+         to override the initial value, if desired.
+        </p></div>
+<a name="resourceList"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resourceList</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>resourceList:<a href="../interfaces/IResourceList.html">IResourceList</a></code>&nbsp;&nbsp;[read-only]<span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;protected function get resourceList():<a href="../interfaces/IResourceList.html">IResourceList</a></code>
+<br>
+</div>
+<a name="waitingForMoreResourcesNotificationName"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">waitingForMoreResourcesNotificationName</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var waitingForMoreResourcesNotificationName:String = "luWaitingForMoreResources"</code><p>
+          If the client app overrides the initial value of this var, then it is in charge of its
+          value; the reset() operation DOES NOT reset it to the initial value.
+         </p></div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="LoadupMonitorProxy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LoadupMonitorProxy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function LoadupMonitorProxy(proxyName:String = null, data:<a href="../interfaces/IResourceList.html">IResourceList</a> = null)</code><p>
+   Constructor
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxyName</span>:String</code> (default = <code>null</code>)<code></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">data</span>:<a href="../interfaces/IResourceList.html">IResourceList</a></code> (default = <code>null</code>)<code></code> &mdash; If you want to specify data and not proxyName, use (null,data)
+   </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="addResource()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addResource</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function addResource(r:<a href="LoadupResourceProxy.html">LoadupResourceProxy</a>):void</code><p>
+          Add a resource to be loaded.  Should be done before invoking loadResources(), unless client app is
+          using the facility to keep the resource list open.
+          In the case of the list being kept open, if adding resources after loading has commenced, add them
+          in strict logical order according to dependencies; if this is difficult, consider the alternative 
+          addResources() method. Otherwise, the Invalid Resources error could occur.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">r</span>:<a href="LoadupResourceProxy.html">LoadupResourceProxy</a></code></td>
+</tr>
+</table>
+</div>
+<a name="addResources()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addResources</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function addResources(resources:Array):void</code><p>
+          Add resourceS to be loaded.  Should be done before invoking loadResources(), unless client app is
+          using the facility to keep the resource list open.
+          This facility to add multiple resources is likely to be useful when adding resources after loading
+          has commenced and the resources have inter dependencies.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">resources</span>:Array</code></td>
+</tr>
+</table>
+</div>
+<a name="addResourcesViaLoadupProxy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addResourcesViaLoadupProxy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function addResourcesViaLoadupProxy(pxs:Array):void</code><p>
+          Add resourceS via an array of ILoadupProxy objects - alternative to adding them singly.  In this
+          case, the client app must accept the default naming of the LoadupResourceProxy objects. 
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">pxs</span>:Array</code></td>
+</tr>
+</table>
+</div>
+<a name="addResourceViaLoadupProxy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addResourceViaLoadupProxy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function addResourceViaLoadupProxy(px:<a href="../interfaces/ILoadupProxy.html">ILoadupProxy</a>, resourceProxyName:String = null):void</code><p>
+          See addResource() above.  This method offers an alternative to that, as a shortcut for the 
+          client app, whereby the app does not have to create the LoadupResourceProxy (lrp) object for the 
+          ILoadupProxy object.  Instead, the Loadup utility (LU) will create and register the lrp object, 
+          naming it as follows
+          <ul><li>
+          use the name supplied as the second, optional argument; if supplied</li>
+          <li>otherwise, create a name by prefixing a suitable string to the name of the given 
+          ILoadupProxy object; the prefix is specified in the var <code>prefixIfAutoLRPName</code>, which
+          has an initial value that should usually suffice for uniqueness 
+          i.e. const Loadup.PREFIX_IF_AUTO_LRP_NAME i.e. "luLR_"</li>
+          </ul>
+          This shortcut is probably attractive only if there are no dependencies between the resources, 
+          because the app requires references to the lrp objects, to express the dependencies. 
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">px</span>:<a href="../interfaces/ILoadupProxy.html">ILoadupProxy</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">resourceProxyName</span>:String</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="allResourcesLoaded()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">allResourcesLoaded</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function allResourcesLoaded():Boolean</code><p>
+         Check have all the listed resources been loaded.
+         </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="cleanup()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">cleanup</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function cleanup():void</code><p>
+          This cleanup feature deals with removal of object state that is closely bound with this loadup 
+          monitor instance. It is recommended that the client app invoke this or an equivalent, before 
+          removing the monitor instance. The reset() operation includes this cleanup and is a valid 
+          alternative.
+          </p><p>
+          Specifically, cleanup includes
+          <ul>
+          <li>removal of the LoadupResourceProxy objects from the map of registered proxies.</li>
+          </ul></p>
+         </div>
+<a name="closeResourceList()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">closeResourceList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function closeResourceList():void</code><p>
+          If resource list is already closed, then nothing happens.
+         </p></div>
+<a name="doCloseResourceList()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">doCloseResourceList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function doCloseResourceList():void</code>
+</div>
+<a name="doSendNotification()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">doSendNotification</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function doSendNotification(notificationName:String, body:Object = null):void</code><p>
+          Notification type is this LoadupMonitorProxy's proxyName.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">notificationName</span>:String</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">body</span>:Object</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="findLRProxyByAppProxyName()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">findLRProxyByAppProxyName</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function findLRProxyByAppProxyName(appProxyName:String):<a href="../model/LoadupResourceProxy.html">LoadupResourceProxy</a></code><p>
+          Find the LoadupResourceProxy object, in the resourceList, that refers to the
+          app resource proxy of the given name.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">appProxyName</span>:String</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../model/LoadupResourceProxy.html">LoadupResourceProxy</a></code></td>
+</tr>
+</table>
+</div>
+<a name="getFailedResourcesThisTry()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getFailedResourcesThisTry</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getFailedResourcesThisTry():Array</code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code></td>
+</tr>
+</table>
+</div>
+<a name="getLoadedResources()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getLoadedResources</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getLoadedResources():Array</code><p>
+          These 3 functions provide safe read-only access to 3 non-public objects.
+         </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code></td>
+</tr>
+</table>
+</div>
+<a name="getResourceList()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getResourceList</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getResourceList():<a href="../interfaces/IResourceList.html">IResourceList</a></code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../interfaces/IResourceList.html">IResourceList</a></code></td>
+</tr>
+</table>
+</div>
+<a name="getResourceViaLoadupProxyName()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getResourceViaLoadupProxyName</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getResourceViaLoadupProxyName(proxyName:String):<a href="../model/LoadupResourceProxy.html">LoadupResourceProxy</a></code><p>
+          Find the resource, that is, the LoadupResourceProxy object, where the corresponding
+          ILoadupProxy object has the given name.  Return null if not found.  An example use
+          of this is with the proxyName caotained in a notification from the Loadup utility.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxyName</span>:String</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../model/LoadupResourceProxy.html">LoadupResourceProxy</a></code></td>
+</tr>
+</table>
+</div>
+<a name="initializeMonitor()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">initializeMonitor</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function initializeMonitor():void</code><p>
+          </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../model/LoadupMonitorProxy.html#reset()" target="">reset()</a>
+</div>
+</div>
+<a name="isActive()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isActive</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function isActive():Boolean</code><p>
+          Is the monitor active, meaning is it engaged in loading resources or has it finished this
+          try.
+         </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="isAnyRemainingResourceLoadable()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isAnyRemainingResourceLoadable</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function isAnyRemainingResourceLoadable():Boolean</code><p>
+          For each resource that has not yet been processed, 
+          check is there at least one that could be loaded.  The r.isOkToLoad test should reveal
+          cases like circular linkages across the requires property of the LRP objects and a 
+          requires property that contains an LRP object that has not been added as a resource.
+         </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="isLoadingFinished()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isLoadingFinished</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function isLoadingFinished():Boolean</code><p>
+          Check if the loading process is finished.
+          For each resource that has not yet been processed, 
+          check whether it could be loaded.  If none can be
+          loaded, then we are finished.
+          </p><p>
+          Also, for finished, an essential condition is that the resourceList is closed.</p>
+         <p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="isLoadResourcesFeasible()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isLoadResourcesFeasible</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function isLoadResourcesFeasible():Boolean</code><p>
+          Load resources is feasible unless there something illogical about the set of 
+          resources.
+         </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="isOkToReset()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isOkToReset</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function isOkToReset():Boolean</code><p>
+          Is it ok to reset this monitor?
+          Yes, if the monitor is not currently active; by active we mean that loading has started and the 
+          monitor has not yet reached a LOADING_COMPLETE or LOADING_FINISHED_INCOMPLETE state.
+         </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="keepResourceListOpen()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">keepResourceListOpen</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function keepResourceListOpen():void</code>
+</div>
+<a name="loadResources()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">loadResources</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function loadResources():void</code><p>
+         Start to load all resources. Expect to be called just once.
+          Guard against unexpected usage:
+          e.g. empty resourceList, e.g. infeasible 'requires' specification. 
+         </p></div>
+<a name="reConfigureAllRetryPolicies()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">reConfigureAllRetryPolicies</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function reConfigureAllRetryPolicies(retryParameters:<a href="../interfaces/IRetryParameters.html">IRetryParameters</a>):void</code><p>
+          After loading has 'finished incomplete', this method is a convenient way for the client app
+          to change the retry policies, where the same input parameters apply to all policy instances. 
+          Another way is for the app to set a new retry policy instance on each LoadupResourceProxy 
+          that requires it.  Of course, it is perfectly valid to leave the policies unchanged.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">retryParameters</span>:<a href="../interfaces/IRetryParameters.html">IRetryParameters</a></code></td>
+</tr>
+</table>
+</div>
+<a name="removeResourceProxies()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeResourceProxies</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function removeResourceProxies():void</code>
+</div>
+<a name="reset()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">reset</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function reset():void</code><p>
+          Reset the state of the monitor, so that it is ready for reuse.  This includes the cleanup 
+          operation, that is, removal of the previous LoadupResourceProxy objects from the map of 
+          registered proxies.
+          </p><p>
+          It is recommended that the client app check via isOkToReset() before invoking reset().</p>
+          <p>
+          Note that an alternative to reset is to instantiate a new LoadupMonitorProxy.</p>
+          
+          <br>
+<span class="label">Throws</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code></code> &mdash; if reset is not allowed.
+         </td>
+</tr>
+</table>
+</div>
+<a name="resourceFailed()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resourceFailed</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function resourceFailed(proxyName:String, allowRetry:Boolean = true):void</code><p>
+         The resource load has failed, update the state, retry the load if possible,
+          otherwise check are we finished with this try to load resources.
+   
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxyName</span>:String</code> &mdash; App resource proxy name for the failed load.
+         </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">allowRetry</span>:Boolean</code> (default = <code>true</code>)<code></code> &mdash; False means the client app says 'do not retry'.
+          </td>
+</tr>
+</table>
+<br>
+<span class="label">Throws</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code></code> &mdash; when the given proxy name is not recognised by this LoadupMonitorProxy.
+         </td>
+</tr>
+</table>
+</div>
+<a name="resourceHasBeenTimedOut()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resourceHasBeenTimedOut</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function resourceHasBeenTimedOut(r:<a href="LoadupResourceProxy.html">LoadupResourceProxy</a>):void</code><p>
+         Loading of the resource has timed out, update the state and
+          check if the loading process is complete.
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">r</span>:<a href="LoadupResourceProxy.html">LoadupResourceProxy</a></code></td>
+</tr>
+</table>
+</div>
+<a name="resourceLoaded()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resourceLoaded</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function resourceLoaded(proxyName:String):void</code><p>
+         The resource is loaded, update the state and check if the loading process is complete.
+   
+         </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">proxyName</span>:String</code> &mdash; App resource proxy name for the loaded resource.
+          </td>
+</tr>
+</table>
+<br>
+<span class="label">Throws</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code></code> &mdash; when the given proxy name is not recognised by this LoadupMonitorProxy.
+         </td>
+</tr>
+</table>
+</div>
+<a name="sendProgressNotification()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">sendProgressNotification</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function sendProgressNotification():void</code><p>
+          Sends the Loading Progress notification, with percent loaded, for client app to observe.
+          Used internally by the Loadup utility, but can be invoked by a client app if desired, for
+          example to cause more frequent notifications because there is a custom calculation of progress
+          percentage.
+         </p></div>
+<a name="tryToCompleteLoadResources()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">tryToCompleteLoadResources</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function tryToCompleteLoadResources():void</code><p>
+          Try to complete the loading of outstanding resources
+         </p></div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="CALL_OUT_OF_SYNC_IGNORED"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">CALL_OUT_OF_SYNC_IGNORED</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const CALL_OUT_OF_SYNC_IGNORED:String = "luCallOutOfSyncIgnored"</code>
+</div>
+<a name="INVALID_RESET_MSG"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">INVALID_RESET_MSG</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected const INVALID_RESET_MSG:String = ": LoadupMonitorProxy does not allow reset at this time"</code>
+</div>
+<a name="INVALID_RESOURCES_MSG"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">INVALID_RESOURCES_MSG</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected const INVALID_RESOURCES_MSG:String = ": Invalid set of resources, check dependencies"</code>
+</div>
+<a name="LOADING_COMPLETE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOADING_COMPLETE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOADING_COMPLETE:String = "luLoadingComplete"</code>
+</div>
+<a name="LOADING_FINISHED_INCOMPLETE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOADING_FINISHED_INCOMPLETE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOADING_FINISHED_INCOMPLETE:String = "luLoadingFinishedIncomplete"</code>
+</div>
+<a name="LOADING_PROGRESS"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOADING_PROGRESS</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOADING_PROGRESS:String = "luLoadingProgress"</code>
+</div>
+<a name="LOAD_RESOURCE_TIMED_OUT"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">LOAD_RESOURCE_TIMED_OUT</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const LOAD_RESOURCE_TIMED_OUT:String = "luLoadResourceTimedOut"</code>
+</div>
+<a name="NAME"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">NAME</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const NAME:String = "LoadupMonitorProxy"</code>
+</div>
+<a name="RETRYING_LOAD_RESOURCE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RETRYING_LOAD_RESOURCE</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const RETRYING_LOAD_RESOURCE:String = "luRetryingLoadResource"</code>
+</div>
+<a name="UNKNOWN_ILOADUP_PROXY_MSG"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">UNKNOWN_ILOADUP_PROXY_MSG</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected const UNKNOWN_ILOADUP_PROXY_MSG:String = ": Unknown ILoadupProxy in loaded/failed notification, not known in LoadupMonitorProxy instance named :"</code>
+</div>
+<a name="WAITING_FOR_MORE_RESOURCES"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">WAITING_FOR_MORE_RESOURCES</td><td class="detailHeaderType">constant</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const WAITING_FOR_MORE_RESOURCES:String = "luWaitingForMoreResources"</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

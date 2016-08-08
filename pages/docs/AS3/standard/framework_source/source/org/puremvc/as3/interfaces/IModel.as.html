@@ -1,0 +1,67 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>IModel.as</title>
+<link rel="stylesheet" type="text/css" href="../../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">/*
+ PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
+ Your reuse is governed by the Creative Commons Attribution 3.0 United States License
+*/</span>
+<span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">org</span>.<span class="ActionScriptDefault_Text">puremvc</span>.<span class="ActionScriptDefault_Text">as3</span>.<span class="ActionScriptDefault_Text">interfaces</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptASDoc">/**
+     * The interface definition for a PureMVC Model.
+     * 
+     * &lt;P&gt;
+     * In PureMVC, &lt;code&gt;IModel&lt;/code&gt; implementors provide
+     * access to &lt;code&gt;IProxy&lt;/code&gt; objects by named lookup. &lt;/P&gt;
+     * 
+     * &lt;P&gt;
+     * An &lt;code&gt;IModel&lt;/code&gt; assumes these responsibilities:&lt;/P&gt;
+     * 
+     * &lt;UL&gt;
+     * &lt;LI&gt;Maintain a cache of &lt;code&gt;IProxy&lt;/code&gt; instances&lt;/LI&gt;
+     * &lt;LI&gt;Provide methods for registering, retrieving, and removing &lt;code&gt;IProxy&lt;/code&gt; instances&lt;/LI&gt;
+     * &lt;/UL&gt;
+     */</span>
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptinterface">interface</span> <span class="ActionScriptDefault_Text">IModel</span> 
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptASDoc">/**
+         * Register an &lt;code&gt;IProxy&lt;/code&gt; instance with the &lt;code&gt;Model&lt;/code&gt;.
+         * 
+         * @param proxyName the name to associate with this &lt;code&gt;IProxy&lt;/code&gt; instance.
+         * @param proxy an object reference to be held by the &lt;code&gt;Model&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">registerProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxy</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IProxy</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptReserved">void</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Retrieve an &lt;code&gt;IProxy&lt;/code&gt; instance from the Model.
+         * 
+         * @param proxyName
+         * @return the &lt;code&gt;IProxy&lt;/code&gt; instance previously registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">retrieveProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IProxy</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Remove an &lt;code&gt;IProxy&lt;/code&gt; instance from the Model.
+         * 
+         * @param proxyName name of the &lt;code&gt;IProxy&lt;/code&gt; instance to be removed.
+         * @return the &lt;code&gt;IProxy&lt;/code&gt; that was removed from the &lt;code&gt;Model&lt;/code&gt;
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">removeProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">IProxy</span>;
+
+        <span class="ActionScriptASDoc">/**
+         * Check if a Proxy is registered
+         * 
+         * @param proxyName
+         * @return whether a Proxy is currently registered with the given &lt;code&gt;proxyName&lt;/code&gt;.
+         */</span>
+        <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">hasProxy</span><span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">proxyName</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">:</span> <span class="ActionScriptDefault_Text">Boolean</span>;
+
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>

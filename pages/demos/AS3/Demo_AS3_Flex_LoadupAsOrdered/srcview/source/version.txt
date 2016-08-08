@@ -1,0 +1,33 @@
+PureMVC AS3 / Flex Demo – Loadup As Ordered 
+Copyright (c) 2008-2009 Philip Sexton <philip.sexton@puremvc.org>
+Your reuse is governed by the Creative Commons Attribution 3.0 License
+--------------------------------------------------------------------------
+Release Date: 11-Aug-2009
+    Platform: ActionScript 3 
+     Version: 2
+    Revision: 0
+      Author: Philip Sexton <philip.sexton@puremvc.org>
+     License: Creative Commons Attribution 3.0 United States License
+--------------------------------------------------------------------------
+2.0 Migrated to work with Loadup utility v2, the evolution of and 
+    replacement for the StartupManager utility.  The demo has 
+    consequently been renamed from StartupAsOrdered to LoadupAsOrdered.
+
+1.6 Presentation improved, to conform better to demo presentation
+    standards.  Libs now has PureMVC 2.0.4 and StartupManager 1.6.1. 
+
+1.5 - Updated to comply with StartupManager 1.3
+
+1.4 - Updated to PureMVC 2.0.1 - CLH
+
+1.3 - Update for AsyncStub 1.2 and StartupManager 1.2, no functional
+      changes, those utilities were just repackaged, and revved. Updating
+      here just for tidyness.
+      
+1.2 - Minor bug fix and DRY optimizations to Proxies. - CLH
+
+1.1 - Upgrade for AsyncStub 1.1 and StartupManager 1.1, and add panel of
+      notifications received
+      
+1.0 - Initial release. Works with PureMVC 2.0, AsyncStub 1.0, and
+      StartupManager 1.0

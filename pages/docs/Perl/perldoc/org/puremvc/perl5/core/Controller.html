@@ -1,0 +1,183 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Perl 5 PureMVC - Controller</title>
+<link rel="stylesheet" href="../../../../style.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#interface">INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#properties">Properties</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p><code>org::puremvc::perl5::core::Controller</code></p>
+<p>Singleton responsible for executing <a href="../patterns/command/SimpleCommand.html">commands</a> in response to a <a href="../patterns/observer/Notification.html">notification</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In PureMVC, the <code>Controller</code> class follows the 'Command and Controller' strategy, and assumes these responsibilities:</p>
+<ul>
+<li>
+<p>Remembering which <a href="../patterns/command/SimpleCommand.html">commands</a> are intended to handle which <a href="../patterns/observer/Notification.html">notification</a>.</p>
+</li>
+<li>
+<p>Registering itself as an <a href="../patterns/observer/Observer.html">observer</a> with the <a href="View.html">View</a> for each <a href="../patterns/observer/Notification.html">notification</a> that it has a <a href="../patterns/command/SimpleCommand.html">command</a> mapping for.</p>
+</li>
+<li>
+<p>Creating a new instance of the proper <a href="../patterns/command/SimpleCommand.html">command</a> to handle a given <a href="../patterns/observer/Notification.html">notification</a> when notified by the <a href="View.html">View</a>.</p>
+</li>
+<li>
+<p>Calling the <a href="../patterns/command/SimpleCommand.html">command's</a> <code>execute</code> method, passing in the <a href="../patterns/observer/Notification.html">notification</a>.</p>
+</li>
+</ul>
+<p>Your application must register <a href="../patterns/command/SimpleCommand.html">commands</a> with the <code>Controller</code>.</p>
+<p>The simplest way is to subclass <a href="../patterns/facade/Facade.html">Facade</a> class, and use its <a href="#initializecontroller"><code>initializeController</code></a> method to add your registrations.</p>
+<p>
+</p>
+<hr />
+<h1><a name="interface">INTERFACE</a></h1>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="getinstance" class="item">getInstance</a></strong></dt>
+
+<dd>
+<p><a href="#getinstance"><code>sub getInstance();</code></a></p>
+<p>Returns the singleton instance of the <code>Controller</code>.</p>
+<p><strong>Returns</strong></p>
+<p><code>org::puremvc::perl5::core::Controller</code> - The singleton instance of the <code>Controller</code>.</p>
+</dd>
+<dt><strong><a name="initializecontroller" class="item">initializeController</a></strong></dt>
+
+<dd>
+<p><a href="#initializecontroller"><code>sub initializeController();</code></a></p>
+<p>Initialize the singleton instance of the <code>Controller</code>.
+This method is automatically called during singleton instantiation.</p>
+<p>Note that if you are using a subclass of <a href="View.html">View</a> in your application, you should <em>also</em> subclass <code>Controller</code> and override the <a href="#initializecontroller"><code>initializeController</code></a> method in the following way:</p>
+<pre>
+  <span class="comment"># ensure that the Controller is talking to my View implementation</span>
+  <span class="keyword">sub</span><span class="variable"> initializeController </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+  
+    <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_view</span><span class="operator">}</span> <span class="operator">=</span> <span class="variable">com::me::myapp::MyView</span><span class="operator">-&gt;</span><span class="variable">getInstance</span><span class="operator">()</span> <span class="keyword">unless</span> <span class="keyword">exists</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">_view</span><span class="operator">}</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+</dd>
+<dt><strong><a name="registercommand" class="item">registerCommand</a></strong></dt>
+
+<dd>
+<p><a href="#registercommand"><code>sub registerCommand( $notification_name, $command_class_ref );</code></a></p>
+<p>Register a particular <a href="../patterns/command/SimpleCommand.html">command</a> class as the handler for a particular <a href="../patterns/observer/Notification.html">notification</a>.</p>
+<p><code>$command_class_ref</code> is a string holding the name of the <a href="../patterns/command/SimpleCommand.html">command</a> class, e.g. &quot;<code>com::me::myapp::MyCommand</code>&quot;.</p>
+<p>If a <a href="../patterns/command/SimpleCommand.html">command</a> has already been registered to handle <a href="../patterns/observer/Notification.html">notification</a> with this name, it is no longer used, the new <a href="../patterns/command/SimpleCommand.html">command</a> is used instead.</p>
+<p>The <a href="../patterns/observer/Observer.html">observer</a> for the new <a href="../patterns/command/SimpleCommand.html">command</a> is only created if this the first time a <a href="../patterns/command/SimpleCommand.html">command</a> has been registered for this <a href="../patterns/observer/Notification.html">notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../patterns/observer/Notification.html">notifications</a> the registered <code>Command</code> will handle.</p>
+</li>
+<li>
+<p><code>$command_class_ref - String</code></p>
+<p>Class name of the <code>Command</code> to handle <a href="../patterns/observer/Notification.html">notification</a> called <code>$notification_name</code>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="executecommand" class="item">executeCommand</a></strong></dt>
+
+<dd>
+<p><a href="#executecommand"><code>sub executeCommand( $notification );</code></a></p>
+<p>If a <a href="../patterns/command/SimpleCommand.html">command</a> has previously been registered to handle a given <a href="../patterns/observer/Notification.html">notification</a>, then it is executed.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification - org::puremvc::perl5::patterns::observer::Notification</code></p>
+<p>The <a href="../patterns/observer/Notification.html">notification</a> to handle.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="removecommand" class="item">removeCommand</a></strong></dt>
+
+<dd>
+<p><a href="#removecommand"><code>sub removeCommand( $notification_name );</code></a></p>
+<p>Remove a previously registered <a href="../patterns/command/SimpleCommand.html">command</a> for a given <a href="../patterns/observer/Notification.html">notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../patterns/observer/Notification.html">notification</a> for which to remove a registered <a href="../patterns/command/SimpleCommand.html">command</a>.</p>
+</li>
+</ul>
+</dd>
+<dt><strong><a name="hascommand" class="item">hasCommand</a></strong></dt>
+
+<dd>
+<p><a href="#hascommand"><code>sub hasCommand( $notification_name );</code></a></p>
+<p>Check whether a <a href="../patterns/command/SimpleCommand.html">command</a> is registered for a given <a href="../patterns/observer/Notification.html">notification</a> name.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p><code>$notification_name - String</code></p>
+<p>Name of the <a href="../patterns/observer/Notification.html">notification</a> for which to check a registered <a href="../patterns/command/SimpleCommand.html">command</a>.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p><code>scalar</code> - 1 if a <a href="../patterns/command/SimpleCommand.html">Command</a> class is registered with the <code>Controller</code> for <a href="../patterns/observer/Notification.html">notifications</a> named <code>$notification_name</code>, &quot;&quot; otherwise.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="properties">Properties</a></h2>
+<dl>
+<dt><strong><a name="_commands" class="item">_commands</a></strong></dt>
+
+<dd>
+<p>Array reference on registered <a href="../patterns/command/SimpleCommand.html">commands</a> with the <code>Controller</code>. You should not have to access it and <em>must not</em> update it in normal usage.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="Model.html">org::puremvc::perl5::core::Model</a></p>
+<p><a href="View.html">org::puremvc::perl5::core::View</a></p>
+<p><a href="../patterns/facade/Facade.html">org::puremvc::perl5::patterns::facade::Facade</a></p>
+<p><a href="../patterns/observer/Notification.html">org::puremvc::perl5::patterns::observer::Notification</a></p>
+<p><a href="../patterns/proxy/Proxy.html">org::puremvc::perl5::patterns::proxy::Proxy</a></p>
+<p><a href="../patterns/mediator/Mediator.html">org::puremvc::perl5::patterns::mediator::Mediator</a></p>
+<p><a href="../patterns/command/SimpleCommand.html">org::puremvc::perl5::patterns::command::SimpleCommand</a></p>
+<p><a href="../patterns/command/MacroCommand.html">org::puremvc::perl5::patterns::command::MacroCommand</a></p>
+<p><a href="../patterns/observer/Notifier.html">org::puremvc::perl5::patterns::observer::Notifier</a></p>
+<p><a href="../patterns/observer/Observer.html">org::puremvc::perl5::patterns::observer::Observer</a></p>
+
+</body>
+
+</html>
