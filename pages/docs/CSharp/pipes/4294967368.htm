@@ -1,0 +1,19 @@
+<html><head><title>RegisterPipe(String, String, IPipeFitting)</title><link href="styles/default.css" type="text/css" rel="stylesheet"/></head><body><div class="header"> </div><br class="clear"/><div class="navigation"><ul><li><a href="index.htm">Documentation</a></li></ul><ul><li><a class="" href="4294967296-Pipes.Plumbing.htm">Pipes.Plumbing</a><ul><li><a class="" href="4294967366.htm">Junction</a><ul><li><a class="" href="4294967366-Methods.htm">Methods</a><ul><li><a class="current" href="4294967368.htm">RegisterPipe</a><ul/></li></ul></li></ul></li></ul></li></ul></div><div class="content"><h1>RegisterPipe(String, String, IPipeFitting) Method</h1><div class="summary">Register a pipe with the junction. </div><div class="details"><span class="namespace"><em>Namespace:</em> <a href="4294967296-Pipes.Plumbing.htm">Pipes.Plumbing</a></span><span class="assembly"><em>Assembly:</em> Pipes in (Pipes.dll)
+								</span></div>
+        <div class="syntax">
+            <h2>Syntax</h2>
+            <pre><span class="keyword">public</span> <span class="keyword">bool</span> RegisterPipe(
+	<span class="keyword">string</span> name,
+	<span class="keyword">string</span> type,
+	IPipeFitting pipe
+	)</pre>
+        </div>
+    <div class="parameters"><h3>Parameters</h3><dl><dt>name</dt><dd><div>
+				Type:
+				String</div><div>name of the pipe</div></dd><dt>type</dt><dd><div>
+				Type:
+				String</div><div>type (INPUT/OUTPUT) of the pipe</div></dd><dt>pipe</dt><dd><div>
+				Type:
+				<a href="4294967541.htm">IPipeFitting</a></div><div>Pipefitting</div></dd></dl></div><div class="remarks"><h2>Remarks</h2><p>Pipes are registered by unique name and type, which must be either <span class="code">Junction.INPUT</span>or <span class="code">Junction.OUTPUT</span>. </p><p>NOTE: You cannot have an INPUT pipe and an OUTPUT pipe registered with the same name. All pipe names must be unique regardless of type. </p></div></div><div class="footer">
+			Produced by the <a href="http://theboxsoftware.com/products/live-documenter/">Live Documenter</a> developed by <a href="http://theboxsoftware.com">The Box Software</a>.
+		</div></body></html>
