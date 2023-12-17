@@ -949,7 +949,7 @@ instances for the given key.</P>
 
     
 
-    <h4 class="name" id="hasMediator"><span class="type-signature"></span>hasMediator<span class="signature">(mediatorName)</span><span class="type-signature"> &rarr; {<a href="Mediator.html">Mediator</a>}</span></h4>
+    <h4 class="name" id="hasMediator"><span class="type-signature"></span>hasMediator<span class="signature">(mediatorName)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1086,7 +1086,7 @@ instances for the given key.</P>
     </dt>
     <dd>
         
-<span class="param-type"><code><a href="Mediator.html">Mediator</a></code></span>
+<span class="param-type"><code>boolean</code></span>
 
 
     </dd>
@@ -1880,7 +1880,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Register an <code>Command</code> with the <code>Controller</code> by Notification name.</p>
+    <p>Register a <code>Command</code> with the <code>Controller</code> by Notification name.</p>
 </div>
 
 
@@ -2176,7 +2176,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Register an <code>Proxy</code> with the <code>Model</code> by name.</p>
+    <p>Register a <code>Proxy</code> with the <code>Model</code> by name.</p>
 </div>
 
 
@@ -2446,7 +2446,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Remove an <code>Mediator</code> from the <code>View</code>.</p>
+    <p>Remove a <code>Mediator</code> from the <code>View</code>.</p>
 </div>
 
 
@@ -2606,7 +2606,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Remove an <code>Proxy</code> from the <code>Model</code> by name.</p>
+    <p>Remove a <code>Proxy</code> from the <code>Model</code> by name.</p>
 </div>
 
 
@@ -2766,7 +2766,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Retrieve an <code>Mediator</code> from the <code>View</code>.</p>
+    <p>Retrieve a <code>Mediator</code> from the <code>View</code>.</p>
 </div>
 
 
@@ -2926,7 +2926,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Retrieve an <code>Proxy</code> from the <code>Model</code> by name.</p>
+    <p>Retrieve a <code>Proxy</code> from the <code>Model</code> by name.</p>
 </div>
 
 
@@ -3201,7 +3201,7 @@ instances in our implementation code.</P>
             
 
             <td class="description last">
-                <p>the name of the notiification to send</p>
+                <p>the name of the notification to send</p>
                 
             </td>
         </tr>
@@ -4314,7 +4314,7 @@ instances for the given key.</P>
 
     
 
-    <h4 class="name" id="hasMediator"><span class="type-signature"></span>hasMediator<span class="signature">(mediatorName)</span><span class="type-signature"> &rarr; {<a href="Mediator.html">Mediator</a>}</span></h4>
+    <h4 class="name" id="hasMediator"><span class="type-signature"></span>hasMediator<span class="signature">(mediatorName)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -4451,7 +4451,7 @@ instances for the given key.</P>
     </dt>
     <dd>
         
-<span class="param-type"><code><a href="Mediator.html">Mediator</a></code></span>
+<span class="param-type"><code>boolean</code></span>
 
 
     </dd>
@@ -5245,7 +5245,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Register an <code>Command</code> with the <code>Controller</code> by Notification name.</p>
+    <p>Register a <code>Command</code> with the <code>Controller</code> by Notification name.</p>
 </div>
 
 
@@ -5541,7 +5541,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Register an <code>Proxy</code> with the <code>Model</code> by name.</p>
+    <p>Register a <code>Proxy</code> with the <code>Model</code> by name.</p>
 </div>
 
 
@@ -5811,7 +5811,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Remove an <code>Mediator</code> from the <code>View</code>.</p>
+    <p>Remove a <code>Mediator</code> from the <code>View</code>.</p>
 </div>
 
 
@@ -5971,7 +5971,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Remove an <code>Proxy</code> from the <code>Model</code> by name.</p>
+    <p>Remove a <code>Proxy</code> from the <code>Model</code> by name.</p>
 </div>
 
 
@@ -6131,7 +6131,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Retrieve an <code>Mediator</code> from the <code>View</code>.</p>
+    <p>Retrieve a <code>Mediator</code> from the <code>View</code>.</p>
 </div>
 
 
@@ -6291,7 +6291,7 @@ construct the notification yourself.</P>
 
 
 <div class="description">
-    <p>Retrieve an <code>Proxy</code> from the <code>Model</code> by name.</p>
+    <p>Retrieve a <code>Proxy</code> from the <code>Model</code> by name.</p>
 </div>
 
 
@@ -6566,7 +6566,7 @@ instances in our implementation code.</P>
             
 
             <td class="description last">
-                <p>the name of the notiification to send</p>
+                <p>the name of the notification to send</p>
                 
             </td>
         </tr>
@@ -6691,7 +6691,7 @@ instances in our implementation code.</P>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Thu Dec 14 2023 23:11:10 GMT-0500 (Eastern Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Sun Dec 17 2023 11:59:27 GMT-0500 (Eastern Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
