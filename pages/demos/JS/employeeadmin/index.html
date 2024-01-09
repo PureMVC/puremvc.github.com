@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Admin</title>
+  <script type="module" crossorigin src="/assets/index-0MBlhyuv.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-VK0D6HqQ.css">
+</head>
+<body>
+<div class="fluid">
+
+    <section id="userList">
+        <div class="wrapper">
+            <header>
+                <h2>Users</h2>
+            </header>
+            <main>
+                <ul id="userList_table" class="table">
+                    <li>
+                        <span>Name</span>
+                        <span>Username</span>
+                        <span>First</span>
+                        <span>Last</span>
+                        <span>Email</span>
+                        <span>Password</span>
+                        <span>Department</span>
+                    </li>
+                </ul>
+            </main>
+            <footer>
+                <button id="userList_add" class="primary">Add</button>
+                <button id="userList_delete" class="outline-primary" disabled>Delete</button>
+            </footer>
+        </div>
+    </section>
+
+    <section id="userForm">
+        <div class="wrapper">
+            <header>
+                <button id="userForm_back" class="outline-primary"> Back</button>
+                <h2>User Form</h2>
+                <button id="userForm_role" class="outline-primary">Roles</button>
+            </header>
+            <main>
+                <ul>
+                    <li>
+                        <label for="first">First Name:</label>
+                        <input type="text" id="first" name="first" required>
+                    </li>
+                    <li>
+                        <label for="last">Last Name:</label>
+                        <input type="text" id="last" name="last" required>
+                    </li>
+                    <li>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </li>
+                    <li>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </li>
+                    <li>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </li>
+                    <li>
+                        <label for="confirm">Confirm:</label>
+                        <input type="password" id="confirm" name="confirm" required>
+                    </li>
+                    <li>
+                        <label for="department">Department:</label>
+                        <select id="department" name="department"></select>
+                    </li>
+                </ul>
+            </main>
+            <footer>
+                <button id="userForm_submit" class="primary">Save</button>
+                <button id="userForm_cancel" class="outline-primary">Cancel</button>
+            </footer>
+        </div>
+    </section>
+
+    <section id="userRole">
+        <div id="screen"></div>
+        <div class="wrapper">
+            <header>
+                <h2>User Roles</h2>
+                <button id="userRole_dismiss" class="outline-primary">Dismiss</button>
+            </header>
+            <main>
+                <ul id="userRole_list" class="list"></ul>
+            </main>
+            <footer>
+                <label for="roles"></label>
+                <select id="roles" name="roles"></select>
+                <button id="userRole_add" class="primary" disabled>Add</button>
+                <button id="userRole_remove" class="outline-primary" disabled>Remove</button>
+            </footer>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
